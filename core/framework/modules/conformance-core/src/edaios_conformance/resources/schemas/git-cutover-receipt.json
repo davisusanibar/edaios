@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/git-cutover-receipt/v1",
+  "title": "EDAIOS GitCutoverReceipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "receipt_id", "repository", "canonical_branch", "version", "commit", "tree", "tag", "remote_head", "remote_tag_target", "default_branch", "default_branch_head", "required_checks", "branch_protection", "legacy_history_merged", "provider_evidence", "attestation_publication", "observed_at", "observer", "claim_boundary", "integrity"],
+  "properties": {
+    "schema": {"const": "edaios.git-cutover-receipt/v1"},
+    "receipt_id": {"type": "string", "pattern": "^CUT-[0-9a-f]{12}$"},
+    "repository": {"type": "string", "pattern": "^[A-Za-z0-9.-]+(?:/[A-Za-z0-9._-]+)+$"},
+    "canonical_branch": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "commit": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "tree": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "tag": {"type": "string", "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "remote_head": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "remote_tag_target": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "default_branch": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},
+    "default_branch_head": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "required_checks": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "status"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[A-Z][A-Z0-9-]*$"},
+          "status": {"const": "passed"}
+        }
+      }
+    },
+    "branch_protection": {
+      "type": "object", "additionalProperties": false,
+      "required": ["observed", "force_push_allowed"],
+      "properties": {"observed": {"const": true}, "force_push_allowed": {"const": false}}
+    },
+    "legacy_history_merged": {"const": false},
+    "provider_evidence": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["kind", "uri", "sha256", "size"],
+        "properties": {
+          "kind": {"enum": ["branch-protection", "default-branch", "git-refs", "required-checks"]},
+          "uri": {"type": "string", "pattern": "^[a-z][a-z0-9+.-]*:\\S+$"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "size": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "attestation_publication": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "uri", "sha256", "size", "subjects"],
+      "properties": {
+        "kind": {"enum": ["attestation-store", "release-asset"]},
+        "uri": {"type": "string", "pattern": "^[a-z][a-z0-9+.-]*:\\S+$"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "size": {"type": "integer", "minimum": 1},
+        "subjects": {
+          "type": "array", "minItems": 2, "maxItems": 2,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["kind", "receipt_id", "sha256"],
+            "properties": {
+              "kind": {"enum": ["approval-receipt", "evidence-receipt"]},
+              "receipt_id": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        }
+      }
+    },
+    "observed_at": {"type": "string", "format": "date-time"},
+    "observer": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "type"],
+      "properties": {"id": {"type": "string", "minLength": 1}, "type": {"enum": ["human", "service"]}}
+    },
+    "claim_boundary": {"type": "string", "minLength": 1},
+    "integrity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["algorithm", "payload_sha256", "claim"],
+      "properties": {
+        "algorithm": {"const": "SHA-256"},
+        "payload_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "claim": {"const": "local-integrity-only; not identity or non-repudiation"}
+      }
+    }
+  }
+}

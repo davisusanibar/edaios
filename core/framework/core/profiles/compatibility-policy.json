@@ -1,0 +1,41 @@
+{
+  "schema": "edaios.compatibility-policy/v1",
+  "version": "3.1.0",
+  "semver": {
+    "major": "breaking public schema, receipt, profile, CLI or API change",
+    "minor": "backward-compatible capability or optional contract extension",
+    "patch": "compatible correction without public contract change"
+  },
+  "profiles": {
+    "inheritance": "cumulative",
+    "weakening": "forbidden",
+    "unknown_profile": "deny"
+  },
+  "schemas": {
+    "write_versions": ["v2"],
+    "legacy_read": "adapter-required",
+    "unknown_schema": "deny",
+    "migration_requires": ["source-version", "target-version", "affected-contracts", "steps", "rollback", "evidence", "human-approval"]
+  },
+  "support_window": {
+    "policy": "N and N-1",
+    "status": "contracted",
+    "activation": "only after an N-1 artifact is materialized and exercised by compatibility tests"
+  },
+  "deprecation": {
+    "requires": ["replacement", "migration-path", "rollback-path", "target-removal-version", "owner"],
+    "silent_removal": "forbidden"
+  },
+  "upgrade": {
+    "automatic_apply": false,
+    "policy_weakening": "deny",
+    "authority_replacement": "deny",
+    "promotion_requires": ["core-release", "initiative-adoption", "human-approval"]
+  },
+  "rollback": {
+    "automatic_apply": false,
+    "requires_unchanged_init_files": true,
+    "preserve_evidence": true
+  },
+  "claim_boundary": "N/N-1 remains contracted, not demonstrated, until a previous supported artifact and its tests exist."
+}

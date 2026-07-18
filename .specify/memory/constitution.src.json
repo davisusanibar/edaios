@@ -1,0 +1,64 @@
+{
+  "schema": "edaios.constitution-projection/v1",
+  "version": "1.0.0",
+  "state": "Ratificado",
+  "authority": "Foundation",
+  "preamble": "EDAIOS convierte intención humana en conocimiento gobernado antes de materializar software.",
+  "articles": [
+    {
+      "id": "I",
+      "title": "El conocimiento manda",
+      "rule": "Ninguna implementación tiene mayor autoridad que el conocimiento que la origina.",
+      "source": "core/foundation/constitution/ART-000-NATURALEZA-DEL-CONOCIMIENTO.md",
+      "contains": "el conocimiento"
+    },
+    {
+      "id": "II",
+      "title": "Spec antes que artefacto",
+      "rule": "Todo cambio gobernado declara contrato, criterios y owner antes de implementar.",
+      "source": "core/foundation/model/KNOWLEDGE_OBJECT_MODEL.md",
+      "contains": "Knowledge Object"
+    },
+    {
+      "id": "III",
+      "title": "El canon crece por decisión",
+      "rule": "Un cambio estructural requiere ADR aceptado; un RFC explora alternativas.",
+      "source": "core/foundation/governance/GOVERNANCE_MODEL.md",
+      "contains": "ADR"
+    },
+    {
+      "id": "IV",
+      "title": "Cero cifras sin fuente",
+      "rule": "Cada cifra, claim y outcome declara fuente, fecha, alcance y owner.",
+      "source": "core/foundation/principles/README.md",
+      "contains": "fuente"
+    },
+    {
+      "id": "V",
+      "title": "Una fuente, muchas vistas",
+      "rule": "Git conserva la autoridad y las vistas se regeneran desde ella.",
+      "source": "core/foundation/manifesto/README.md",
+      "contains": "repositorio"
+    },
+    {
+      "id": "VI",
+      "title": "La IA consume; el humano firma",
+      "rule": "La IA no inventa verdad ni acepta decisiones reservadas a una persona.",
+      "source": "core/foundation/manifesto/README.md",
+      "contains": "IA consume"
+    },
+    {
+      "id": "VII",
+      "title": "Privacidad por diseño",
+      "rule": "Sensibilidad, fuente y autorización preceden cualquier consumo de datos.",
+      "source": "core/foundation/constitution/ART-006-PRINCIPIOS.md",
+      "contains": "Privacy"
+    }
+  ],
+  "restrictions": [
+    "Foundation → Core → Consumer nunca se invierte.",
+    "Gates verifican contratos; no aceptan decisiones u outcomes.",
+    "No se eleva un claim por narrativa, demo o configuración.",
+    "Commit, push, release y publicación requieren autorización explícita."
+  ]
+}

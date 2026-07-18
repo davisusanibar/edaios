@@ -1,0 +1,15 @@
+{
+  "schema": "edaios.phase-dag/v1",
+  "version": "1.0.0",
+  "phases": [
+    {"id": "constitution", "dependencies": []},
+    {"id": "specify", "dependencies": ["constitution"]},
+    {"id": "clarify", "dependencies": ["specify"]},
+    {"id": "checklist", "dependencies": ["clarify"]},
+    {"id": "plan", "dependencies": ["checklist"]},
+    {"id": "tasks", "dependencies": ["plan"]},
+    {"id": "analyze", "dependencies": ["tasks"]},
+    {"id": "implement", "dependencies": ["analyze"]}
+  ],
+  "strict_tdd": ["red", "green", "triangulate", "refactor"]
+}

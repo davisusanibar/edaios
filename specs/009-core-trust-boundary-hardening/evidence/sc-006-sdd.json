@@ -1,0 +1,1 @@
+{"schema":"edaios.feature-evidence/v1","criterion":"SC-006","status":"observed","tests":["test_feature_handoff.py","traceability_check.py"],"limits":"local SDD and governance projections only"}

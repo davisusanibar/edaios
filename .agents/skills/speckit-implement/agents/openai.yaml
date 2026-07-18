@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Kit Implement"
+  short_description: "Implementa tareas bajo gates EDAIOS"
+  default_prompt: "Use $speckit-implement para ejecutar las tareas aprobadas bajo los gates EDAIOS."

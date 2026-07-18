@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/memory-conflict-candidate/v1",
+  "title": "EDAIOS Memory Conflict Candidate v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "candidate_id", "project", "subject", "claim", "source_record_id", "target_record_id", "status", "created_at", "suggested_relation", "suggestion_source", "authoritative", "claim_boundary"],
+  "properties": {
+    "schema": {"const": "edaios.memory-conflict-candidate/v1"},
+    "candidate_id": {"type": "string", "pattern": "^CONFLICT-[0-9A-F]{24}$"},
+    "project": {"type": "string", "minLength": 1},
+    "subject": {"type": "string", "minLength": 1},
+    "claim": {"type": "string", "minLength": 1},
+    "source_record_id": {"type": "string", "pattern": "^MEM-[0-9A-F]{24}$"},
+    "target_record_id": {"type": "string", "pattern": "^MEM-[0-9A-F]{24}$"},
+    "status": {"const": "review-required"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "suggested_relation": {"type": ["string", "null"], "enum": ["related", "compatible", "scoped", "conflicts_with", "supersedes", "not_conflict", null]},
+    "suggestion_source": {"type": ["string", "null"]},
+    "authoritative": {"const": false},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}

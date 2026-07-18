@@ -1,0 +1,21 @@
+{
+  "schema": "edaios.authority-registry/v1",
+  "initiative": "example-t0",
+  "version": "1.0.0",
+  "actors": [
+    {
+      "actor_id": "OWNER-REQUIRED",
+      "type": "human",
+      "roles": ["initiative-owner", "approver"],
+      "capabilities": ["approve", "delegate", "rollback"],
+      "active": true
+    },
+    {
+      "actor_id": "VALUE-OWNER-REQUIRED",
+      "type": "human",
+      "roles": ["value-owner"],
+      "capabilities": ["outcome:verify"],
+      "active": true
+    }
+  ]
+}

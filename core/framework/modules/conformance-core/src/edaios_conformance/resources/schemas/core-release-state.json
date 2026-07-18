@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/core-release-state/v2",
+  "title": "EDAIOS Core release state",
+  "type": "object",
+  "required": [
+    "schema",
+    "component",
+    "version",
+    "status",
+    "genealogy",
+    "active_candidate",
+    "publication",
+    "governing_adr",
+    "claim_boundary"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {"const": "edaios.core-release-state/v2"},
+    "component": {"const": "edaios-core"},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "status": {"type": "string", "enum": ["baseline", "candidate", "sealed"]},
+    "genealogy": {
+      "type": "object",
+      "required": ["kind", "root_derivation", "canonical_branch"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {"const": "single-root"},
+        "root_derivation": {"const": "unique-reachable-root"},
+        "canonical_branch": {"const": "main"}
+      }
+    },
+    "active_candidate": {
+      "type": ["object", "null"],
+      "required": ["manifest", "policy", "authority_registry", "cutover_target"],
+      "additionalProperties": false,
+      "properties": {
+        "manifest": {"type": "string", "minLength": 1},
+        "policy": {"type": "string", "minLength": 1},
+        "authority_registry": {"type": "string", "minLength": 1},
+        "cutover_target": {"type": "string", "minLength": 1}
+      }
+    },
+    "publication": {"type": "string", "enum": ["not-claimed", "baseline-tagged", "sealed"]},
+    "governing_adr": {"type": "string", "pattern": "^ADR-[0-9]{4}$"},
+    "claim_boundary": {"type": "string", "minLength": 20}
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "schema": "edaios.conformance-profile/v1",
+  "id": "consumer-release",
+  "version": "3.1.0",
+  "parent": null,
+  "description": "Contrato SDD de una feature gobernada en el repo de un consumer, sin exigir la estructura del monorepo de Core.",
+  "controls": ["sdd-contract", "claim-surface"],
+  "claim_boundary": "Coherencia SDD local de una feature de consumer; no certifica adopcion de iniciativa, conformance de Core ni operacion remota."
+}

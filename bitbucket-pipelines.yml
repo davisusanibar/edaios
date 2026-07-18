@@ -1,0 +1,24 @@
+clone:
+  depth: full
+
+pipelines:
+  default:
+    - parallel:
+        - step:
+            name: EDAIOS-CI Python 3.11
+            image: python:3.11-bookworm
+            script:
+              - 'test "$BITBUCKET_COMMIT" = "$(git rev-parse HEAD)"'
+              - ./scripts/ci.sh
+        - step:
+            name: EDAIOS-CI Python 3.12
+            image: python:3.12-bookworm
+            script:
+              - 'test "$BITBUCKET_COMMIT" = "$(git rev-parse HEAD)"'
+              - ./scripts/ci.sh
+        - step:
+            name: EDAIOS-CI Python 3.13
+            image: python:3.13-bookworm
+            script:
+              - 'test "$BITBUCKET_COMMIT" = "$(git rev-parse HEAD)"'
+              - ./scripts/ci.sh

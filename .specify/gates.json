@@ -1,0 +1,21 @@
+{
+  "schema": "edaios.sdd.gates/v1",
+  "version": "3.1.0",
+  "gates": [
+    {"id": "FND-PROJECTION", "scope": "pre-push,ci", "command": "python3 tools/publishing/compile_constitution.py --check"},
+    {"id": "CATALOG-PROJECTION", "scope": "pre-push,ci", "command": "python3 tools/publishing/compile_catalogs.py --check"},
+    {"id": "AGENT-PARITY", "scope": "pre-push,ci", "command": "python3 tools/publishing/sync_spec_kit_integrations.py --check"},
+    {"id": "SDD-CONTRACT", "scope": "pre-push,ci", "command": "python3 tools/validation/spec_kit_gate.py ."},
+    {"id": "KOM", "scope": "pre-push,ci", "command": "python3 tools/validation/kom_gate.py . --base HEAD --head WORKTREE"},
+    {"id": "MONOREPO-STRUCTURE", "scope": "pre-push,ci", "command": "python3 tools/validation/monorepo_structure_check.py . --require-git"},
+    {"id": "TRACEABILITY", "scope": "pre-push,ci", "command": "python3 tools/validation/traceability_check.py ."},
+    {"id": "BASELINE-SURFACE", "scope": "pre-push,ci", "command": "python3 tools/validation/baseline_surface_check.py ."},
+    {"id": "CORE-CONFORMANCE", "scope": "pre-push,ci", "command": "python3 tools/validation/core_conformance_check.py . --profile core-release"},
+    {"id": "CLAIM-SURFACE", "scope": "pre-push,ci", "command": "python3 tools/validation/claim_surface_check.py ."},
+    {"id": "CORE-DISTRIBUTION", "scope": "pre-push,ci", "command": "python3 tools/validation/core_distribution_check.py ."},
+    {"id": "CORE-RELEASE-SEAL", "scope": "pre-push,ci", "command": "python3 tools/validation/core_release_seal_check.py ."},
+    {"id": "CORE-BASE-DEMO", "scope": "pre-push,ci", "command": "python3 tools/validation/day_zero_demo_check.py ."},
+    {"id": "TEST", "scope": "pre-push,ci", "command": "./scripts/test.sh"},
+    {"id": "VALIDATE", "scope": "manual", "command": "./scripts/validate.sh"}
+  ]
+}

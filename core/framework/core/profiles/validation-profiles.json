@@ -1,0 +1,18 @@
+{
+  "schema": "edaios.validation-profile-registry/v1",
+  "version": "3.1.0",
+  "profiles": [
+    {
+      "id": "core-release",
+      "path": "core/framework/core/profiles/core-release.profile.json"
+    },
+    {
+      "id": "initiative-adoption",
+      "path": "core/framework/core/profiles/initiative-adoption.profile.json"
+    },
+    {
+      "id": "federation",
+      "path": "core/framework/core/profiles/federation.profile.json"
+    }
+  ]
+}

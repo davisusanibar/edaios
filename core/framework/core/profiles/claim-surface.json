@@ -1,0 +1,213 @@
+{
+  "schema": "edaios.claim-surface/v1",
+  "version": "3.1.0",
+  "claims": [
+    {
+      "id": "governance-grammar",
+      "claim": "IDs y lifecycles de gobierno poseen una gramática ejecutable única.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/core/profiles/governance-grammar.json"],
+      "tests": ["core/framework/tests/test_governance_conformance.py"],
+      "test_markers": ["test_rfc_identity_and_specialized_states_are_canonical"],
+      "boundary": "Valida la genealogía local; no decide ni ratifica por una persona."
+    },
+    {
+      "id": "kom-vr-01-11",
+      "claim": "KOM-VR-01..11 se evalúan individualmente sobre scopes explícitos.",
+      "maturity": "enforced",
+      "artifacts": ["tools/validation/kom_gate.py"],
+      "tests": ["core/framework/tests/test_governance_conformance.py"],
+      "test_markers": ["test_installed_corpus_executes_vr_01_to_11", "test_kom_frontmatter_truncado_o_duplicado_falla_cerrado"],
+      "boundary": "Un mount externo solo participa cuando se declara; el gate no infiere verdad."
+    },
+    {
+      "id": "validation-profiles",
+      "claim": "core-release, initiative-adoption y federation heredan controles sin debilitamiento.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/core/profiles/validation-profiles.json"],
+      "tests": ["core/framework/tests/test_governance_conformance.py", "core/framework/tests/test_conformance_harness.py"],
+      "test_markers": ["test_profiles_are_strictly_cumulative", "test_profile_inheritance_is_cumulative_and_cycle_fails"],
+      "boundary": "Las fixtures validan contratos; no representan adopción real."
+    },
+    {
+      "id": "initiative-contracts",
+      "claim": "Los attachments poseen schemas versionados y validación fail-closed.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/modules/conformance-core/src/edaios_conformance/resources/schemas/initiative-manifest.json", "core/framework/core/templates/initiative/edaios.initiative.json"],
+      "tests": ["core/framework/tests/test_conformance_harness.py"],
+      "test_markers": ["test_every_schema_has_valid_and_invalid_contract_example", "test_init_validate_and_safe_rollback"],
+      "boundary": "Un schema o template no instala una iniciativa ni aporta fuentes u owners."
+    },
+    {
+      "id": "harness-enforcement",
+      "claim": "Los doce harnesses poseen una operación local probada y madurez coherente.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/modules/harness-core/src/edaios_core_harness/resources/harness-registry.json", "core/framework/modules/harness-core/src/edaios_core_harness/core.py"],
+      "tests": ["core/framework/tests/test_conformance_harness.py"],
+      "test_markers": ["test_sdd_orchestrator_positive_and_negative", "test_request_router_positive_and_negative", "test_phase_dag_positive_and_negative", "test_strict_tdd_positive_and_negative", "test_artifact_store_positive_and_negative", "test_result_contract_positive_and_negative", "test_memory_port_positive_and_negative", "test_permission_guard_positive_and_negative", "test_human_acceptance_is_separate_and_human_only", "test_backup_rollback_positive_and_negative", "test_telemetry_positive_and_negative", "test_command_wrapper_positive_and_negative"],
+      "boundary": "Enforcement local no equivale a adapter externo integrado u operación productiva."
+    },
+    {
+      "id": "evidence-receipt-v2",
+      "claim": "EvidenceReceipt v2 detecta evidencia alterada y staleness y separa aprobación humana.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/modules/harness-core/src/edaios_core_harness/receipts.py"],
+      "tests": ["core/framework/tests/test_conformance_harness.py"],
+      "test_markers": ["test_evidence_receipt_detects_tampering_head_and_staleness", "test_human_acceptance_is_separate_and_human_only"],
+      "boundary": "SHA-256 local no demuestra identidad, firma criptográfica o no repudio."
+    },
+    {
+      "id": "explicit-federation",
+      "claim": "Federación requiere dos o más attachments gobernados, mounts/namespaces explícitos y revalidación por operación de documento, autoridad, owner y corpus.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/modules/conformance-core/src/edaios_conformance/attachment.py", "core/framework/modules/conformance-core/src/edaios_conformance/resources/schemas/federation-mounts.json", "core/framework/modules/ekg-core/src/edaios_ekg/graph.py", "core/framework/modules/sdk-consumption/src/edaios_sdk_consumption/__init__.py"],
+      "tests": ["core/framework/tests/test_conformance_harness.py", "core/framework/tests/test_federation_supply_chain.py", "core/framework/tests/test_governance_conformance.py"],
+      "test_markers": ["test_cli_federation_requires_explicit_mounts", "test_same_local_ko_id_is_valid_across_explicit_namespaces", "test_duplicate_namespace_or_path_fails_closed", "test_explicit_mounts_namespace_nodes_and_resolve_cross_mount_edge", "test_unresolved_global_reference_fails_closed", "test_only_governed_federation_mounts_are_accepted", "test_public_mount_apis_reject_raw_lists", "test_mounted_ko_requires_consumer_layer_and_active_owner", "test_governed_consumers_revalidate_authority_each_operation", "test_governed_consumers_reject_mount_document_drift", "test_governed_consumers_revalidate_corpus_each_operation"],
+      "boundary": "Las pruebas usan fixtures locales; no demuestran operación federada remota."
+    },
+    {
+      "id": "local-reader-integrity",
+      "claim": "Los readers locales de KOs y EKG bloquean symlinks, metadata incompleta y grafos inválidos.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/modules/ess-core/src/edaios_core/knowledge.py", "core/framework/modules/ekg-core/src/edaios_ekg/graph.py", "core/framework/modules/query-engine/src/edaios_query/__init__.py"],
+      "tests": ["core/framework/tests/test_federation_supply_chain.py"],
+      "test_markers": ["test_local_reader_rejects_incomplete_ko_and_symlink", "test_local_reader_rejects_symlinked_root_or_authority_component", "test_local_reader_rejects_truncated_or_duplicate_front_matter", "test_local_graph_rejects_invalid_json_and_orphan_edges", "test_local_graph_rejects_symlinked_root_and_duplicate_type_names", "test_symlinked_graph_corpus_fails_closed", "test_get_rechecks_corpus_after_final_content_read"],
+      "boundary": "Integridad sintáctica y referencial local no demuestra verdad semántica del owner."
+    },
+    {
+      "id": "local-supply-chain",
+      "claim": "El wheel PEP 517 y el export Foundation + Core son reproducibles, herméticos y verificables localmente.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/edaios_build_backend.py", "core/framework/modules/supply-chain-core/src/edaios_supply_chain/artifacts.py", "tools/publishing/build_core_export.py", "tools/validation/core_distribution_check.py"],
+      "tests": ["core/framework/tests/test_federation_supply_chain.py", "core/framework/tests/test_release_distribution.py"],
+      "test_markers": ["test_sidecars_are_reproducible_and_verifiable", "test_subject_or_sidecar_tampering_is_detected", "test_core_export_is_reproducible_and_contains_minimum_surface", "test_core_export_rejects_symlink_in_tree", "test_pep517_backend_is_hermetic_and_reproducible"],
+      "boundary": "No afirma firma, registry, publicación, nivel SLSA o builder alojado."
+    },
+    {
+      "id": "compatibility-contract",
+      "claim": "Compatibilidad, deprecación, upgrade y reversa poseen una política pública fail-closed.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/core/profiles/compatibility-policy.json", "core/framework/modules/conformance-core/src/edaios_conformance/attachment.py"],
+      "tests": ["core/framework/tests/test_conformance_harness.py"],
+      "test_markers": ["test_cli_init_adopt_validate_explain_upgrade_and_rollback", "test_policy_diff_rejects_weakening"],
+      "boundary": "N/N-1 queda contratado, no demostrado, hasta materializar y probar un artefacto previo soportado."
+    },
+    {
+      "id": "adoption-cli",
+      "claim": "El CLI prepara y valida attachments, evidencia, upgrades y reversas locales.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/modules/harness-core/src/edaios_core_harness/cli.py"],
+      "tests": ["core/framework/tests/test_conformance_harness.py"],
+      "test_markers": ["test_cli_init_adopt_validate_explain_upgrade_and_rollback", "test_cli_diff_policy_fails_closed_on_weakening", "test_cli_federation_requires_explicit_mounts", "test_cli_evidence_and_approval_roundtrip"],
+      "boundary": "No hace merge, deploy, publicación ni aceptación humana."
+    },
+    {
+      "id": "catalog-projection",
+      "claim": "Los catálogos ADR/RFC son proyecciones compiladas desde los documentos de decisión.",
+      "maturity": "enforced",
+      "artifacts": ["tools/publishing/compile_catalogs.py", "governance/ADR_CATALOG.md", "governance/RFC_CATALOG.md"],
+      "tests": ["core/framework/tests/test_catalog_projection.py"],
+      "test_markers": ["test_catalogs_match_documents", "test_duplicate_or_divergent_decision_fails", "test_metadata_must_be_unique_and_live_in_header", "test_filename_and_cli_modes_fail_closed", "test_projection_write_is_atomic_per_target"],
+      "boundary": "Proyección derivada; la autoridad vive en los documentos ADR/RFC versionados y en la firma humana."
+    },
+    {
+      "id": "consumption-cli",
+      "claim": "La CLI expone consulta read-only de KOs y grafo con envelope JSON versionado tanto para éxito como para bloqueo.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/modules/harness-core/src/edaios_core_harness/cli.py", "core/framework/modules/conformance-core/src/edaios_conformance/resources/schemas/cli-output.json"],
+      "tests": ["core/framework/tests/test_consumption_cli.py"],
+      "test_markers": ["test_kos_list_and_get_are_read_only", "test_query_commands_report_boundary", "test_all_consumption_subcommands_emit_contractual_parse_errors"],
+      "boundary": "Consulta local de solo lectura; no confiere autoridad, aceptación ni publicación."
+    },
+    {
+      "id": "canonical-feature-handoff",
+      "claim": "El handoff distingue baseline, última feature cerrada y feature activa sin perder el selector local.",
+      "maturity": "enforced",
+      "artifacts": [".specify/feature.json", "tools/operations/feature_context.py", "tools/validation/spec_kit_gate.py"],
+      "tests": ["core/framework/tests/test_feature_handoff.py"],
+      "test_markers": ["test_resolve_uses_active_feature_and_preserves_local_v1_precedence", "test_gate_validates_closed_history_and_returns_active_feature", "test_legacy_shape_is_allowed_only_for_local_selector"],
+      "boundary": "El puntero selecciona contexto; no cierra una feature ni acepta sus decisiones."
+    },
+    {
+      "id": "release-state-and-candidate-seal",
+      "claim": "El estado de release distingue un baseline sin candidato; un candidato futuro liga HEAD/tree, inputs y artefactos y exige aprobación local y observación remota separadas.",
+      "maturity": "enforced",
+      "artifacts": [".specify/release.json", "tools/publishing/prepare_core_release.py", "tools/validation/core_release_seal_check.py", "core/framework/modules/conformance-core/src/edaios_conformance/resources/schemas/core-release-state.json", "core/framework/modules/conformance-core/src/edaios_conformance/resources/schemas/core-release-verification-report.json"],
+      "tests": ["core/framework/tests/test_core_release_candidate.py"],
+      "test_markers": ["test_baseline_without_candidate_is_explicit_and_non_promotable", "test_dirty_candidate_is_prepared_deterministic_and_tamper_evident", "test_local_approval_and_remote_seal_are_separate_states", "test_receipts_reject_external_policy_and_remote_ref", "test_seal_rejects_missing_contract_evidence_checks_and_bad_order", "test_candidate_rejects_symlinked_governed_input", "test_repository_normalization_strips_git_transport_and_rejects_secrets"],
+      "boundary": "Baseline no equivale a candidato o release; prepared no equivale a aprobación; locally-approved no equivale a branch/tag/default remotos; sealed-by-authorized-observation valida un GitCutoverReceipt coherente, pero no consulta al proveedor en vivo."
+    },
+    {
+      "id": "ci-and-claim-enforcement",
+      "claim": "Pre-push y CI ejecutan tests, y los claims enforced resuelven a casos unittest descubiertos y ejecutados.",
+      "maturity": "enforced",
+      "artifacts": [".specify/gates.json", "scripts/run-gates.py", "scripts/ci.sh", "tools/validation/claim_surface_check.py"],
+      "tests": ["core/framework/tests/test_claim_surface.py", "core/framework/tests/test_gate_runner.py"],
+      "test_markers": ["test_repository_claim_surface_is_resolvable", "test_enforced_claim_without_test_fails_closed", "test_pre_push_and_ci_include_tests_and_release_without_recursion", "test_scripts_delegate_to_neutral_runner"],
+      "boundary": "La ejecución local demuestra los casos registrados; no sustituye checks alojados ni aprobación humana."
+    },
+    {
+      "id": "local-working-memory",
+      "claim": "La working memory conserva observaciones content-addressed y sesiones con terminal verificable; los conflictos de drafts se recalculan desde sus fuentes bajo .edaios sin adquirir autoridad.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/modules/ess-core/src/edaios_core/memory.py", "core/framework/extensions/sdd-adapter/src/edaios_sdd_adapter/adapter.py", "core/framework/modules/conformance-core/src/edaios_conformance/resources/schemas/memory-record.json", "core/framework/modules/conformance-core/src/edaios_conformance/resources/schemas/memory-session-event.json", "core/framework/modules/conformance-core/src/edaios_conformance/resources/schemas/memory-conflict-candidate.json"],
+      "tests": ["core/framework/tests/test_working_memory.py"],
+      "test_markers": ["test_records_are_local_typed_idempotent_and_never_promote", "test_conflicts_are_candidates_and_suggestions_remain_advisory", "test_sessions_are_hash_chained_and_summaries_are_not_evidence", "test_paths_utf8_and_concurrent_writes_fail_closed", "test_fallback_search_and_cli_boundary_are_explicit", "test_sdd_draft_ingest_preserves_revisions_and_blocks_conflicts"],
+      "boundary": "Contexto local y summaries no son EvidenceReceipt; ningún provider puede aprobar, decidir o promover."
+    },
+    {
+      "id": "derived-knowledge-index",
+      "claim": "Un índice FTS5 o fallback explícito acelera búsqueda y falla cerrado ante drift o manipulación, conservando canal, source digest y autoridad fuente del KO sin elevar la proyección.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/modules/sdk-consumption/src/edaios_sdk_consumption/derived_index.py", "core/framework/core/docs/MEMORY_PORT.md"],
+      "tests": ["core/framework/tests/test_derived_index.py"],
+      "test_markers": ["test_index_is_derived_canonical_by_default_and_stale_fail_closed", "test_noncanonical_channel_requires_build_and_query_opt_in", "test_index_path_cannot_escape_workspace", "test_tampered_sqlite_rows_or_fts_fail_closed"],
+      "boundary": "El índice es regenerable y canónico solo por defecto de consulta; no crea ni eleva autoridad."
+    },
+    {
+      "id": "memory-adapter-and-agent-setup",
+      "claim": "El adapter Engram separa release de versión API, bloquea redirects y se degrada sin bloquear Git; el CLI selecciona provider local o engram opt-in read/append; el setup project-local exige plan/apply y valida un rollback ligado a surface, target y backup.",
+      "maturity": "enforced",
+      "artifacts": ["core/framework/extensions/memory-adapter/engram/adapter.json", "core/framework/extensions/memory-adapter/src/edaios_memory_adapter/engram.py", "core/framework/modules/harness-core/src/edaios_core_harness/cli.py", "core/framework/modules/harness-core/src/edaios_core_harness/agent_setup.py", "core/framework/modules/conformance-core/src/edaios_conformance/resources/schemas/agent-setup-receipt.json"],
+      "tests": ["core/framework/tests/test_memory_adapter_and_setup.py", "core/framework/tests/test_engram_adapter_hardening.py"],
+      "test_markers": ["test_adapter_is_loopback_pinned_and_non_authoritative", "test_adapter_degrades_and_rejects_remote_or_sensitive_routes", "test_adapter_context_is_read_only_and_bounded", "test_health_separates_provider_release_from_api_version", "test_incompatible_api_version_fails_closed", "test_redirect_handler_rejects_redirects", "test_result_preserves_sensitivity_and_source_provenance", "test_defaults_to_local_provider", "test_context_requires_engram_provider", "test_engram_degrades_without_runtime", "test_engram_save_requires_session", "test_plan_apply_verify_idempotency_and_rollback", "test_unbalanced_managed_markers_fail_closed", "test_rollback_rejects_rehashed_receipt_with_forged_target", "test_rollback_rejects_rehashed_receipt_with_forged_backup", "test_rollback_rejects_symlinked_backup_component"],
+      "boundary": "El adapter no instala Engram, no configura $HOME y no expone cloud, sync, judge, delete o promotion."
+    },
+    {
+      "id": "engram-runtime-installed",
+      "claim": "Runtime Engram disponible y operado por una iniciativa.",
+      "maturity": "absent",
+      "artifacts": ["core/framework/extensions/memory-adapter/engram/adapter.json"],
+      "tests": [],
+      "boundary": "Core publica un adapter opcional; no instala, inicia ni garantiza Engram."
+    },
+    {
+      "id": "external-signing",
+      "claim": "Firma criptográfica de una autoridad externa.",
+      "maturity": "absent",
+      "artifacts": ["core/framework/core/docs/COMPATIBILITY_AND_RELEASE.md"],
+      "tests": [],
+      "boundary": "No instalada y no reclamada."
+    },
+    {
+      "id": "organizational-adoption",
+      "claim": "Adopción y outcomes organizacionales.",
+      "maturity": "absent",
+      "artifacts": ["governance/VALUE_LEDGER.md"],
+      "tests": [],
+      "boundary": "Requiere pilotos, owners, baselines y fuentes reales."
+    }
+  ],
+  "documentation_references": [
+    {"source": "core/framework/core/docs/SECURITY_AND_CONCURRENCY.md", "target": "core/framework/core/profiles/security-policy.json"},
+    {"source": "core/framework/core/docs/SECURITY_AND_CONCURRENCY.md", "target": "core/framework/core/profiles/review-policy.json"},
+    {"source": "core/framework/core/docs/SDD_ARTIFACT_GRAMMAR.md", "target": "core/framework/modules/conformance-core/src/edaios_conformance/resources/artifact-grammar.json"},
+    {"source": "core/framework/core/docs/INITIATIVE_CONFORMANCE.md", "target": "core/framework/core/templates/initiative/edaios.initiative.json"},
+    {"source": "core/framework/core/docs/FEDERATION.md", "target": "core/framework/modules/ekg-core/src/edaios_ekg/graph.py"},
+    {"source": "core/framework/core/docs/COMPATIBILITY_AND_RELEASE.md", "target": "core/framework/modules/supply-chain-core/src/edaios_supply_chain/artifacts.py"},
+    {"source": "core/framework/core/docs/COMPATIBILITY_AND_RELEASE.md", "target": "core/framework/core/profiles/compatibility-policy.json"},
+    {"source": "core/framework/core/docs/MEMORY_PORT.md", "target": "core/framework/modules/ess-core/src/edaios_core/memory.py"},
+    {"source": "core/framework/core/docs/MEMORY_PORT.md", "target": "core/framework/modules/sdk-consumption/src/edaios_sdk_consumption/derived_index.py"},
+    {"source": "core/framework/core/docs/MEMORY_PORT.md", "target": "core/framework/extensions/memory-adapter/engram/adapter.json"}
+  ]
+}

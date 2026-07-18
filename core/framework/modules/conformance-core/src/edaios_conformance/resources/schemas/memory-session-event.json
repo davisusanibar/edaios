@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/memory-session-event/v1",
+  "title": "EDAIOS Memory Session Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "session_id", "sequence", "kind", "payload", "previous_digest", "event_digest", "created_at", "authoritative", "evidence_status", "claim_boundary"],
+  "properties": {
+    "schema": {"const": "edaios.memory-session-event/v1"},
+    "session_id": {"type": "string", "minLength": 1},
+    "sequence": {"type": "integer", "minimum": 1},
+    "kind": {"type": "string", "minLength": 1},
+    "payload": {"type": "object"},
+    "previous_digest": {"type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{64}$"},
+    "event_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "authoritative": {"const": false},
+    "evidence_status": {"const": "observation-only"},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}

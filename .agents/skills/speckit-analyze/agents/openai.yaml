@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Kit Analyze"
+  short_description: "Analiza coherencia antes de implementar"
+  default_prompt: "Use $speckit-analyze para verificar coherencia y cobertura antes de implementar."

@@ -1,0 +1,19 @@
+{
+  "schema": "edaios.security-policy/v1",
+  "version": "3.1.0",
+  "default": "deny",
+  "invariants": ["least-authority", "explicit-delegation", "scope-bound", "expiry-bound", "no-agent-approval", "no-symlink-evidence", "no-path-traversal"],
+  "phase_capabilities": {
+    "constitution": ["read:foundation", "validate:constitution"],
+    "specify": ["read:knowledge", "write:feature-spec"],
+    "clarify": ["read:feature-spec", "write:clarification"],
+    "checklist": ["read:feature-spec", "write:checklist"],
+    "plan": ["read:feature-spec", "write:plan"],
+    "tasks": ["read:plan", "write:tasks"],
+    "analyze": ["read:feature", "validate:feature"],
+    "implement": ["read:approved-tasks", "write:delegated-scope", "run:declared-tests"]
+  },
+  "always_denied_to_agents": ["approve", "accept-adr", "accept-risk", "outcome:verify", "merge", "publish"],
+  "rejected_capability_aliases": {"verify-outcome": "outcome:verify"},
+  "claim_boundary": "Local policy contract; host identity and production authorization are not installed."
+}

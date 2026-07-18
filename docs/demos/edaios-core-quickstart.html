@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EDAIOS Core · Guía rápida</title>
+<style>body{font:16px/1.55 system-ui;max-width:1050px;margin:auto;padding:28px;background:#f5f7fb;color:#172033}section,header{background:white;border:1px solid #dce3ef;border-radius:14px;padding:24px;margin:18px 0}h1{color:#173b63}h2{color:#176b57}pre{background:#202733;color:white;padding:16px;border-radius:9px;overflow:auto}.card{padding:12px;background:#edf9f3;border-left:4px solid #1d8b67}li{margin:6px}</style></head>
+<body><header><p>EDAIOS · CORE PORTABLE</p><h1>Usar EDAIOS Core y crear un proyecto gobernado</h1><p>Core proporciona contratos, memoria local, perfiles, Spec Kit y gates. No instala dominios, productos ni runtimes de negocio.</p></header>
+<section><h2>1. Instalar el CLI</h2><pre><code>cd /ruta/al/repositorio/edaiosv
+python3 -m pip install ./core/framework
+edaios-core --help
+edaios-core memory doctor --root .</code></pre><div class="card">El backend de build actual no ofrece instalación editable PEP 660; instala el paquete normalmente (idealmente dentro de un entorno virtual). El entrypoint es <code>edaios_core_harness.cli:main</code>.</div></section>
+<section><h2>2. Crear una feature de Core</h2><p>Los cambios empiezan por contrato, no por código.</p><pre><code>python3 tools/operations/feature_context.py resolve --path-only
+python3 tools/validation/spec_kit_gate.py . --feature specs/NNN-nombre
+./scripts/test.sh
+./scripts/validate.sh</code></pre><ul><li>Spec: requisitos FR, criterios SC y límites.</li><li>Plan: Constitution Check y Gate Impact.</li><li>Tasks: trabajo trazable.</li><li>Evidence: resultados observados.</li></ul></section>
+<section><h2>3. Crear un proyecto o iniciativa</h2><p>El proyecto vive fuera de Core y entra mediante un attachment explícito.</p><pre><code>edaios-core init --workspace ./mi-proyecto \
+  --id iniciativa-demo --namespace demo --owner OWNER \
+  --value-owner OWNER --core-version 3.1.0
+edaios-core adopt --workspace ./mi-proyecto
+edaios-core validate --workspace ./mi-proyecto \
+  --profile initiative-adoption</code></pre><ul><li>Declara initiative id, namespace y owner.</li><li>Declara autoridad, sensibilidad y PolicyProfile.</li><li>Fija versión/digest de Core.</li><li>Mantén sus fuentes en su propio Git.</li></ul><div class="card">No copies dominios ni inventes owners o datos institucionales dentro de Core.</div></section>
+<section><h2>4. Memoria local y Engram opcional</h2><pre><code>edaios-core memory doctor --provider local
+edaios-core memory search --query "último cambio" --provider local
+edaios-core memory doctor --provider engram
+edaios-core memory context --provider engram --project mi-proyecto --scope project</code></pre><p>Engram es opt-in y loopback; su runtime se instala fuera de Core. Git, Knowledge Objects y receipts siguen siendo la autoridad. <code>memory context</code> no acepta una consulta de texto: devuelve el contexto agregado del proyecto.</p></section>
+<section><h2>5. Entrega segura</h2><pre><code>git diff --check
+./scripts/test.sh
+./scripts/validate.sh
+git add .
+git commit -m "feat(scope): describe change"
+git push origin &lt;branch&gt;</code></pre><p>Commit, push, tag, release y publicación son acciones separadas. Los gates verifican; el humano autorizado acepta.</p></section>
+<footer>Fuentes: README.md, AGENTS.md, docs/quick-start.md, core/framework/README.md y .specify/gates.json.</footer></body></html>

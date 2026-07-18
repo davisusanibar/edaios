@@ -1,0 +1,48 @@
+{
+  "schema": "edaios.memory-provider-adapter/v1",
+  "id": "engram-http-local",
+  "provider": "Gentleman-Programming/engram",
+  "provider_version": "1.19.0",
+  "provider_release": "1.19.0",
+  "api_health_version": "0.1.0",
+  "compatibility": {
+    "health_status": "ok",
+    "health_service": "engram",
+    "health_version": "0.1.0",
+    "version_semantics": "health.version is the HTTP API contract marker, not the provider release"
+  },
+  "operation_semantics": {
+    "timeline": "derived: GET /sessions/{id} validates the session, then GET /observations (project-scoped, bounded by limit) is filtered by session_id in the adapter; upstream exposes no per-session listing",
+    "empty_lists": "Engram serializes empty Go slices as JSON null; the adapter normalizes null to an empty list",
+    "client_errors": "HTTP 4xx from Engram raises EngramClientError (caller error); only connection failures and 5xx map to ProviderUnavailable/degraded"
+  },
+  "transport": "http-loopback",
+  "default_endpoint": "http://127.0.0.1:7437",
+  "operations": [
+    "health",
+    "search",
+    "context",
+    "save-observation",
+    "session-start",
+    "session-end",
+    "timeline",
+    "conflict-candidates-read"
+  ],
+  "forbidden_operations": [
+    "approve",
+    "cloud",
+    "compare",
+    "decide",
+    "delete",
+    "judge",
+    "promote",
+    "remote-sync",
+    "write-canonical"
+  ],
+  "allowed_sensitivity": ["T0", "T1"],
+  "authoritative": false,
+  "rebuildable": true,
+  "source": "https://github.com/Gentleman-Programming/engram/releases/tag/v1.19.0",
+  "api_source": "https://github.com/Gentleman-Programming/engram/blob/main/DOCS.md#health",
+  "observed_at": "2026-07-16"
+}

@@ -1,0 +1,69 @@
+{
+  "initiative-manifest": {
+    "schema": "edaios.initiative-manifest/v1", "id": "example-t0", "namespace": "example.t0", "owner": "OWNER-EXAMPLE", "value_owner": "VALUE-OWNER-EXAMPLE", "core_compatibility": ">=3.0.0 <4.0.0", "conformance_profile": "initiative-adoption", "policy_profile": ".edaios/policies/initiative-policy.json", "sensitivity_profile": ".edaios/policies/sensitivity-t0.json", "authority_registry": ".edaios/authority-registry.json", "sources": [{"path": "README.md", "authority": "OWNER-EXAMPLE"}], "capabilities": ["validate"], "required_gates": ["core-release", "initiative-adoption"], "evidence_path": ".edaios/evidence", "lifecycle": "draft", "human_approval_required": true
+  },
+  "policy-profile": {
+    "schema": "edaios.policy-profile/v1", "id": "example-t0-policy", "version": "1.0.0", "parent": "initiative-adoption", "controls": [{"id": "traceability", "level": "required"}], "approval_required": true, "max_receipt_age_seconds": 86400, "allowed_sensitivity": ["T0"], "exceptions_allowed": false
+  },
+  "sensitivity-profile": {
+    "schema": "edaios.sensitivity-profile/v1", "id": "sensitivity-t0", "level": "T0", "data_classes": ["synthetic-fixture"], "required_controls": ["no-pii"], "forbidden_routes": ["production-data"], "approval_roles": ["initiative-owner"]
+  },
+  "authority-registry": {
+    "schema": "edaios.authority-registry/v1", "initiative": "example-t0", "version": "1.0.0", "actors": [{"actor_id": "OWNER-EXAMPLE", "type": "human", "roles": ["initiative-owner"], "capabilities": ["approve"], "active": true}]
+  },
+  "delegation-grant": {
+    "schema": "edaios.delegation-grant/v1", "id": "DLG-0001", "initiative": "example-t0", "grantor_actor_id": "OWNER-EXAMPLE", "grantee_actor_id": "AGENT-EXAMPLE", "capabilities": ["validate"], "scope": ["specs/example"], "valid_from": "2026-07-15T00:00:00Z", "valid_until": "2026-07-16T00:00:00Z", "revoked": false
+  },
+  "approval-receipt": {
+    "schema": "edaios.approval-receipt/v1", "receipt_id": "APR-000000000000", "initiative": "example-t0", "feature_run": "feature/example/run-1", "actor": {"id": "OWNER-EXAMPLE", "type": "human"}, "authority_role": "initiative-owner", "evidence_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000", "approved_at": "2026-07-15T00:00:00Z", "verdict": "accepted", "statement": "Ejemplo ilustrativo; no es una aprobacion real.", "integrity": {"algorithm": "SHA-256", "payload_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "claim": "local-integrity-only; not identity or non-repudiation"}
+  },
+  "evidence-receipt": {
+    "schema": "edaios.evidence-receipt/v2", "receipt_id": "EVR-000000000000", "initiative": "example-t0", "feature_run": "feature/example/run-1", "actor": {"id": "AGENT-EXAMPLE", "type": "agent"}, "core_version": "3.0.0", "policy": {"id": "example-t0-policy", "version": "1.0.0", "digest": "0000000000000000000000000000000000000000000000000000000000000000"}, "base_commit": "0000000", "head_commit": "1111111", "evidence": [{"path": "evidence/example.txt", "sha256": "0000000000000000000000000000000000000000000000000000000000000000", "size": 0}], "sensitivity": "T0", "exit_code": 0, "verdict": "passed", "claim_boundary": "Fixture ilustrativa sin operacion real.", "rollback": {"target_ref": "0000000", "steps": ["restaurar fixture"], "verification": "validar bytes"}, "approval": {"required": true, "roles": ["initiative-owner"]}, "recorded_at": "2026-07-15T00:00:00Z", "integrity": {"algorithm": "SHA-256", "payload_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "claim": "local-integrity-only; not identity or non-repudiation"}
+  },
+  "exception-record": {
+    "schema": "edaios.exception-record/v1", "id": "EXC-0001", "initiative": "example-t0", "control": "optional-example", "rationale": "Fixture ilustrativa.", "compensating_controls": ["manual-review"], "requested_by": "OWNER-EXAMPLE", "approver_actor_id": null, "expires_at": "2026-07-16T00:00:00Z", "status": "proposed"
+  },
+  "cli-output": {
+    "schema": "edaios.cli-output/v1", "command": "kos.list", "status": "ok", "claim_boundary": "Fixture local read-only.", "result": []
+  },
+  "federation-mounts": {
+    "schema": "edaios.federation-mounts/v1",
+    "mounts": [
+      {"namespace": "example.one", "path": "/tmp/one/corpus", "authorized_root": "/tmp/one", "authority_layer": "Consumer", "owner_actor_id": "OWNER-ONE", "attachment": "/tmp/one", "manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "authority_registry_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "corpus_sha256": "4444444444444444444444444444444444444444444444444444444444444444"},
+      {"namespace": "example.two", "path": "/tmp/two/corpus", "authorized_root": "/tmp/two", "authority_layer": "Consumer", "owner_actor_id": "OWNER-TWO", "attachment": "/tmp/two", "manifest_sha256": "2222222222222222222222222222222222222222222222222222222222222222", "authority_registry_sha256": "3333333333333333333333333333333333333333333333333333333333333333", "corpus_sha256": "5555555555555555555555555555555555555555555555555555555555555555"}
+    ]
+  },
+  "core-release-candidate": {
+    "schema": "edaios.core-release-candidate/v2", "component": "edaios-core", "version": "3.0.0", "status": "prepared", "base_head": "0000000000000000000000000000000000000000", "base_tree": "1111111111111111111111111111111111111111", "branch": "feature/example", "governed_inputs": {"schema": "edaios.governed-inputs/v1", "algorithm": "SHA-256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "file_count": 1, "deleted_count": 0, "scope": "fixture", "excluded": ["candidate.json"]}, "artifacts": {"schema": "edaios.release-artifacts/v1", "digest": "1111111111111111111111111111111111111111111111111111111111111111", "items": [{"kind": "wheel", "name": "example.whl", "sha256": "2222222222222222222222222222222222222222222222222222222222222222", "size": 1}]}, "validation_commands": ["./scripts/test.sh"], "final_seal": {"required": true, "requirements": ["clean-commit"], "present": false}, "claim_boundary": "Fixture preparada; no es un release."
+  },
+  "core-release-state": {
+    "schema": "edaios.core-release-state/v2", "component": "edaios-core", "version": "3.1.0", "status": "baseline", "genealogy": {"kind": "single-root", "root_derivation": "unique-reachable-root", "canonical_branch": "main"}, "active_candidate": null, "publication": "not-claimed", "governing_adr": "ADR-0013", "claim_boundary": "Fixture de genealogia derivada localmente; no demuestra ancla externa, release o publicacion."
+  },
+  "core-release-verification-report": {
+    "schema": "edaios.core-release-verification-report/v1", "status": "valid", "candidate_status": "prepared", "readiness": "prepared", "verification_mode": "local-validation", "provider_live_verified": false, "version": "3.0.0", "base_head": "0000000000000000000000000000000000000000", "base_tree": "1111111111111111111111111111111111111111", "current_head": "0000000000000000000000000000000000000000", "governed_inputs_sha256": "2222222222222222222222222222222222222222222222222222222222222222", "release_artifacts_sha256": "3333333333333333333333333333333333333333333333333333333333333333", "governed_worktree_clean": false, "full_worktree_clean": false, "receipts": null, "target": null, "cutover": null, "claim_boundary": "Fixture local; no aprobación ni consulta al proveedor."
+  },
+  "git-cutover-target": {
+    "schema": "edaios.git-cutover-target/v1", "status": "proposed", "component": "edaios-core", "version": "3.0.0", "repository": "example.test/team/edaios", "canonical_branch": "main", "required_checks": ["EDAIOS-CI"], "provider_evidence_kinds": ["branch-protection", "default-branch", "git-refs", "required-checks"], "attestation_publication": {"required": true, "allowed_kinds": ["release-asset"]}
+  },
+  "git-cutover-receipt": {
+    "schema": "edaios.git-cutover-receipt/v1", "receipt_id": "CUT-000000000000", "repository": "example.test/team/edaios", "canonical_branch": "main", "version": "3.0.0", "commit": "0000000000000000000000000000000000000000", "tree": "1111111111111111111111111111111111111111", "tag": "v3.0.0", "remote_head": "0000000000000000000000000000000000000000", "remote_tag_target": "0000000000000000000000000000000000000000", "default_branch": "main", "default_branch_head": "0000000000000000000000000000000000000000", "required_checks": [{"id": "EDAIOS-CI", "status": "passed"}], "branch_protection": {"observed": true, "force_push_allowed": false}, "legacy_history_merged": false, "provider_evidence": [{"kind": "git-refs", "uri": "https://example.test/evidence/refs.json", "sha256": "3333333333333333333333333333333333333333333333333333333333333333", "size": 1}, {"kind": "required-checks", "uri": "https://example.test/evidence/checks.json", "sha256": "4444444444444444444444444444444444444444444444444444444444444444", "size": 1}, {"kind": "branch-protection", "uri": "https://example.test/evidence/protection.json", "sha256": "5555555555555555555555555555555555555555555555555555555555555555", "size": 1}, {"kind": "default-branch", "uri": "https://example.test/evidence/default.json", "sha256": "6666666666666666666666666666666666666666666666666666666666666666", "size": 1}], "attestation_publication": {"kind": "release-asset", "uri": "https://example.test/releases/v3.0.0/attestations.json", "sha256": "7777777777777777777777777777777777777777777777777777777777777777", "size": 1, "subjects": [{"kind": "approval-receipt", "receipt_id": "APR-000000000000", "sha256": "9999999999999999999999999999999999999999999999999999999999999999"}, {"kind": "evidence-receipt", "receipt_id": "EVR-000000000000", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}]}, "observed_at": "2026-07-15T00:00:00Z", "observer": {"id": "OWNER-EXAMPLE", "type": "human"}, "claim_boundary": "Observacion autorizada; no verificacion live.", "integrity": {"algorithm": "SHA-256", "payload_sha256": "8888888888888888888888888888888888888888888888888888888888888888", "claim": "local-integrity-only; not identity or non-repudiation"}
+  },
+  "outcome": {
+    "schema": "edaios.outcome/v1", "id": "OUT-0001", "initiative": "example-t0", "owner": "VALUE-OWNER-EXAMPLE", "claim": "Hipotesis ilustrativa, no valor demostrado.", "metric": "TBD por owner", "baseline": "TBD por owner", "observation": "Sin observacion todavia", "source": "fixture local", "observed_at": "2026-07-15T00:00:00Z", "scope": "fixture T0", "status": "proposed", "evidence": []
+  },
+  "memory-record": {
+    "schema": "edaios.memory-record/v1", "record_id": "MEM-000000000000000000000000", "project": "example-t0", "subject": "search", "claim": "backend", "value": "derived-local", "record_type": "discovery", "sensitivity": "T0", "session_id": null, "source_ref": "fixture", "source_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000", "content_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111", "created_at": "2026-07-16T00:00:00Z", "provider": "edaios-local", "provider_version": "1", "channel": "local-working", "authoritative": false, "rebuildable": true, "claim_boundary": "Fixture local no autoritativa."
+  },
+  "memory-session-event": {
+    "schema": "edaios.memory-session-event/v1", "session_id": "session-1", "sequence": 1, "kind": "start", "payload": {"project": "example-t0"}, "previous_digest": null, "event_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222", "created_at": "2026-07-16T00:00:00Z", "authoritative": false, "evidence_status": "observation-only", "claim_boundary": "Fixture observacional."
+  },
+  "memory-conflict-candidate": {
+    "schema": "edaios.memory-conflict-candidate/v1", "candidate_id": "CONFLICT-000000000000000000000000", "project": "example-t0", "subject": "search", "claim": "backend", "source_record_id": "MEM-000000000000000000000000", "target_record_id": "MEM-111111111111111111111111", "status": "review-required", "created_at": "2026-07-16T00:00:00Z", "suggested_relation": null, "suggestion_source": null, "authoritative": false, "claim_boundary": "Fixture pendiente; sin ganador."
+  },
+  "agent-setup-receipt": {
+    "schema": "edaios.agent-setup-receipt/v1", "receipt_id": "SETUP-000000000000000000000000", "surface": "codex", "target": "AGENTS.md", "target_existed": true, "before_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000", "after_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111", "integration_lock_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222", "backup": ".edaios/agent-setup/backups/SETUP-000000000000000000000000/original.bin", "status": "applied", "project_local": true, "write_authorized": true, "claim_boundary": "Fixture local reversible.", "integrity": {"algorithm": "SHA-256", "payload_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333", "claim": "local-integrity-only; not identity or non-repudiation"}
+  },
+  "memory-cli-output": {
+    "schema": "edaios.memory-cli-output/v1", "command": "memory.search", "status": "ok", "claim_boundary": "Fixture local.", "result": []
+  }
+}

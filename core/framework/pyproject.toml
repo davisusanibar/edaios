@@ -1,0 +1,40 @@
+[build-system]
+requires = []
+build-backend = "edaios_build_backend"
+backend-path = ["."]
+
+[project]
+name = "edaios-core"
+version = "3.1.0"
+description = "EDAIOS Core: contratos Knowledge First, memoria Git-first y control plane"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+license = { text = "MIT" }
+authors = [{ name = "EDAIOS Core Maintainers" }]
+keywords = ["knowledge-first", "governance", "spec-driven-development"]
+
+[project.scripts]
+edaios-core = "edaios_core_harness.cli:main"
+
+[tool.edaios-build]
+source-roots = [
+  "modules/ess-core/src",
+  "modules/harness-core/src",
+  "modules/ekg-core/src",
+  "modules/query-engine/src",
+  "modules/sdk-consumption/src",
+  "modules/conformance-core/src",
+  "modules/supply-chain-core/src",
+  "extensions/sdd-adapter/src",
+  "extensions/memory-adapter/src"
+]
+
+[tool.edaios-build.package-data]
+edaios_core_harness = ["resources/*.json"]
+edaios_conformance = [
+  "resources/*.json",
+  "resources/schemas/*.json",
+  "resources/profiles/*.json",
+  "resources/policies/*.json",
+  "resources/examples/*.json"
+]

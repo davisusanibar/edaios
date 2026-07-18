@@ -1,0 +1,13 @@
+{
+  "schema": "edaios.sensitivity-policy/v1",
+  "version": "3.1.0",
+  "profiles": {
+    "T0": {"scope": "public metadata and synthetic fixtures", "minimum_controls": ["no-pii", "no-secret", "no-production-data", "human-owner"]},
+    "T1": {"scope": "internal non-personal knowledge", "minimum_controls": ["T0", "access-control", "retention-declared", "risk-owner"]},
+    "T2": {"scope": "restricted or personal information", "minimum_controls": ["T1", "privacy-review", "pseudonymize-before-llm", "pii-blocker", "audit-evidence"]},
+    "T3": {"scope": "high-impact restricted processing", "minimum_controls": ["T2", "security-review", "explicit-route-allowlist", "incident-and-rollback-plan", "dual-human-review"]}
+  },
+  "inheritance": "cumulative",
+  "legal_taxonomy": "not-defined-by-core",
+  "claim_boundary": "Operational routing labels only; owners map applicable law and institutional classifications."
+}

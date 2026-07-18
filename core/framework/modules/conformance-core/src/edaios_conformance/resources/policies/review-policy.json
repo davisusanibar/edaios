@@ -1,0 +1,16 @@
+{
+  "schema": "edaios.review-policy/v1",
+  "version": "3.1.0",
+  "required_roles": {
+    "architecture": ["initiative-owner", "core-maintainer"],
+    "sensitivity-T0": ["initiative-owner"],
+    "sensitivity-T1": ["initiative-owner", "risk-owner"],
+    "sensitivity-T2": ["initiative-owner", "risk-owner", "privacy-reviewer"],
+    "sensitivity-T3": ["initiative-owner", "risk-owner", "privacy-reviewer", "security-reviewer"],
+    "outcome": ["value-owner"]
+  },
+  "review_unit": "one independently reversible change",
+  "stacked_allowed": true,
+  "approval_actor_type": "human",
+  "claim_boundary": "Roles are contract labels; enterprise identity resolution remains a host responsibility."
+}

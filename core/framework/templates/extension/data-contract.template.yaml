@@ -1,0 +1,15 @@
+schema: edaios.data-contract/v1
+semantic_definition: REQUERIDA
+grain: REQUERIDO
+keys: []
+critical_data_elements: []
+quality_rules: []
+privacy:
+  classification: REQUERIDA
+  lawful_basis: REQUERIDA_SI_APLICA
+lineage:
+  sources: []
+  transformations: []
+change_policy:
+  compatibility: REQUERIDA
+  owner_approval: true

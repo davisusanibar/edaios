@@ -1,0 +1,26 @@
+{
+  "schema": "edaios.control-registry/v1",
+  "version": "3.2.0",
+  "controls": [
+    {"id":"foundation-projection","implementation":"tools/publishing/compile_constitution.py","tests":"core/framework/tests/test_versioned_surface.py","gates":["FND-PROJECTION"],"claim":"local-foundation-projection"},
+    {"id":"kom","implementation":"tools/validation/kom_gate.py","tests":"core/framework/tests/test_kom_gate.py","gates":["KOM"],"claim":"local-knowledge-integrity"},
+    {"id":"sdd-contract","implementation":"tools/validation/spec_kit_gate.py","tests":"core/framework/tests/test_feature_handoff.py","gates":["SDD-CONTRACT"],"claim":"local-sdd-coherence"},
+    {"id":"harness-enforcement","implementation":"edaios_core_harness.core:CoreHarness","tests":"core/framework/tests/test_conformance_harness.py","gates":["CORE-CONFORMANCE"],"claim":"local-harness-contract"},
+    {"id":"contract-tests","implementation":"scripts/test.sh","tests":"core/framework/tests","gates":["TEST"],"claim":"local-test-execution"},
+    {"id":"claim-surface","implementation":"tools/validation/claim_surface_check.py","tests":"core/framework/tests/test_versioned_surface.py","gates":["CLAIM-SURFACE"],"claim":"bounded-local-claims"},
+    {"id":"reproducible-distribution","implementation":"tools/validation/core_distribution_check.py","tests":"core/framework/tests/test_release_distribution.py","gates":["CORE-DISTRIBUTION"],"claim":"local-reproducible-export"},
+    {"id":"local-working-memory","implementation":"edaios_core.memory:LocalWorkingMemory","tests":"core/framework/tests/test_working_memory.py","gates":["TEST"],"claim":"rebuildable-local-memory"},
+    {"id":"initiative-manifest","implementation":"edaios_conformance.attachment:validate_attachment","tests":"core/framework/tests/test_conformance_harness.py","gates":["CORE-CONFORMANCE"],"claim":"local-initiative-contract"},
+    {"id":"authority-registry","implementation":"edaios_core_harness.core:CoreHarness.permission_guard","tests":"core/framework/tests/test_conformance_harness.py","gates":["CORE-CONFORMANCE"],"claim":"local-authority-contract"},
+    {"id":"sensitivity-profile","implementation":"edaios_conformance.attachment:validate_attachment","tests":"core/framework/tests/test_conformance_harness.py","gates":["CORE-CONFORMANCE"],"claim":"local-sensitivity-contract"},
+    {"id":"monotonic-policy","implementation":"edaios_conformance.profiles:diff_policy","tests":"core/framework/tests/test_conformance_harness.py","gates":["CORE-CONFORMANCE"],"claim":"monotonic-policy-check"},
+    {"id":"delegated-permissions","implementation":"edaios_core_harness.core:CoreHarness.permission_guard","tests":"core/framework/tests/test_conformance_harness.py","gates":["CORE-CONFORMANCE"],"claim":"non-amplifying-delegation"},
+    {"id":"evidence-receipt-v2","implementation":"edaios_core_harness.receipts:verify_evidence_receipt","tests":"core/framework/tests/test_conformance_harness.py","gates":["CORE-CONFORMANCE"],"claim":"policy-bound-evidence"},
+    {"id":"human-approval","implementation":"edaios_core_harness.receipts:verify_approval_receipt","tests":"core/framework/tests/test_conformance_harness.py","gates":["CORE-CONFORMANCE"],"claim":"human-approval-only"},
+    {"id":"explicit-mounts","implementation":"edaios_sdk_consumption:validate_federation_mounts","tests":"core/framework/tests/test_federation_supply_chain.py","gates":["CORE-CONFORMANCE"],"claim":"explicit-local-mounts"},
+    {"id":"global-namespace","implementation":"edaios_core.knowledge:KnowledgeMount","tests":"core/framework/tests/test_federation_supply_chain.py","gates":["CORE-CONFORMANCE"],"claim":"collision-aware-namespace"},
+    {"id":"authority-boundary","implementation":"edaios_core.knowledge:validate_knowledge_object","tests":"core/framework/tests/test_federation_supply_chain.py","gates":["CORE-CONFORMANCE"],"claim":"federation-authority-boundary"},
+    {"id":"collision-detection","implementation":"edaios_core.knowledge:corpus_digest","tests":"core/framework/tests/test_federation_supply_chain.py","gates":["CORE-CONFORMANCE"],"claim":"collision-detection"},
+    {"id":"resolvable-edges","implementation":"edaios_query:QueryEngine","tests":"core/framework/tests/test_federation_supply_chain.py","gates":["CORE-CONFORMANCE"],"claim":"resolvable-derived-edges"}
+  ]
+}

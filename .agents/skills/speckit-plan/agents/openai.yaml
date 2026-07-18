@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Kit Plan"
+  short_description: "Crea el plan tecnico gobernado EDAIOS"
+  default_prompt: "Use $speckit-plan para crear el plan tecnico de la especificacion activa."

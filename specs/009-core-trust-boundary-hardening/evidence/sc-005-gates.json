@@ -1,0 +1,1 @@
+{"schema":"edaios.feature-evidence/v1","criterion":"SC-005","status":"observed","tests":["test_gate_runner.py","kom_gate.py"],"limits":"local git objects and gates only"}

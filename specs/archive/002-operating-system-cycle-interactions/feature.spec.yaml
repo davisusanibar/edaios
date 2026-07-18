@@ -1,0 +1,17 @@
+schema: edaios.sdd.feature/v1
+id: EDAIOS-OPERATING-SYSTEM-CYCLE-INTERACTIONS
+artifact: specs/archive/002-operating-system-cycle-interactions/spec.md
+owner: Principal Architect
+authority: governance/archive/adr/ADR-0002-spec-kit-and-fail-closed-gates.md
+purpose: restaurar la experiencia guiada y accesible del ciclo EDAIOS sin cambiar el canon
+requirements:
+  - FR-001
+  - FR-002
+  - FR-003
+  - FR-004
+  - FR-005
+validation:
+  - tools/publishing/generate_day_zero_demos.py
+  - tools/validation/day_zero_demo_check.py
+  - scripts/test.sh
+  - scripts/validate.sh

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/exception-record/v1",
+  "title": "EDAIOS ExceptionRecord v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "initiative", "control", "rationale", "compensating_controls", "requested_by", "approver_actor_id", "expires_at", "status"],
+  "properties": {
+    "schema": {"const": "edaios.exception-record/v1"},
+    "id": {"type": "string", "pattern": "^EXC-[0-9]{4}$"},
+    "initiative": {"type": "string", "pattern": "^[a-z][a-z0-9-]{2,63}$"},
+    "control": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+    "rationale": {"type": "string", "minLength": 1},
+    "compensating_controls": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "requested_by": {"type": "string", "minLength": 1},
+    "approver_actor_id": {"type": ["string", "null"], "minLength": 1},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["proposed", "approved", "expired", "revoked"]}
+  }
+}

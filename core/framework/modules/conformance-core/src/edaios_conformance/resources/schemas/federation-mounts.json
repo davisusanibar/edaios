@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/federation-mounts/v1",
+  "title": "EDAIOS FederationMounts v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "mounts"],
+  "properties": {
+    "schema": {"const": "edaios.federation-mounts/v1"},
+    "mounts": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["namespace", "path", "authorized_root", "authority_layer", "owner_actor_id", "attachment", "manifest_sha256", "authority_registry_sha256", "corpus_sha256"],
+        "properties": {
+          "namespace": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:\\.[a-z][a-z0-9-]*)+$"},
+          "path": {"type": "string", "minLength": 1},
+          "authorized_root": {"type": "string", "minLength": 1},
+          "authority_layer": {"const": "Consumer"},
+          "owner_actor_id": {"type": "string", "minLength": 1},
+          "attachment": {"type": "string", "minLength": 1},
+          "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "authority_registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "corpus_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

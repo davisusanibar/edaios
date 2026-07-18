@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Kit Constitution"
+  short_description: "Compila la constitucion operativa EDAIOS"
+  default_prompt: "Use $speckit-constitution para verificar o recompilar la constitucion operativa EDAIOS."

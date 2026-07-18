@@ -1,0 +1,7 @@
+schema: edaios.quality-rules/v1
+rules:
+  - id: REEMPLAZAR
+    dimension: REQUERIDA
+    severity: REQUERIDA
+    status: proposed
+    evidence: REQUERIDA

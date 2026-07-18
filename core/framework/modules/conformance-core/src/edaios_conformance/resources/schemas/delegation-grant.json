@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/delegation-grant/v1",
+  "title": "EDAIOS DelegationGrant v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "initiative", "grantor_actor_id", "grantee_actor_id", "capabilities", "scope", "valid_from", "valid_until", "revoked"],
+  "properties": {
+    "schema": {"const": "edaios.delegation-grant/v1"},
+    "id": {"type": "string", "pattern": "^DLG-[0-9]{4}$"},
+    "initiative": {"type": "string", "pattern": "^[a-z][a-z0-9-]{2,63}$"},
+    "grantor_actor_id": {"type": "string", "minLength": 1},
+    "grantee_actor_id": {"type": "string", "minLength": 1},
+    "capabilities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9:-]*$"}},
+    "scope": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^(?!/)(?!.*\\.\\.)[A-Za-z0-9_.:\\/-]+$"}},
+    "valid_from": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": "string", "format": "date-time"},
+    "revoked": {"type": "boolean"}
+  }
+}

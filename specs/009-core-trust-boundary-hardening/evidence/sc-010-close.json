@@ -1,0 +1,8 @@
+{
+  "schema": "edaios.feature-evidence/v1",
+  "criterion": "SC-010",
+  "status": "partial",
+  "tests": ["scripts/test.sh", "scripts/validate.sh"],
+  "claims": "local suite and validation gates pass on the observed checkout",
+  "limits": "Feature remains open until all approved tasks and evidence are complete."
+}

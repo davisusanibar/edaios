@@ -1,0 +1,14 @@
+{
+  "schema": "edaios.feature-tombstones/v1",
+  "tombstones": [
+    {
+      "id": "EDAIOS-CORE-SEAL-AND-RELEASE-CUTOVER",
+      "former_directory": "specs/006-core-seal-and-release-cutover",
+      "status": "retired",
+      "authority": "ADR-0012",
+      "replacement": "specs/008-core-baseline-normalization",
+      "content": null,
+      "claim_boundary": "Registro de retiro; no inventa el contenido ausente de la feature 006."
+    }
+  ]
+}

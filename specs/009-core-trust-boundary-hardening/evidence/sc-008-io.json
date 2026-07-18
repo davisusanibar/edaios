@@ -1,0 +1,8 @@
+{
+  "schema": "edaios.feature-evidence/v1",
+  "criterion": "SC-008",
+  "status": "partial",
+  "tests": ["core/framework/tests/test_memory_adapter_and_setup.py", "core/framework/tests/test_conformance_harness.py"],
+  "claims": "local atomicity and rollback checks only",
+  "limits": "No host-wide durability or external filesystem guarantee."
+}

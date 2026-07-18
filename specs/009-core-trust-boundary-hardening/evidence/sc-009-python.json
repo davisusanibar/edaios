@@ -1,0 +1,8 @@
+{
+  "schema": "edaios.feature-evidence/v1",
+  "criterion": "SC-009",
+  "status": "observed",
+  "tests": ["core/framework/tests/test_release_distribution.py", "core/framework/tests/test_gate_runner.py"],
+  "claims": "metadata and CI matrix declarations are locally resolvable",
+  "limits": "CI execution on all three images remains externally observed."
+}

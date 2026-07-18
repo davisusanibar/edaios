@@ -1,0 +1,12 @@
+{
+  "schema": "edaios.feature-handoff/v3",
+  "baseline_feature": {
+    "id": "EDAIOS-CORE-MULTI-INITIATIVE-SCALE",
+    "feature_directory": "specs/archive/004-core-multi-initiative-scale"
+  },
+  "last_closed_feature": {
+    "id": "EDAIOS-CORE-TRUST-BOUNDARY-HARDENING",
+    "feature_directory": "specs/009-core-trust-boundary-hardening"
+  },
+  "active_feature": null
+}

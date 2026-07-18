@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Kit Specify"
+  short_description: "Crea una especificacion gobernada EDAIOS"
+  default_prompt: "Use $speckit-specify para convertir esta iniciativa en una especificacion gobernada EDAIOS."

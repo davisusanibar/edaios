@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Kit Clarify"
+  short_description: "Aclara requisitos antes del plan tecnico"
+  default_prompt: "Use $speckit-clarify para resolver ambiguedades de la especificacion activa."

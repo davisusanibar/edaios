@@ -1,0 +1,18 @@
+{
+  "schema": "edaios.initiative-manifest/v1",
+  "id": "example-t0",
+  "namespace": "example.t0",
+  "owner": "OWNER-REQUIRED",
+  "value_owner": "VALUE-OWNER-REQUIRED",
+  "core_compatibility": ">=3.0.0 <4.0.0",
+  "conformance_profile": "initiative-adoption",
+  "policy_profile": ".edaios/policies/initiative-policy.json",
+  "sensitivity_profile": ".edaios/policies/sensitivity-t0.json",
+  "authority_registry": ".edaios/authority-registry.json",
+  "sources": [{"path": "README.md", "authority": "OWNER-REQUIRED"}],
+  "capabilities": ["validate", "evidence:create", "evidence:verify"],
+  "required_gates": ["core-release", "initiative-adoption"],
+  "evidence_path": ".edaios/evidence",
+  "lifecycle": "draft",
+  "human_approval_required": true
+}

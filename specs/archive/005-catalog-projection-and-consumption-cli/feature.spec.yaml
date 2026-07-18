@@ -1,0 +1,17 @@
+schema: edaios.sdd.feature/v1
+id: EDAIOS-CATALOG-PROJECTION-AND-CONSUMPTION-CLI
+artifact: specs/archive/005-catalog-projection-and-consumption-cli/spec.md
+owner: Principal Architect
+authority: governance/archive/adr/ADR-0002-spec-kit-and-fail-closed-gates.md
+purpose: compilar los catalogos de gobierno como proyecciones verificables y exponer consumo read-only del conocimiento via CLI
+requirements:
+  - FR-001
+  - FR-002
+  - FR-003
+  - FR-004
+  - FR-005
+validation:
+  - tools/publishing/compile_catalogs.py
+  - tools/validation/claim_surface_check.py
+  - scripts/test.sh
+  - scripts/validate.sh

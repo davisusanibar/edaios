@@ -1,0 +1,1 @@
+{"schema":"edaios.feature-evidence/v1","criterion":"SC-007","status":"observed","tests":["test_working_memory.py","test_conformance_harness.py"],"limits":"local filesystem privacy boundary only"}

@@ -1,0 +1,1 @@
+{"schema":"edaios.feature-evidence/v1","criterion":"SC-002","status":"pending","tests":["scripts/test.sh","scripts/validate.sh"],"limits":"Recorded after implementation changes."}

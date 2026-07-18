@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/evidence-receipt/v2",
+  "title": "EDAIOS EvidenceReceipt v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "receipt_id", "initiative", "feature_run", "actor", "core_version", "policy", "base_commit", "head_commit", "evidence", "sensitivity", "exit_code", "verdict", "claim_boundary", "rollback", "approval", "recorded_at", "integrity"],
+  "properties": {
+    "schema": {"const": "edaios.evidence-receipt/v2"},
+    "receipt_id": {"type": "string", "pattern": "^EVR-[0-9a-f]{12}$"},
+    "initiative": {"type": "string", "pattern": "^[a-z][a-z0-9-]{2,63}$"},
+    "feature_run": {"type": "string", "minLength": 1},
+    "actor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "type"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "type": {"enum": ["human", "service", "agent"]}
+      }
+    },
+    "core_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version", "digest"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+        "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "base_commit": {"type": "string", "pattern": "^[0-9a-f]{7,64}$"},
+    "head_commit": {"type": "string", "pattern": "^[0-9a-f]{7,64}$"},
+    "evidence": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["path", "sha256", "size"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^(?!/)(?!.*\\.\\.)[A-Za-z0-9_.\\/-]+$"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "size": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "sensitivity": {"enum": ["T0", "T1", "T2", "T3"]},
+    "exit_code": {"type": "integer"},
+    "verdict": {"enum": ["passed", "failed", "blocked"]},
+    "claim_boundary": {"type": "string", "minLength": 1},
+    "rollback": {
+      "type": "object", "additionalProperties": false,
+      "required": ["target_ref", "steps", "verification"],
+      "properties": {
+        "target_ref": {"type": "string", "minLength": 1},
+        "steps": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "verification": {"type": "string", "minLength": 1}
+      }
+    },
+    "approval": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required", "roles"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "roles": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"}}
+      }
+    },
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "integrity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["algorithm", "payload_sha256", "claim"],
+      "properties": {
+        "algorithm": {"const": "SHA-256"},
+        "payload_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "claim": {"const": "local-integrity-only; not identity or non-repudiation"}
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "edaios.federation-mounts/v1",
+  "mounts": [
+    {
+      "namespace": "example.one",
+      "path": "/replace/with/initiative-one/corpus",
+      "authorized_root": "/replace/with/initiative-one",
+      "authority_layer": "Consumer",
+      "owner_actor_id": "OWNER-ONE",
+      "attachment": "/replace/with/initiative-one",
+      "manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "authority_registry_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "corpus_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "namespace": "example.two",
+      "path": "/replace/with/initiative-two/corpus",
+      "authorized_root": "/replace/with/initiative-two",
+      "authority_layer": "Consumer",
+      "owner_actor_id": "OWNER-TWO",
+      "attachment": "/replace/with/initiative-two",
+      "manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "authority_registry_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "corpus_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ]
+}

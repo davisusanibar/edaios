@@ -1,0 +1,23 @@
+{
+  "initiative-manifest": {"schema": "edaios.initiative-manifest/v1"},
+  "policy-profile": {"schema": "edaios.policy-profile/v1"},
+  "sensitivity-profile": {"schema": "edaios.sensitivity-profile/v1"},
+  "authority-registry": {"schema": "edaios.authority-registry/v1"},
+  "delegation-grant": {"schema": "edaios.delegation-grant/v1"},
+  "approval-receipt": {"schema": "edaios.approval-receipt/v1"},
+  "evidence-receipt": {"schema": "edaios.evidence-receipt/v2"},
+  "exception-record": {"schema": "edaios.exception-record/v1"},
+  "cli-output": {"schema": "edaios.cli-output/v1", "command": "kos.list", "status": "blocked"},
+  "federation-mounts": {"schema": "edaios.federation-mounts/v1", "mounts": []},
+  "core-release-candidate": {"schema": "edaios.core-release-candidate/v2"},
+  "core-release-state": {"schema": "edaios.core-release-state/v2", "status": "baseline", "active_candidate": {}},
+  "core-release-verification-report": {"schema": "edaios.core-release-verification-report/v1"},
+  "git-cutover-target": {"schema": "edaios.git-cutover-target/v1"},
+  "git-cutover-receipt": {"schema": "edaios.git-cutover-receipt/v1"},
+  "outcome": {"schema": "edaios.outcome/v1"},
+  "memory-record": {"schema": "edaios.memory-record/v1", "authoritative": true},
+  "memory-session-event": {"schema": "edaios.memory-session-event/v1", "evidence_status": "verified"},
+  "memory-conflict-candidate": {"schema": "edaios.memory-conflict-candidate/v1", "status": "resolved"},
+  "agent-setup-receipt": {"schema": "edaios.agent-setup-receipt/v1", "write_authorized": false},
+  "memory-cli-output": {"schema": "edaios.memory-cli-output/v1", "command": "memory.search", "status": "blocked"}
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "edaios.harness-registry/v2",
+  "version": "3.1.0",
+  "harnesses": [
+    {"id": "sdd-orchestrator", "purpose": "Resolver la siguiente fase sin ejecutarla.", "authority": "ADR-0002", "inputs": ["completed_phases"], "outputs": ["next_phase"], "invariants": ["coordinates-only", "human-authority"], "maturity": "enforced", "implementation": "next_phase"},
+    {"id": "request-router", "purpose": "Enrutar un tipo declarado sin inferir autoridad.", "authority": "ADR-0002", "inputs": ["intent", "declared_kind"], "outputs": ["route"], "invariants": ["explainable", "no-execution"], "maturity": "enforced", "implementation": "route_request"},
+    {"id": "phase-dag", "purpose": "Imponer orden y aciclicidad.", "authority": "ADR-0002", "inputs": ["phases"], "outputs": ["order"], "invariants": ["acyclic"], "maturity": "enforced", "implementation": "validate_phase_dag"},
+    {"id": "strict-tdd", "purpose": "Conservar red, green, triangulate y refactor.", "authority": "ADR-0002", "inputs": ["stages"], "outputs": ["evidence"], "invariants": ["tests-first"], "maturity": "enforced", "implementation": "strict_tdd"},
+    {"id": "artifact-store", "purpose": "Registrar artefacto, fuente y digest sin promoverlo.", "authority": "ADR-0003", "inputs": ["artifact", "source"], "outputs": ["record"], "invariants": ["git-authoritative"], "maturity": "enforced", "implementation": "store_artifact"},
+    {"id": "result-contract", "purpose": "Normalizar resultado, exit code y limites.", "authority": "ADR-0002", "inputs": ["result"], "outputs": ["verdict"], "invariants": ["typed-status"], "maturity": "enforced", "implementation": "normalize_result"},
+    {"id": "memory-port", "purpose": "Separar canon, working memory e indice derivado sin promocion.", "authority": "ADR-0011", "inputs": ["tier", "record"], "outputs": ["memory_policy"], "invariants": ["git-authoritative", "local-rebuildable", "no-auto-promotion"], "maturity": "enforced", "implementation": "memory_port"},
+    {"id": "permission-guard", "purpose": "Bloquear autoridad no delegada o expirada.", "authority": "ADR-0005", "inputs": ["request", "authority", "grants"], "outputs": ["permission"], "invariants": ["least-authority"], "maturity": "enforced", "implementation": "permission_guard"},
+    {"id": "human-acceptance", "purpose": "Verificar que la aceptacion proviene de una persona autorizada.", "authority": "ADR-0005", "inputs": ["approval_receipt"], "outputs": ["decision"], "invariants": ["human-only", "local-integrity-not-identity"], "maturity": "enforced", "implementation": "human_acceptance"},
+    {"id": "backup-rollback", "purpose": "Exigir una reversa completa antes de promocion.", "authority": "ADR-0005", "inputs": ["plan"], "outputs": ["rollback"], "invariants": ["fail-closed", "no-auto-apply"], "maturity": "enforced", "implementation": "backup_rollback"},
+    {"id": "telemetry", "purpose": "Registrar observacion sin convertirla en outcome.", "authority": "ADR-0005", "inputs": ["event"], "outputs": ["observation"], "invariants": ["no-value-inference"], "maturity": "enforced", "implementation": "telemetry"},
+    {"id": "command-wrapper", "purpose": "Normalizar argv, digests y exit code sin ejecutar.", "authority": "ADR-0002", "inputs": ["command_observation"], "outputs": ["result"], "invariants": ["exit-code-preserved", "no-execution"], "maturity": "enforced", "implementation": "command_wrapper"}
+  ]
+}

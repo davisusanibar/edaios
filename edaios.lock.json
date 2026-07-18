@@ -1,0 +1,19 @@
+{
+  "schema": "edaios.component-graph/v1",
+  "version": "3.1.0",
+  "component_authority": "ADR-0006",
+  "release_authority": "ADR-0013",
+  "release_policy": "private-local-conformance",
+  "components": [
+    {
+      "id": "edaios-core",
+      "role": "core",
+      "version": "3.1.0",
+      "source_path": "core",
+      "depends_on": [],
+      "profiles": ["core-release", "initiative-adoption", "federation"],
+      "publication": "not-performed",
+      "signature": "absent"
+    }
+  ]
+}

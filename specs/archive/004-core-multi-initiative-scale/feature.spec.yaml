@@ -1,0 +1,26 @@
+schema: edaios.sdd.feature/v1
+id: EDAIOS-CORE-MULTI-INITIATIVE-SCALE
+artifact: specs/archive/004-core-multi-initiative-scale/spec.md
+owner: Principal Architect
+authority: governance/archive/adr/ADR-0002-spec-kit-and-fail-closed-gates.md
+purpose: convertir Core Base en un kernel agnostico adoptable por multiples iniciativas mediante contratos, perfiles y evidencia ejecutables
+requirements:
+  - FR-001
+  - FR-002
+  - FR-003
+  - FR-004
+  - FR-005
+  - FR-006
+  - FR-007
+  - FR-008
+  - FR-009
+  - FR-010
+  - FR-011
+  - FR-012
+validation:
+  - tools/validation/spec_kit_gate.py
+  - tools/validation/kom_gate.py
+  - tools/validation/core_conformance_check.py
+  - tools/validation/core_distribution_check.py
+  - scripts/test.sh
+  - scripts/validate.sh

@@ -1,0 +1,14 @@
+schema: edaios.sdd.feature/v1
+id: EDAIOS-CORE-BASE-INITIAL
+artifact: specs/archive/001-core-base-initial/spec.md
+owner: Principal Architect
+authority: governance/ADR-0003-core-base-portability-and-git-memory.md
+purpose: cerrar EDAIOS Core Base 1.0.0 con la jerarquía Foundation-Core
+requirements: [FR-001, FR-002, FR-003, FR-004, FR-005]
+validation:
+  - tools/validation/spec_kit_gate.py
+  - tools/validation/baseline_surface_check.py
+  - tools/validation/core_distribution_check.py
+  - tools/validation/day_zero_demo_check.py
+  - scripts/test.sh
+  - scripts/validate.sh

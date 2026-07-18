@@ -1,0 +1,9 @@
+{
+  "schema": "edaios.conformance-profile/v1",
+  "id": "core-release",
+  "version": "3.1.0",
+  "parent": null,
+  "description": "Invariantes Foundation y Core sin exigir iniciativas instaladas.",
+  "controls": ["foundation-projection", "kom", "sdd-contract", "harness-enforcement", "contract-tests", "claim-surface", "reproducible-distribution", "local-working-memory"],
+  "claim_boundary": "Conformidad local del kernel; no adopcion ni operacion remota."
+}

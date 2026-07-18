@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/approval-receipt/v1",
+  "title": "EDAIOS ApprovalReceipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "receipt_id", "initiative", "feature_run", "actor", "authority_role", "evidence_receipt_digest", "approved_at", "verdict", "statement", "integrity"],
+  "properties": {
+    "schema": {"const": "edaios.approval-receipt/v1"},
+    "receipt_id": {"type": "string", "pattern": "^APR-[0-9a-f]{12}$"},
+    "initiative": {"type": "string", "pattern": "^[a-z][a-z0-9-]{2,63}$"},
+    "feature_run": {"type": "string", "minLength": 1},
+    "actor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "type"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "type": {"const": "human"}
+      }
+    },
+    "authority_role": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+    "evidence_receipt_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "approved_at": {"type": "string", "format": "date-time"},
+    "verdict": {"enum": ["accepted", "rejected"]},
+    "statement": {"type": "string", "minLength": 1},
+    "integrity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["algorithm", "payload_sha256", "claim"],
+      "properties": {
+        "algorithm": {"const": "SHA-256"},
+        "payload_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "claim": {"const": "local-integrity-only; not identity or non-repudiation"}
+      }
+    }
+  }
+}

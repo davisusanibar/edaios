@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/policy-profile/v1",
+  "title": "EDAIOS PolicyProfile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "version", "parent", "controls", "approval_required", "max_receipt_age_seconds", "allowed_sensitivity", "exceptions_allowed"],
+  "properties": {
+    "schema": {"const": "edaios.policy-profile/v1"},
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{2,63}$"},
+    "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "parent": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+    "controls": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "level"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+          "level": {"enum": ["required", "advisory"]}
+        }
+      }
+    },
+    "approval_required": {"type": "boolean"},
+    "max_receipt_age_seconds": {"type": "integer", "minimum": 1},
+    "allowed_sensitivity": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["T0", "T1", "T2", "T3"]}},
+    "exceptions_allowed": {"type": "boolean"}
+  }
+}

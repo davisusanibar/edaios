@@ -1,0 +1,14 @@
+{
+  "schema": "edaios.core-gates/v1",
+  "version": "3.1.0",
+  "profile_registry": "validation-profiles.json",
+  "gates": [
+    {"id": "CORE-CONFORMANCE", "scope": ["local", "ci"], "contract": "schemas, profiles, policies and twelve harnesses verified"},
+    {"id": "CLAIM-SURFACE", "scope": ["local", "ci"], "contract": "each claim resolves to artifacts, tests and an explicit boundary"},
+    {"id": "CORE-DISTRIBUTION", "scope": ["local", "ci"], "contract": "reproducible wheel, checksum, SBOM and local provenance verified"},
+    {"id": "SDD-TRACEABILITY", "scope": ["local", "ci"], "contract": "intent -> requirements -> plan -> tasks -> evidence"},
+    {"id": "STRICT-TDD", "scope": ["code", "ci"], "contract": "red -> green -> triangulate -> refactor"},
+    {"id": "HUMAN-VERDICT", "scope": ["promotion"], "contract": "authorized human approval before promotion"}
+  ],
+  "claim_boundary": "Core validates local contracts; it does not adopt an initiative or grant human authority."
+}

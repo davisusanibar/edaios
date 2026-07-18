@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/cli-output/v1",
+  "title": "EDAIOS CLI Output v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "command", "status", "claim_boundary"],
+  "properties": {
+    "schema": {"const": "edaios.cli-output/v1"},
+    "command": {"type": "string", "pattern": "^(?:kos|query)\\.(?:list|get|find|impact|neighborhood)$"},
+    "status": {"enum": ["ok", "blocked"]},
+    "claim_boundary": {"type": "string", "minLength": 1},
+    "result": {},
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+        "message": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

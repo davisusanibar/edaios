@@ -1,0 +1,22 @@
+schema: edaios.sdd.feature/v1
+id: EDAIOS-AGENT-WORKING-MEMORY-AND-DERIVED-INDEX
+artifact: specs/archive/007-agent-working-memory-and-derived-index/spec.md
+owner: Principal Architect
+authority: governance/ADR-0011-local-working-memory-and-derived-indexes.md
+purpose: añadir memoria operativa local, búsqueda derivada, conflictos pendientes, sesiones y onboarding sin mover la autoridad fuera de Git
+requirements:
+  - FR-001
+  - FR-002
+  - FR-003
+  - FR-004
+  - FR-005
+  - FR-006
+  - FR-007
+  - FR-008
+  - FR-009
+  - FR-010
+validation:
+  - scripts/test.sh
+  - scripts/validate.sh
+  - tools/validation/spec_kit_gate.py
+  - tools/validation/core_distribution_check.py

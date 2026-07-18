@@ -1,0 +1,15 @@
+{
+  "schema": "edaios.core-release-state/v2",
+  "component": "edaios-core",
+  "version": "3.1.0",
+  "status": "baseline",
+  "genealogy": {
+    "kind": "single-root",
+    "root_derivation": "unique-reachable-root",
+    "canonical_branch": "main"
+  },
+  "active_candidate": null,
+  "publication": "not-claimed",
+  "governing_adr": "ADR-0013",
+  "claim_boundary": "La raiz y su tree se derivan localmente de una genealogia unica; no equivalen a ancla externa, release sellada, firma, adopcion ni produccion."
+}

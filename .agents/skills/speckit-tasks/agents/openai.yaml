@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Kit Tasks"
+  short_description: "Genera tareas trazables a requisitos"
+  default_prompt: "Use $speckit-tasks para generar tareas trazables de la especificacion activa."

@@ -1,0 +1,32 @@
+{
+  "schema": "edaios.artifact-grammar/v1",
+  "version": "3.1.0",
+  "identity_patterns": {
+    "Intent": "INT-[0-9]{4}",
+    "WorkRequest": "REQUEST-[0-9]{4}",
+    "FeatureSpec": "SPEC-[0-9]{4}",
+    "ADR": "ADR-[0-9]{4}",
+    "RFC": "RFC-[0-9]{4}",
+    "Plan": "PLAN-[0-9]{4}",
+    "Task": "TASK-[0-9]{4}",
+    "Delegation": "DLG-[0-9]{4}",
+    "TestEvidence": "TEST-[0-9]{4}",
+    "PhaseResult": "RESULT-[0-9]{4}",
+    "ArtifactRecord": "ART-[0-9]{4}",
+    "MemoryRecord": "MEM-[0-9]{4}",
+    "RollbackPlan": "ROLLBACK-[0-9]{4}",
+    "ArchiveManifest": "ARCHIVE-[0-9]{4}",
+    "TelemetryEvent": "EVENT-[0-9]{4}",
+    "Outcome": "OUT-[0-9]{4}"
+  },
+  "invariants": [
+    "stable-identity",
+    "resolvable-relation-or-digested-uri",
+    "candidate-is-not-accepted",
+    "artifact-path-and-sha256",
+    "human-gate-requires-human",
+    "accepted-memory-requires-source-and-commit",
+    "archive-never-deletes-evidence"
+  ],
+  "claim_boundary": "Grammar validates representation; it does not accept content or prove identity."
+}

@@ -1,0 +1,13 @@
+schema: edaios.extension/v1
+id: REEMPLAZAR
+owner: REQUERIDO
+value_owner: REQUERIDO
+sensitivity: T0
+authority: REQUERIDA
+depends_on:
+  - edaios-core
+sources: []
+human_signature:
+  actor: REQUERIDO
+  date: REQUERIDA
+status: draft

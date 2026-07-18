@@ -1,0 +1,47 @@
+{
+  "schema": "edaios.core-export/v1",
+  "name": "EDAIOS Core",
+  "version": "3.1.0",
+  "component_authority": "ADR-0006",
+  "release_authority": "ADR-0013",
+  "root_directory": "edaios-core-3.1.0",
+  "files": [
+    {"source": "VERSION", "target": "VERSION"},
+    {"source": "edaios.lock.json", "target": "edaios.lock.json"},
+    {"source": "repositories.json", "target": "repositories.json"},
+    {"source": ".specify/release.json", "target": ".specify/release.json"},
+    {"source": "core/framework/README.md", "target": "README.md"},
+    {"source": "core/framework/AGENTS.md", "target": "AGENTS.md"},
+    {"source": "core/framework/README.md", "target": "core/framework/README.md"},
+    {"source": "core/framework/AGENTS.md", "target": "core/framework/AGENTS.md"},
+    {"source": "core/framework/LICENSE", "target": "core/framework/LICENSE"},
+    {"source": "core/framework/CHANGELOG.md", "target": "core/framework/CHANGELOG.md"},
+    {"source": "core/framework/pyproject.toml", "target": "core/framework/pyproject.toml"},
+    {"source": "core/framework/edaios_build_backend.py", "target": "core/framework/edaios_build_backend.py"},
+    {"source": "core/framework/core/export-manifest.json", "target": "core/framework/core/export-manifest.json"},
+    {"source": "docs/agent-working-memory.md", "target": "core/framework/core/docs/AGENT_WORKING_MEMORY.md"}
+  ],
+  "trees": [
+    {"source": "core/foundation", "target": "core/foundation", "include": ["**/*.md"]},
+    {"source": "governance", "target": "governance", "include": ["**/*.md"]},
+    {"source": "core/framework/core/docs", "target": "core/framework/core/docs", "include": ["**/*.md"]},
+    {"source": "core/framework/core/profiles", "target": "core/framework/core/profiles", "include": ["**/*"]},
+    {"source": "core/framework/core/templates", "target": "core/framework/core/templates", "include": ["**/*"]},
+    {"source": "core/framework/docs/patterns", "target": "core/framework/docs/patterns", "include": ["**/*.md"]},
+    {"source": "core/framework/docs/playbooks", "target": "core/framework/docs/playbooks", "include": ["**/*.md"]},
+    {"source": "core/framework/templates", "target": "core/framework/templates", "include": ["**/*"]},
+    {"source": "core/framework/extensions/sdd-adapter", "target": "core/framework/extensions/sdd-adapter", "include": ["**/*"]},
+    {"source": "core/framework/extensions/memory-adapter", "target": "core/framework/extensions/memory-adapter", "include": ["**/*"]}
+  ],
+  "python_source_roots": [
+    "core/framework/modules/ess-core",
+    "core/framework/modules/harness-core",
+    "core/framework/modules/ekg-core",
+    "core/framework/modules/query-engine",
+    "core/framework/modules/sdk-consumption",
+    "core/framework/modules/conformance-core",
+    "core/framework/modules/supply-chain-core",
+    "core/framework/extensions/sdd-adapter",
+    "core/framework/extensions/memory-adapter"
+  ]
+}

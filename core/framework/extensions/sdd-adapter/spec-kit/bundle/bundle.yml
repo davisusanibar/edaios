@@ -1,0 +1,30 @@
+schema_version: "1.0"
+bundle:
+  id: "edaios-core-governed-delivery"
+  name: "EDAIOS Core Governed Delivery"
+  version: "3.1.0"
+  role: "knowledge-governance"
+  description: "Preset, gate y workflow Spec Kit agnosticos para iniciativas gobernadas"
+  author: "EDAIOS"
+  license: "MIT"
+requires:
+  speckit_version: ">=0.12.11"
+provides:
+  presets:
+    - id: "edaios-governed-delivery"
+      version: "3.1.0"
+      source: "../preset"
+      priority: 5
+      strategy: "replace"
+  extensions:
+    - id: "edaios-governance"
+      version: "3.1.0"
+      source: "../extension"
+  workflows:
+    - id: "edaios-delivery"
+      version: "3.1.0"
+      source: "../workflow/edaios-delivery.yml"
+tags:
+  - "edaios"
+  - "multi-initiative"
+  - "governed-delivery"

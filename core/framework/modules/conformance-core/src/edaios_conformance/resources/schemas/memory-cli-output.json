@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/memory-cli-output/v1",
+  "title": "EDAIOS Memory and Setup CLI Output v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "command", "status", "claim_boundary"],
+  "properties": {
+    "schema": {"const": "edaios.memory-cli-output/v1"},
+    "command": {"type": "string", "pattern": "^(?:memory\\.(?:doctor|save|search|context|session-start|session-event|session-end|timeline|conflicts|index-rebuild|index-status|index-search)|agent-setup\\.(?:plan|apply|verify|rollback))$"},
+    "status": {"enum": ["ok", "blocked"]},
+    "claim_boundary": {"type": "string", "minLength": 1},
+    "result": {},
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+        "message": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

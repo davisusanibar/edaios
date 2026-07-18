@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/agent-setup-receipt/v1",
+  "title": "EDAIOS Agent Setup Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "receipt_id", "surface", "target", "target_existed", "before_digest", "after_digest", "integration_lock_digest", "backup", "status", "project_local", "write_authorized", "claim_boundary", "integrity"],
+  "properties": {
+    "schema": {"const": "edaios.agent-setup-receipt/v1"},
+    "receipt_id": {"type": "string", "pattern": "^SETUP-[0-9A-F]{24}$"},
+    "surface": {"enum": ["codex", "claude-code", "copilot"]},
+    "target": {"type": "string", "minLength": 1},
+    "target_existed": {"type": "boolean"},
+    "before_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "after_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "integration_lock_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "backup": {"type": "string", "pattern": "^\\.edaios/agent-setup/backups/.+/original\\.bin$"},
+    "status": {"const": "applied"},
+    "project_local": {"const": true},
+    "write_authorized": {"const": true},
+    "claim_boundary": {"type": "string", "minLength": 1},
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "payload_sha256", "claim"],
+      "properties": {
+        "algorithm": {"const": "SHA-256"},
+        "payload_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "claim": {"const": "local-integrity-only; not identity or non-repudiation"}
+      }
+    }
+  }
+}

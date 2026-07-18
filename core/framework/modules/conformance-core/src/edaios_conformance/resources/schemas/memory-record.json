@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/memory-record/v1",
+  "title": "EDAIOS Local Working Memory Record v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "record_id", "project", "subject", "claim", "value", "record_type", "sensitivity", "session_id", "source_ref", "source_digest", "content_digest", "created_at", "provider", "provider_version", "channel", "authoritative", "rebuildable", "claim_boundary"],
+  "properties": {
+    "schema": {"const": "edaios.memory-record/v1"},
+    "record_id": {"type": "string", "pattern": "^MEM-[0-9A-F]{24}$"},
+    "project": {"type": "string", "minLength": 1},
+    "subject": {"type": "string", "minLength": 1},
+    "claim": {"type": "string", "minLength": 1},
+    "value": {"type": "string", "minLength": 1},
+    "record_type": {"type": "string", "minLength": 1},
+    "sensitivity": {"enum": ["T0", "T1", "T2", "T3"]},
+    "session_id": {"type": ["string", "null"]},
+    "source_ref": {"type": "string", "minLength": 1},
+    "source_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "content_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "provider": {"type": "string", "minLength": 1},
+    "provider_version": {"type": "string", "minLength": 1},
+    "channel": {"const": "local-working"},
+    "authoritative": {"const": false},
+    "rebuildable": {"const": true},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}

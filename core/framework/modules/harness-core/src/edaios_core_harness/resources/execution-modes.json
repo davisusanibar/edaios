@@ -1,0 +1,9 @@
+{
+  "schema": "edaios.execution-modes/v1",
+  "version": "1.0.0",
+  "modes": {
+    "fast": {"publish_allowed": false, "invariants": ["traceability", "human-authority", "validation"]},
+    "standard": {"publish_allowed": false, "invariants": ["traceability", "human-authority", "validation"]},
+    "controlled": {"publish_allowed": false, "invariants": ["traceability", "human-authority", "validation"]}
+  }
+}

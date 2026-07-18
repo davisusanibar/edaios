@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/core-release-candidate/v2",
+  "title": "EDAIOS CoreReleaseCandidate v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "component", "version", "status", "base_head", "base_tree", "branch", "governed_inputs", "artifacts", "validation_commands", "final_seal", "claim_boundary"],
+  "properties": {
+    "schema": {"const": "edaios.core-release-candidate/v2"},
+    "component": {"const": "edaios-core"},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "status": {"const": "prepared"},
+    "base_head": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "base_tree": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "branch": {"type": ["string", "null"]},
+    "governed_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "algorithm", "digest", "file_count", "deleted_count", "scope", "excluded"],
+      "properties": {
+        "schema": {"const": "edaios.governed-inputs/v1"},
+        "algorithm": {"const": "SHA-256"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "file_count": {"type": "integer", "minimum": 1},
+        "deleted_count": {"type": "integer", "minimum": 0},
+        "scope": {"type": "string", "minLength": 1},
+        "excluded": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "digest", "items"],
+      "properties": {
+        "schema": {"const": "edaios.release-artifacts/v1"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "name", "sha256", "size"],
+            "properties": {
+              "kind": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+              "name": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "size": {"type": "integer", "minimum": 0}
+            }
+          }
+        }
+      }
+    },
+    "validation_commands": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "final_seal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "requirements", "present"],
+      "properties": {
+        "required": {"const": true},
+        "requirements": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"}},
+        "present": {"const": false}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}

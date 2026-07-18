@@ -1,0 +1,69 @@
+{
+  "schema": "edaios.governance-grammar/v1",
+  "version": "1.0.0",
+  "id_patterns": {
+    "ADR": "^ADR-[0-9]{4}$",
+    "RFC": "^RFC-[0-9]{4}$",
+    "KO": "^(?:KO-[A-Z0-9][A-Z0-9-]*|ART-[0-9]{3}|PAT-[0-9]{3}|PLB-[0-9]{3})$",
+    "feature": "^EDAIOS-[A-Z0-9][A-Z0-9-]*$",
+    "requirement": "^FR-[0-9]{3}$",
+    "success_criterion": "^SC-[0-9]{3}$",
+    "task": "^T[0-9]{3}$"
+  },
+  "ko_lifecycle": [
+    "Borrador",
+    "Propuesto",
+    "Ratificado",
+    "Derogado"
+  ],
+  "lifecycle_transitions": {
+    "Borrador": ["Borrador", "Propuesto"],
+    "Propuesto": ["Propuesto", "Ratificado"],
+    "Ratificado": ["Ratificado", "Derogado"],
+    "Derogado": ["Derogado"]
+  },
+  "state_mappings": {
+    "KO": {
+      "Borrador": "Borrador",
+      "Propuesto": "Propuesto",
+      "Ratificado": "Ratificado",
+      "Derogado": "Derogado"
+    },
+    "ADR": {
+      "Propuesto": "Propuesto",
+      "Aceptado": "Ratificado",
+      "Derogado": "Derogado"
+    },
+    "RFC": {
+      "Borrador": "Borrador",
+      "Propuesto": "Propuesto",
+      "Ratificado": "Ratificado",
+      "Rechazado": "Derogado",
+      "Derogado": "Derogado"
+    },
+    "Feature": {
+      "Borrador": "Borrador",
+      "Propuesto": "Propuesto",
+      "Cerrado": "Ratificado"
+    }
+  },
+  "authority_order": ["Foundation", "Core", "Consumer"],
+  "authority_aliases": {
+    "Framework": "Core"
+  },
+  "root_authorities": ["Foundation"],
+  "relations": {
+    "derives_from": {"domain": ["KO"], "range": ["KO"]},
+    "governs": {"domain": ["Foundation", "Core"], "range": ["KO"]},
+    "consumes": {"domain": ["Consumer"], "range": ["Core"]},
+    "implements": {"domain": ["KO"], "range": ["Feature", "ADR"]},
+    "verified_by": {"domain": ["KO"], "range": ["Gate", "Evidence"]},
+    "decides": {"domain": ["ADR"], "range": ["KO"]},
+    "resolves": {"domain": ["ADR"], "range": ["RFC"]},
+    "supersedes": {"domain": ["KO"], "range": ["KO"]},
+    "projects": {"domain": ["DerivedView"], "range": ["KO"]},
+    "references": {"domain": ["KO"], "range": ["KO"]},
+    "validates": {"domain": ["Gate"], "range": ["KO"]},
+    "represents": {"domain": ["DerivedView"], "range": ["KO"]}
+  }
+}

@@ -1,0 +1,19 @@
+# Espec de contenido — <nombre de la lámina/artefacto>.
+# Puerta: tools/validation/artifact_spec_check.py (falla el build si no se cumple).
+# Intent original: <ruta al ledger del proyecto> (YYYY-MM-DD).
+# Reglas duras del proyecto que esta spec hace cumplir: <p.ej. cero cifras sin
+# fuente; benchmarks rotulados; afirmaciones retiradas como must_not_contain>.
+artifact: <archivo>.svg
+session: "YYYY-MM-DD"
+ledger: <ruta al PROMPT_LEDGER del proyecto>
+intent: >
+  <Resumen del propósito vigente del artefacto: qué comunica, a quién, con qué
+  restricciones. Se actualiza con nota vN cuando el owner pide cambios.>
+renders:
+  - <ruta a cada archivo que renderiza este contenido (deck-*.js, etc.)>
+sources:
+  - <ADRs/registros que sustentan cada afirmación del artefacto>
+must_contain:
+  - "<string-ley: presente en el artefacto Y en cada render>"
+must_not_contain:
+  - "<afirmación retirada: prohibida file-wide en artefacto y renders>"

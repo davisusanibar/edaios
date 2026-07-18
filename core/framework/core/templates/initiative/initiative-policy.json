@@ -1,0 +1,15 @@
+{
+  "schema": "edaios.policy-profile/v1",
+  "id": "example-t0-policy",
+  "version": "1.0.0",
+  "parent": "initiative-adoption",
+  "controls": [
+    {"id": "traceability", "level": "required"},
+    {"id": "human-authority", "level": "required"},
+    {"id": "evidence-integrity", "level": "required"}
+  ],
+  "approval_required": true,
+  "max_receipt_age_seconds": 86400,
+  "allowed_sensitivity": ["T0"],
+  "exceptions_allowed": false
+}

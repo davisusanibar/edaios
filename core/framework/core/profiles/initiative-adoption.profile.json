@@ -1,0 +1,9 @@
+{
+  "schema": "edaios.conformance-profile/v1",
+  "id": "initiative-adoption",
+  "version": "3.1.0",
+  "parent": "core-release",
+  "description": "Agrega attachment, autoridad, sensibilidad, politicas y evidencia de una iniciativa.",
+  "controls": ["initiative-manifest", "authority-registry", "sensitivity-profile", "monotonic-policy", "delegated-permissions", "evidence-receipt-v2", "human-approval"],
+  "claim_boundary": "Valida un attachment local; no lo registra ni acepta por una persona."
+}

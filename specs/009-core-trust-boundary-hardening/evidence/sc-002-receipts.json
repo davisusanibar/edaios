@@ -1,0 +1,1 @@
+{"schema":"edaios.feature-evidence/v1","criterion":"SC-002","status":"observed","tests":["test_conformance_harness.py"],"limits":"local receipt verification only"}

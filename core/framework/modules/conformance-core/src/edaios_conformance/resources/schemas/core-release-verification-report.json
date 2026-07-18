@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edaios.local/schemas/core-release-verification-report/v1",
+  "title": "EDAIOS CoreReleaseVerificationReport v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "status", "candidate_status", "readiness", "verification_mode", "provider_live_verified", "version", "base_head", "base_tree", "current_head", "governed_inputs_sha256", "release_artifacts_sha256", "governed_worktree_clean", "full_worktree_clean", "receipts", "target", "cutover", "claim_boundary"],
+  "properties": {
+    "schema": {"const": "edaios.core-release-verification-report/v1"},
+    "status": {"enum": ["valid", "locally-approved", "sealed-by-authorized-observation"]},
+    "candidate_status": {"const": "prepared"},
+    "readiness": {"enum": ["prepared", "ready-for-approval"]},
+    "verification_mode": {"enum": ["local-validation", "authorized-observation"]},
+    "provider_live_verified": {"const": false},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "base_head": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "base_tree": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "current_head": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "governed_inputs_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "release_artifacts_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "governed_worktree_clean": {"type": "boolean"},
+    "full_worktree_clean": {"type": "boolean"},
+    "receipts": {"type": ["object", "null"]},
+    "target": {"type": ["object", "null"]},
+    "cutover": {"type": ["object", "null"]},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}
