@@ -715,6 +715,46 @@ class AdversarialReviewTests(unittest.TestCase):
         self.assertNotRegex(output, r"\[FAIL\].*findings")
         self.assertNotRegex(output, r"\[FAIL\].*hallazgo")
 
+    def test_pin_de_spec_malformado_u_obsoleto_falla(self) -> None:
+        # Endurecimiento specs/017 (FR-001): el escape real fue una huella de
+        # 62 hex que vivió en una spec sin que ningún check la mirara.
+        base = self._feature_root(findings=None, schema="edaios.sdd.feature/v2")
+        spec = base / "specs/900-fixture/spec.md"
+        text = spec.read_text(encoding="utf-8")
+        spec.write_text(
+            text + "\n## Constitution Check\n\nConstitucion verificada: sha256:"
+            + "a" * 62 + "\n",
+            encoding="utf-8",
+        )
+        output = self._gate_output(base)
+        self.assertRegex(
+            output, r"\[FAIL\].*pin de la constitucion en spec con formato completo"
+        )
+        stale = self._feature_root(findings=None, schema="edaios.sdd.feature/v2")
+        spec = stale / "specs/900-fixture/spec.md"
+        text = spec.read_text(encoding="utf-8")
+        spec.write_text(
+            text + "\n## Constitution Check\n\nConstitucion verificada: sha256:"
+            + "b" * 64 + "\n",
+            encoding="utf-8",
+        )
+        output = self._gate_output(stale)
+        self.assertRegex(output, r"\[FAIL\].*pin vigente de la constitucion en spec")
+        # RA-001 (review 017): la variante en negrita — el estilo de la casa —
+        # también dispara el contrato; una huella de 62 hex no lo satisface.
+        bold = self._feature_root(findings=None, schema="edaios.sdd.feature/v2")
+        spec = bold / "specs/900-fixture/spec.md"
+        text = spec.read_text(encoding="utf-8")
+        spec.write_text(
+            text + "\n## Constitution Check\n\n**Constitucion verificada:** sha256:"
+            + "c" * 62 + "\n",
+            encoding="utf-8",
+        )
+        output = self._gate_output(bold)
+        self.assertRegex(
+            output, r"\[FAIL\].*pin de la constitucion en spec con formato completo"
+        )
+
     def test_checker_de_calidad_falla_cerrado(self) -> None:
         tmp = Path(tempfile.mkdtemp(prefix="edaios-quality-"))
         self.addCleanup(__import__("shutil").rmtree, tmp, ignore_errors=True)

@@ -1,6 +1,6 @@
 # CURRENT_STATE — Core 3.1.0 baseline day-zero
 
-**Estado:** baseline portable instalado; feature 010 cerrada; programa sin foco activo
+**Estado:** baseline portable instalado; feature 017 cerrada; programa sin foco activo
 **Versión:** 3.1.0
 **Fecha:** 2026-08-01
 
@@ -19,10 +19,11 @@
   enmienda la cláusula de hogar de ADR-0013 y autoriza la superficie de CI
   remota en `.github/workflows/`). La superficie Bitbucket se conserva como
   secundaria mientras el espejo exista.
-- La última feature cerrada es `specs/010-historical-archive-reorganization`
-  (superficie diaria curada: en `specs/` viven solo lo abierto y la última
-  cerrada; los quince cierres anteriores viven bajo `specs/archive/` con
-  índice viejo→nuevo en `governance/ARCHIVE_INDEX.md`). El handoff conserva
+- La última feature cerrada es `specs/017-endurecimientos-de-revision`
+  (contrato de pin también en specs y superficie diaria doble: cada escape
+  encontrado por la revisión adversarial muere como clase). Cierre previo:
+  `specs/archive/010-historical-archive-reorganization` (superficie curada
+  con índice viejo→nuevo en `governance/ARCHIVE_INDEX.md`). El handoff conserva
   baseline 004 y foco activo nulo hasta que el owner seleccione el siguiente
   foco canónico.
 - La dirección RFC-0003 (adopciones gentle-ai y práctica multi-agente) está

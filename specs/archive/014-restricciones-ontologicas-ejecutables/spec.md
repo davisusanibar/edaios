@@ -75,6 +75,6 @@ el gate KOM (acoplamiento deliberado).
 
 ## Constitution Check
 
-Constitucion verificada: `.specify/memory/constitution.md` sha256 `45af1fa889fb66e86198a80205cbc3f5da35d8e97f286bec4039386c2fbbdc86`.
+Constitucion verificada: `.specify/memory/constitution.md` sha256:45af1fa889fb66e86198a80205cbc3f5da35d8e97f286bec4039386c2fbbdc86.
 
 I PASS · II PASS · III PASS · IV PASS · V PASS · VI PASS · VII PASS.

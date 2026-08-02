@@ -13,6 +13,7 @@ import json
 import os
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 
@@ -540,6 +541,33 @@ def validate_feature(root: Path, feature: Path, results: Results, structural: bo
     results.check(value_ok, f"{tag}: vinculo de valor explicito", value_ref)
     hypothesis = str(meta["hipotesis_valor"]).strip()
     results.check(len(hypothesis) >= 12 and hypothesis.upper() != "TBD", f"{tag}: hipotesis de valor")
+
+    # Endurecimiento specs/017 (FR-001): el pin de la constitucion en spec.md,
+    # cuando existe, cumple el contrato del plan — formato completo y frescura.
+    # El disparador es laxo a propósito (negritas, sangría, espacios, NFD):
+    # cualquier variante que un lector acepte como "la línea existe" activa el
+    # contrato estricto; solo la forma canónica lo satisface (RA-001, review 017).
+    # Los fences son ejemplos, no declaraciones — mismo ámbito que el plan
+    # (RA-007, review 017).
+    normalized_body = unicodedata.normalize("NFC", strip_fences(body))
+    if re.search(
+        r"^\s*\**Constituci[oó]n verificada\s*:", normalized_body, re.MULTILINE
+    ):
+        spec_pins = PIN_LINE.findall(normalized_body)
+        results.check(
+            len(spec_pins) == 1,
+            f"{tag}: pin de la constitucion en spec con formato completo",
+            f"{len(spec_pins)} lineas conformes (se exige sha256 de 64 hex)"
+            if len(spec_pins) != 1 else "",
+        )
+        if len(spec_pins) == 1:
+            current = constitution_fingerprint(root)
+            results.check(
+                bool(current) and spec_pins[0] == current,
+                f"{tag}: pin vigente de la constitucion en spec",
+                "" if spec_pins[0] == (current or "") else
+                "obsoleto o ilegible: re-valida el check y actualiza el pin de la spec",
+            )
 
     requirements = set(re.findall(r"\bFR-\d{3}\b", body))
     success = set(re.findall(r"\bSC-\d{3}\b", body))

@@ -233,13 +233,72 @@ def validate_features(root: Path, errors: list[str]) -> int:
     return count
 
 
+def _feature_state(root: Path, number: str) -> tuple[int, str | None]:
+    """(candidatos, estado) de la feature NNN; estado solo con resolución única."""
+    candidates = sorted(root.glob(f"specs/{number}-*/spec.md")) or sorted(
+        root.glob(f"specs/archive/{number}-*/spec.md")
+    )
+    if len(candidates) != 1:
+        return len(candidates), None
+    state = re.search(
+        r"^estado:\s*(.+)$", candidates[0].read_text(encoding="utf-8"), re.MULTILINE
+    )
+    return 1, (state.group(1).strip() if state else "")
+
+
+def _surface_file_checks(root: Path, label: str, text: str, errors: list[str]) -> None:
+    """Contratos deterministas por archivo de superficie (specs/011 y specs/017).
+
+    Todo el texto se normaliza (whitespace colapsado) ANTES de aplicar los
+    contratos: el formato nativo envuelve oraciones a ~78 columnas y un salto
+    de línea no puede cortar la asociación número↔cláusula (RA-001, review 017).
+    """
+    text = re.sub(r"\s+", " ", text)
+    for mention in set(re.findall(r"\bspecs/(?:archive/)?[0-9]{3}-[a-z0-9-]+", text)):
+        if not (root / mention / "spec.md").is_file():
+            errors.append(f"{label} menciona feature no resoluble: {mention}")
+    # Reclamo de cierre: el adjetivo "cerrad*" debe seguir al número dentro de
+    # la misma cláusula (sin puntuación intermedia); así "feature 009 cerrada;
+    # feature 010 propuesta" solo reclama el cierre de 009.
+    closure_claim = re.compile(
+        r"\bfeatures?\s+([0-9]{3})\b[^.,;:]{0,40}?\bcerrad", re.IGNORECASE
+    )
+    for number in closure_claim.findall(text):
+        count, state = _feature_state(root, number)
+        if count != 1:
+            errors.append(f"{label} reclama cierre de feature no resoluble: {number}")
+        elif state != "Cerrado":
+            errors.append(f"{label} reclama como cerrada una feature no cerrada: {number}")
+    # Endurecimiento specs/017 (FR-002): una feature Cerrada no figura en una
+    # oración de cola o ejecución. El texto envuelto se normaliza y el límite de
+    # oración es punto seguido de espacio o fin (RA-002, review 017: `.md` y
+    # semver no cortan la asociación). Números de 3 dígitos sin prefijo con
+    # guion (excluye VL-001); un prefijo numérico ambiguo falla cerrado
+    # (RA-003). Limitación documentada: una lista numerada tras la frase corta
+    # el ámbito en cada marcador de ítem.
+    for sentence in re.split(r"\.(?:\s+|$)", text):
+        if not re.search(r"\ben\s+(?:cola|ejecuci[oó]n)\b", sentence, re.IGNORECASE):
+            continue
+        for number in re.findall(r"(?<!-)\b([0-9]{3})\b", sentence):
+            count, state = _feature_state(root, number)
+            if count > 1:
+                errors.append(
+                    f"{label}: prefijo numérico de feature ambiguo ({count} candidatos): {number}"
+                )
+            elif state == "Cerrado":
+                errors.append(
+                    f"{label} declara en cola o en ejecución una feature cerrada: {number}"
+                )
+
+
 def validate_program_surface(root: Path, errors: list[str]) -> None:
-    """La superficie diaria no puede contradecir el handoff canónico (FR-004, specs/011).
+    """La superficie diaria no contradice el handoff (FR-004 specs/011; FR-002 specs/017).
 
     Contrato determinista: CURRENT_STATE.md cita el directorio literal de la
-    última feature cerrada y la VERSION vigente; toda ruta de feature mencionada
-    resuelve; y una feature reclamada como cerrada tiene `estado: Cerrado` en su
-    spec. La narrativa autorada restante es territorio humano.
+    última feature cerrada y la VERSION vigente; en CURRENT_STATE y
+    NEXT_ITERATION toda ruta mencionada resuelve, ningún reclamo de cierre
+    contradice el estado real y ninguna feature cerrada figura en cola. La
+    narrativa autorada restante es territorio humano.
     """
     surface_path = root / "program-office/context/CURRENT_STATE.md"
     text = surface_path.read_text(encoding="utf-8")
@@ -253,28 +312,11 @@ def validate_program_surface(root: Path, errors: list[str]) -> None:
     version = (root / "VERSION").read_text(encoding="utf-8").strip()
     if version not in text:
         errors.append(f"superficie diaria no cita la VERSION vigente: {version}")
-    for mention in set(re.findall(r"\bspecs/(?:archive/)?[0-9]{3}-[a-z0-9-]+", text)):
-        if not (root / mention / "spec.md").is_file():
-            errors.append(f"superficie diaria menciona feature no resoluble: {mention}")
-    # Reclamo de cierre: el adjetivo "cerrad*" debe seguir al número dentro de
-    # la misma cláusula (sin puntuación intermedia); así "feature 009 cerrada;
-    # feature 010 propuesta" solo reclama el cierre de 009.
-    closure_claim = re.compile(
-        r"\bfeatures?\s+([0-9]{3})\b[^.,;:\n]{0,40}?\bcerrad", re.IGNORECASE
+    _surface_file_checks(root, "superficie diaria", text, errors)
+    next_iteration = root / "program-office/context/NEXT_ITERATION.md"
+    _surface_file_checks(
+        root, "NEXT_ITERATION", next_iteration.read_text(encoding="utf-8"), errors
     )
-    for number in closure_claim.findall(text):
-        candidates = sorted(root.glob(f"specs/{number}-*/spec.md")) or sorted(
-            root.glob(f"specs/archive/{number}-*/spec.md")
-        )
-        if len(candidates) != 1:
-            errors.append(f"superficie diaria reclama cierre de feature no resoluble: {number}")
-            continue
-        spec_text = candidates[0].read_text(encoding="utf-8")
-        state = re.search(r"^estado:\s*(.+)$", spec_text, re.MULTILINE)
-        if state is None or state.group(1).strip() != "Cerrado":
-            errors.append(
-                f"superficie diaria reclama como cerrada una feature no cerrada: {number}"
-            )
 
 
 def validate_component_graph(root: Path, accepted_adrs: set[str], errors: list[str]) -> str:

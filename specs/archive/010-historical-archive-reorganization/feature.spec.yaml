@@ -1,6 +1,6 @@
 schema: edaios.sdd.feature/v3
 id: EDAIOS-HISTORICAL-ARCHIVE-REORGANIZATION
-artifact: specs/010-historical-archive-reorganization/spec.md
+artifact: specs/archive/010-historical-archive-reorganization/spec.md
 owner: Principal Architect
 authority: governance/ADR-0014-core-trust-boundary-hardening.md
 purpose: reducir carga cognitiva sin perder trazabilidad

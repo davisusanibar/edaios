@@ -33,6 +33,7 @@ es una lista congelada (specs/010, FR-001/FR-003).
 | 007-agent-working-memory-and-derived-index | ADR-0011 | `specs/007-agent-working-memory-and-derived-index` | `specs/archive/007-agent-working-memory-and-derived-index` |
 | 008-core-baseline-normalization | ADR-0013 | `specs/008-core-baseline-normalization` | `specs/archive/008-core-baseline-normalization` |
 | 009-core-trust-boundary-hardening | ADR-0014 | `specs/009-core-trust-boundary-hardening` | `specs/archive/009-core-trust-boundary-hardening` |
+| 010-historical-archive-reorganization | ADR-0014 | `specs/010-historical-archive-reorganization` | `specs/archive/010-historical-archive-reorganization` |
 | 011-ci-remota-y-estado-vigente | ADR-0017 | `specs/011-ci-remota-y-estado-vigente` | `specs/archive/011-ci-remota-y-estado-vigente` |
 | 012-cierre-de-contratos-resolubles | ADR-0018 | `specs/012-cierre-de-contratos-resolubles` | `specs/archive/012-cierre-de-contratos-resolubles` |
 | 013-sdd-status-maquina | ADR-0002 | `specs/013-sdd-status-maquina` | `specs/archive/013-sdd-status-maquina` |

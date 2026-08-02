@@ -5,8 +5,8 @@
     "feature_directory": "specs/archive/004-core-multi-initiative-scale"
   },
   "last_closed_feature": {
-    "id": "EDAIOS-HISTORICAL-ARCHIVE-REORGANIZATION",
-    "feature_directory": "specs/010-historical-archive-reorganization"
+    "id": "EDAIOS-ENDURECIMIENTOS-DE-REVISION",
+    "feature_directory": "specs/017-endurecimientos-de-revision"
   },
   "active_feature": null
 }

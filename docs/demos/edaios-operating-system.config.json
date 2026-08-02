@@ -67,9 +67,9 @@
         "meaning": "Hace portable el baseline completo: el gate deriva una única raíz desde el grafo Git, publica sus hashes solo como evidencia posterior y conserva la política de release para candidatos futuros."
       },
       "feature": {
-        "id": "EDAIOS-HISTORICAL-ARCHIVE-REORGANIZATION",
-        "path": "specs/010-historical-archive-reorganization/",
-        "meaning": "La feature 010 cura la superficie diaria: en specs/ viven solo lo abierto y la última cerrada; todo cierre anterior vive en specs/archive/ con índice viejo→nuevo y frontmatter reescrito; nada pierde autoridad ni historial."
+        "id": "EDAIOS-ENDURECIMIENTOS-DE-REVISION",
+        "path": "specs/017-endurecimientos-de-revision/",
+        "meaning": "La feature 017 convierte en código los endurecimientos anotados por la revisión adversarial: contrato de pin también en specs y superficie diaria doble con normalización — cada escape encontrado muere como clase, no como instancia."
       },
       "lineage": {
         "baseline_feature": {
@@ -77,8 +77,8 @@
           "path": "specs/archive/004-core-multi-initiative-scale/"
         },
         "last_closed_feature": {
-          "id": "EDAIOS-HISTORICAL-ARCHIVE-REORGANIZATION",
-          "path": "specs/010-historical-archive-reorganization/"
+          "id": "EDAIOS-ENDURECIMIENTOS-DE-REVISION",
+          "path": "specs/017-endurecimientos-de-revision/"
         },
         "active_feature": null
       },

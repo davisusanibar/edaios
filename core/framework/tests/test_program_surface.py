@@ -30,7 +30,9 @@ class ProgramSurfaceFreshnessTests(unittest.TestCase):
             "test_traceability_check_surface", "tools/validation/traceability_check.py"
         )
 
-    def _fixture_root(self, surface: str) -> Path:
+    def _fixture_root(
+        self, surface: str, next_iteration: str = "# NEXT_ITERATION\n\nSin pendientes.\n"
+    ) -> Path:
         tmp = Path(tempfile.mkdtemp(prefix="edaios-surface-"))
         self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
         (tmp / "program-office/context").mkdir(parents=True)
@@ -57,6 +59,9 @@ class ProgramSurfaceFreshnessTests(unittest.TestCase):
         )
         (tmp / "program-office/context/CURRENT_STATE.md").write_text(
             surface, encoding="utf-8"
+        )
+        (tmp / "program-office/context/NEXT_ITERATION.md").write_text(
+            next_iteration, encoding="utf-8"
         )
         return tmp
 
@@ -103,6 +108,114 @@ class ProgramSurfaceFreshnessTests(unittest.TestCase):
             "La feature 010 está propuesta en cola: specs/010-beta.\n"
         )
         root = self._fixture_root(surface)
+        errors: list[str] = []
+        self.tool.validate_program_surface(root, errors)
+        self.assertEqual(errors, [])
+
+    def test_next_iteration_con_ruta_fantasma_falla(self) -> None:
+        fresh = (
+            "# CURRENT_STATE\n\nVersión 9.9.9.\n"
+            "Última feature cerrada: specs/009-alpha (feature 009 cerrada).\n"
+        )
+        root = self._fixture_root(
+            fresh, "# NEXT_ITERATION\n\nVer specs/099-fantasma.\n"
+        )
+        errors: list[str] = []
+        self.tool.validate_program_surface(root, errors)
+        self.assertTrue(
+            any("NEXT_ITERATION menciona feature no resoluble" in e for e in errors),
+            errors,
+        )
+
+    def test_next_iteration_cerrada_en_cola_falla(self) -> None:
+        # Escape real de specs/017: la 009 (Cerrado) declarada en ejecución,
+        # con la oración envuelta en dos líneas como en el archivo real.
+        fresh = (
+            "# CURRENT_STATE\n\nVersión 9.9.9.\n"
+            "Última feature cerrada: specs/009-alpha (feature 009 cerrada).\n"
+        )
+        stale = (
+            "# NEXT_ITERATION\n\nLa feature 009 (reorganización de\n"
+            "archivo) está en ejecución como último cierre.\n"
+        )
+        root = self._fixture_root(fresh, stale)
+        errors: list[str] = []
+        self.tool.validate_program_surface(root, errors)
+        self.assertTrue(
+            any("en cola o en ejecución una feature cerrada: 009" in e for e in errors),
+            errors,
+        )
+
+    def test_cierre_falso_envuelto_en_next_iteration_falla(self) -> None:
+        # RA-001/RA-002 (review 017): el reclamo de cierre también se normaliza;
+        # un cierre falso envuelto en dos líneas no escapa.
+        fresh = (
+            "# CURRENT_STATE\n\nVersión 9.9.9.\n"
+            "Última feature cerrada: specs/009-alpha (feature 009 cerrada).\n"
+        )
+        stale = (
+            "# NEXT_ITERATION\n\nLa feature 010 quedó finalmente\n"
+            "cerrada la semana pasada.\n"
+        )
+        root = self._fixture_root(fresh, stale)
+        errors: list[str] = []
+        self.tool.validate_program_surface(root, errors)
+        self.assertTrue(
+            any(
+                "NEXT_ITERATION reclama como cerrada una feature no cerrada: 010" in e
+                for e in errors
+            ),
+            errors,
+        )
+
+    def test_punto_interno_no_corta_la_asociacion(self) -> None:
+        # RA-002 (review 017): `.md` y semver no son límite de oración.
+        fresh = (
+            "# CURRENT_STATE\n\nVersión 9.9.9.\n"
+            "Última feature cerrada: specs/009-alpha (feature 009 cerrada).\n"
+        )
+        stale = (
+            "# NEXT_ITERATION\n\nLa feature 009 (ver NOTAS.md y Core 3.1.0)\n"
+            "sigue en ejecución.\n"
+        )
+        root = self._fixture_root(fresh, stale)
+        errors: list[str] = []
+        self.tool.validate_program_surface(root, errors)
+        self.assertTrue(
+            any("en cola o en ejecución una feature cerrada: 009" in e for e in errors),
+            errors,
+        )
+
+    def test_prefijo_ambiguo_falla_cerrado(self) -> None:
+        # RA-003 (review 017): dos directorios con el mismo número no escapan.
+        fresh = (
+            "# CURRENT_STATE\n\nVersión 9.9.9.\n"
+            "Última feature cerrada: specs/009-alpha (feature 009 cerrada).\n"
+        )
+        stale = "# NEXT_ITERATION\n\nEn cola: la 013 pendiente.\n"
+        root = self._fixture_root(fresh, stale)
+        for name, estado in (("013-uno", "Cerrado"), ("013-dos", "Propuesto")):
+            directory = root / "specs" / name
+            directory.mkdir(parents=True)
+            (directory / "spec.md").write_text(
+                f"---\nid: X-{name.upper()}\nestado: {estado}\n---\n", encoding="utf-8"
+            )
+        errors: list[str] = []
+        self.tool.validate_program_surface(root, errors)
+        self.assertTrue(
+            any("prefijo numérico de feature ambiguo" in e for e in errors), errors
+        )
+
+    def test_vl_en_oracion_de_cola_no_da_falso_positivo(self) -> None:
+        fresh = (
+            "# CURRENT_STATE\n\nVersión 9.9.9.\n"
+            "Última feature cerrada: specs/009-alpha (feature 009 cerrada).\n"
+        )
+        benign = (
+            "# NEXT_ITERATION\n\nEn cola: la review de VL-001 y la feature\n"
+            "010 propuesta.\n"
+        )
+        root = self._fixture_root(fresh, benign)
         errors: list[str] = []
         self.tool.validate_program_surface(root, errors)
         self.assertEqual(errors, [])
