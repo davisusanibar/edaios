@@ -1,0 +1,1 @@
+{"schema":"edaios.feature-evidence/v1","criterion":"SC-003","status":"verified","date":"2026-08-01","tests":["scripts/test.sh","scripts/validate.sh","scripts/run-gates.py --scope pre-push"],"detail":"155 tests OK y 14 gates pre-push OK tras implementar T002-T006.","limits":"Corrida local; el run remoto (SC-001) queda pendiente del push autorizado."}

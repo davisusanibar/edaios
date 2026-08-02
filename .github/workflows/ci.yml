@@ -1,0 +1,56 @@
+# Superficie de CI remota del hogar canónico (ADR-0017, specs/011).
+# Una fuente, dos superficies: este workflow y bitbucket-pipelines.yml ejecutan
+# el mismo scripts/ci.sh; ninguna decide ni aprueba (los gates verifican).
+name: EDAIOS Gates
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  gates:
+    name: gates py${{ matrix.python }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      # fetch-depth 0: ADR-0013 falla cerrado en clones shallow y kom_gate
+      # consulta git show HEAD:ruta.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Verificar integridad del commit
+        run: test "$GITHUB_SHA" = "$(git rev-parse HEAD)"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Ejecutar gates (scope ci)
+        run: ./scripts/ci.sh
+
+  pr-size:
+    name: pr-size informativo
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Reportar tamaño del diff contra la unidad de revisión
+        run: |
+          STAT="$(git diff --shortstat "$BASE_SHA"...HEAD || true)"
+          UNIT="$(python3 -c "import json; print(json.load(open('core/framework/core/profiles/review-policy.json'))['review_unit'])")"
+          {
+            echo "## Tamaño del PR (informativo)"
+            echo ""
+            echo "- Diff: ${STAT:-sin cambios}"
+            echo "- Unidad de revisión (review-policy): ${UNIT}"
+            echo "- Sin umbral bloqueante: un bloqueo por cifra exige baseline propio en el Value Ledger (Principio IV)."
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,15 @@
+schema: edaios.sdd.feature/v2
+id: EDAIOS-CI-REMOTA-Y-ESTADO-VIGENTE
+artifact: specs/011-ci-remota-y-estado-vigente/spec.md
+owner: Principal Architect
+authority: governance/ADR-0017-hogar-canonico-github-y-ci-remota.md
+purpose: ejecutar los gates en el hogar canonico real y mantener veraz la superficie diaria del programa
+requirements:
+  - FR-001
+  - FR-002
+  - FR-003
+  - FR-004
+  - FR-005
+validation:
+  - scripts/test.sh
+  - scripts/validate.sh

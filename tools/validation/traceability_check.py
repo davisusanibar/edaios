@@ -233,6 +233,50 @@ def validate_features(root: Path, errors: list[str]) -> int:
     return count
 
 
+def validate_program_surface(root: Path, errors: list[str]) -> None:
+    """La superficie diaria no puede contradecir el handoff canónico (FR-004, specs/011).
+
+    Contrato determinista: CURRENT_STATE.md cita el directorio literal de la
+    última feature cerrada y la VERSION vigente; toda ruta de feature mencionada
+    resuelve; y una feature reclamada como cerrada tiene `estado: Cerrado` en su
+    spec. La narrativa autorada restante es territorio humano.
+    """
+    surface_path = root / "program-office/context/CURRENT_STATE.md"
+    text = surface_path.read_text(encoding="utf-8")
+    handoff = json.loads((root / ".specify/feature.json").read_text(encoding="utf-8"))
+    last_closed = handoff.get("last_closed_feature") or {}
+    directory = str(last_closed.get("feature_directory", "")).rstrip("/")
+    if not directory:
+        errors.append("handoff canónico sin last_closed_feature resoluble")
+    elif directory not in text:
+        errors.append(f"superficie diaria no cita la última feature cerrada del handoff: {directory}")
+    version = (root / "VERSION").read_text(encoding="utf-8").strip()
+    if version not in text:
+        errors.append(f"superficie diaria no cita la VERSION vigente: {version}")
+    for mention in set(re.findall(r"\bspecs/(?:archive/)?[0-9]{3}-[a-z0-9-]+", text)):
+        if not (root / mention / "spec.md").is_file():
+            errors.append(f"superficie diaria menciona feature no resoluble: {mention}")
+    # Reclamo de cierre: el adjetivo "cerrad*" debe seguir al número dentro de
+    # la misma cláusula (sin puntuación intermedia); así "feature 009 cerrada;
+    # feature 010 propuesta" solo reclama el cierre de 009.
+    closure_claim = re.compile(
+        r"\bfeatures?\s+([0-9]{3})\b[^.,;:\n]{0,40}?\bcerrad", re.IGNORECASE
+    )
+    for number in closure_claim.findall(text):
+        candidates = sorted(root.glob(f"specs/{number}-*/spec.md")) or sorted(
+            root.glob(f"specs/archive/{number}-*/spec.md")
+        )
+        if len(candidates) != 1:
+            errors.append(f"superficie diaria reclama cierre de feature no resoluble: {number}")
+            continue
+        spec_text = candidates[0].read_text(encoding="utf-8")
+        state = re.search(r"^estado:\s*(.+)$", spec_text, re.MULTILINE)
+        if state is None or state.group(1).strip() != "Cerrado":
+            errors.append(
+                f"superficie diaria reclama como cerrada una feature no cerrada: {number}"
+            )
+
+
 def validate_component_graph(root: Path, accepted_adrs: set[str], errors: list[str]) -> str:
     version = (root / "VERSION").read_text(encoding="utf-8").strip()
     if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", version):
@@ -285,6 +329,7 @@ def main() -> int:
         adr_ids, rfc_ids = validate_governance(root, errors)
         validate_references(root, adr_ids | rfc_ids, errors)
         features = validate_features(root, errors)
+        validate_program_surface(root, errors)
         version = validate_component_graph(root, adr_ids, errors)
     except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
         errors.append(f"contrato de trazabilidad ilegible: {exc}")

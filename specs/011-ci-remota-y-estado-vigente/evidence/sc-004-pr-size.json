@@ -1,0 +1,1 @@
+{"schema":"edaios.feature-evidence/v1","criterion":"SC-004","status":"pending","tests":[".github/workflows/ci.yml"],"limits":"Se registra con la salida visible del job informativo en un run remoto; sin condicion de bloqueo asociada."}

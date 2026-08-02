@@ -1,8 +1,8 @@
 # CURRENT_STATE — Core 3.1.0 baseline day-zero
 
-**Estado:** baseline portable instalado; feature 008 cerrada
+**Estado:** baseline portable instalado; feature 009 cerrada; feature 010 propuesta en cola
 **Versión:** 3.1.0
-**Fecha:** 2026-07-16
+**Fecha:** 2026-08-01
 
 - Foundation y Constitución permanecen sin cambios.
 - Core 3.1 añade memoria local no autoritativa, índice derivado, conflictos
@@ -15,11 +15,18 @@
   connector, registry, cloud o release público instalado.
 - Git conserva la autoridad. ADR-0013 gobierna una genealogía portable cuyo
   único root alcanzable se deriva y verifica en cada clon completo; el hogar
-  canónico es `bitbucket.org/data_and_ia/edaiosv`, rama `main`.
-- Las features 007 y 008 están cerradas y sus capacidades forman parte del
-  baseline. El handoff conserva baseline 004, último cierre previo 007 y 008
-  como foco cerrado hasta que una necesidad real seleccione la siguiente
-  feature.
+  canónico es `github.com/davisusanibar/edaios`, rama `main` (ADR-0017, que
+  enmienda la cláusula de hogar de ADR-0013 y autoriza la superficie de CI
+  remota en `.github/workflows/`). La superficie Bitbucket se conserva como
+  secundaria mientras el espejo exista.
+- La última feature cerrada es `specs/009-core-trust-boundary-hardening`
+  (hardening fail-closed de fronteras de confianza). La feature
+  `specs/010-historical-archive-reorganization` está propuesta en cola. El
+  handoff conserva baseline 004 y foco activo nulo hasta que el owner
+  seleccione el siguiente foco canónico.
+- La dirección de programa vigente es RFC-0003: adopciones de gentle-ai y
+  práctica multi-agente (features 011-015: CI remota, contratos resolubles,
+  sdd-status máquina, revisión adversarial preparada, primer consumer real).
 - La feature 006 y sus artefactos de release ligados a la genealogía retirada
   dejaron de ser estado operativo; ADR-0012 reemplaza ese cutover concreto.
 - `.specify/release.json` v2 declara `status: baseline`, sin candidato activo y

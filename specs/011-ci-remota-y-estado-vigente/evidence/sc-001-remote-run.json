@@ -1,0 +1,1 @@
+{"schema":"edaios.feature-evidence/v1","criterion":"SC-001","status":"pending","tests":["scripts/ci.sh"],"limits":"Se registra tras el primer run remoto verde en el hogar canonico (URL + commit); requiere push autorizado por el owner."}
