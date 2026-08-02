@@ -5,8 +5,8 @@
     "feature_directory": "specs/archive/004-core-multi-initiative-scale"
   },
   "last_closed_feature": {
-    "id": "EDAIOS-CIERRE-DE-CONTRATOS-RESOLUBLES",
-    "feature_directory": "specs/012-cierre-de-contratos-resolubles"
+    "id": "EDAIOS-SDD-STATUS-MAQUINA",
+    "feature_directory": "specs/013-sdd-status-maquina"
   },
   "active_feature": null
 }

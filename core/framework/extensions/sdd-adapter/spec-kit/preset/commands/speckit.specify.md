@@ -22,3 +22,5 @@ $ARGUMENTS
 8. No inventar baseline, owner ni verdad de dominio. Registrar `TBD` o `N/A: razon` cuando corresponda.
 9. Regla IV (cero cifras sin fuente): toda cifra que la especificacion cite debe tener fuente, fecha, alcance y rotulo en `evidence/sources.md`; los benchmarks externos son referencia verificada, no promesa.
 10. Ejecutar `python3 tools/validation/spec_kit_gate.py . --feature <carpeta>` y corregir la fuente si falla.
+
+Estado por maquina: `python3 tools/operations/feature_context.py status` emite `edaios.sdd.status/v1`; enrutar solo por `nextRecommended` (fases del DAG o `idle`) y tratar `blockedReasons` como bloqueo de la fase actual.

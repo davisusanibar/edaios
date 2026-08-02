@@ -22,3 +22,5 @@ $ARGUMENTS
 5. Anadir siempre tareas de cierre `[GATES]`, `[LEDGER]`, `[INGEST]` y `[SEAL]`. `SEAL` prepara el cambio para revision; commit o push requieren autorizacion del owner o la politica del repositorio.
 6. Para `T2` o `T3`, anadir `[PII]` como tarea bloqueante.
 7. Cambiar `fase` a `tasked` y ejecutar el gate Spec Kit.
+
+Estado por maquina: `python3 tools/operations/feature_context.py status` emite `edaios.sdd.status/v1`; enrutar solo por `nextRecommended` (fases del DAG o `idle`) y tratar `blockedReasons` como bloqueo de la fase actual.

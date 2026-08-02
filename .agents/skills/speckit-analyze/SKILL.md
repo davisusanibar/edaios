@@ -19,3 +19,5 @@ $ARGUMENTS
 4. Reportar conflictos constitucionales, ambiguedades, duplicados, requisitos sin tareas, tareas sin requisito, referencias rotas y gates ausentes.
 5. Clasificar hallazgos como `CRITICAL`, `HIGH`, `MEDIUM` o `LOW` y citar archivo/seccion.
 6. Bloquear implementacion con cualquier `CRITICAL`, `HIGH` o gate rojo; proponer correcciones sin aplicarlas automaticamente.
+
+Estado por maquina: `python3 tools/operations/feature_context.py status` emite `edaios.sdd.status/v1`; enrutar solo por `nextRecommended` (fases del DAG o `idle`) y tratar `blockedReasons` como bloqueo de la fase actual.

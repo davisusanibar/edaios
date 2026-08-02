@@ -20,3 +20,5 @@ $ARGUMENTS
 5. Regla IV: verificar que toda cifra citada por la especificacion tenga fila en el registro de fuentes (`fuentes-estado-del-arte.md`) con rotulo y fecha; una cifra sin fuente es un item critico pendiente.
 6. Dejar sin marcar todo incumplimiento y explicar la correccion necesaria.
 7. No permitir plan mientras exista un item critico pendiente.
+
+Estado por maquina: `python3 tools/operations/feature_context.py status` emite `edaios.sdd.status/v1`; enrutar solo por `nextRecommended` (fases del DAG o `idle`) y tratar `blockedReasons` como bloqueo de la fase actual.

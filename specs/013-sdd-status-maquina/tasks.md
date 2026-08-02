@@ -1,0 +1,9 @@
+# Tareas · Feature 013
+
+- [x] [T001] [FR-001] [SC-001] [INGEST] Registrar la aceptación del alcance por el owner (orden de continuar con 013, SRC-001).
+- [x] [T002] [FR-001] [FR-002] [SC-001] Implementar el subcomando `status` en `tools/operations/feature_context.py`: schema `edaios.sdd.status/v1`, idle sin error, token derivado del phase-dag canónico y de los artefactos. Evidencia: subcomando status con schema congelado; idle sin error (fix de _load_handoff con active null); token del DAG canónico + regla de checklist.
+- [x] [T003] [FR-003] [SC-002] Derivar `blockedReasons` de las filas `[FAIL]` del gate Spec Kit vía subproceso, con `--profile` pass-through y `--no-gate`. Evidencia: blockedReasons desde filas [FAIL] del gate vía subproceso; --profile y --no-gate operativos; root sin gate sembrado = fail-closed.
+- [x] [T004] [FR-004] [SC-003] Añadir la línea de ruteo a las 8 fuentes `.specify/commands/speckit.*.md` y regenerar superficies + lock con `sync_spec_kit_integrations.py`. Evidencia: línea de ruteo en las 8 fuentes; sync regenerado y verificado (AGENT-PARITY).
+- [x] [T005] [FR-002] [FR-003] [SC-001] [SC-002] Regresiones en `core/framework/tests/test_sdd_status.py`: idle, planned→tasks, clarified con/sin checklist, Cerrado→idle, fase desconocida falla, gate rojo → lista no vacía + token en fase actual, corpus real → vacía. Evidencia: 8 regresiones en test_sdd_status.py (8/8 OK), incluye corpus real en verde.
+- [x] [T006] [FR-004] [SC-004] [GATES] [LEDGER] Ejecutar `scripts/test.sh`, `scripts/validate.sh` y `scripts/run-gates.py --scope pre-push` en verde; confirmar `value_ledger` (N/A justificado). Evidencia: 167 tests OK; 14 gates pre-push OK el 2026-08-02.
+- [x] [T007] [FR-001] [SC-004] [SEAL] Preparar el cierre para revisión del owner; commit y push por la superficie CI vigente. Evidencia: push autorizado por el owner (autorización vigente de la sesión); cierre preparado.

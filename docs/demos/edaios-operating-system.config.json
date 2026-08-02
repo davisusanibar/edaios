@@ -67,9 +67,9 @@
         "meaning": "Hace portable el baseline completo: el gate deriva una única raíz desde el grafo Git, publica sus hashes solo como evidencia posterior y conserva la política de release para candidatos futuros."
       },
       "feature": {
-        "id": "EDAIOS-CIERRE-DE-CONTRATOS-RESOLUBLES",
-        "path": "specs/012-cierre-de-contratos-resolubles/",
-        "meaning": "La feature 012 convierte la ontología en contrato ejecutable verificado (ADR-0018): dominio de entidades desde la gramática, punteros de controles y linaje resolubles; no añade entidades ni afirma release o producción."
+        "id": "EDAIOS-SDD-STATUS-MAQUINA",
+        "path": "specs/013-sdd-status-maquina/",
+        "meaning": "La feature 013 da a todo agente un estado SDD legible por máquina (edaios.sdd.status/v1) con token de ruteo acotado al phase-dag; informa, no aprueba ni promueve."
       },
       "lineage": {
         "baseline_feature": {
@@ -77,12 +77,12 @@
           "path": "specs/archive/004-core-multi-initiative-scale/"
         },
         "last_closed_feature": {
-          "id": "EDAIOS-CIERRE-DE-CONTRATOS-RESOLUBLES",
-          "path": "specs/012-cierre-de-contratos-resolubles/"
+          "id": "EDAIOS-SDD-STATUS-MAQUINA",
+          "path": "specs/013-sdd-status-maquina/"
         },
         "active_feature": {
-          "id": "EDAIOS-CIERRE-DE-CONTRATOS-RESOLUBLES",
-          "path": "specs/012-cierre-de-contratos-resolubles/"
+          "id": "EDAIOS-SDD-STATUS-MAQUINA",
+          "path": "specs/013-sdd-status-maquina/"
         }
       },
       "evidence": {

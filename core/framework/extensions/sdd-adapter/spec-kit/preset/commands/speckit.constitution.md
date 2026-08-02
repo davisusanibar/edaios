@@ -18,3 +18,5 @@ $ARGUMENTS
 4. Ejecutar `python3 tools/publishing/compile_constitution.py --check` para verificar; recompilar sin `--check` solo cuando la receta o Foundation hayan cambiado.
 5. Al recompilar con cambios, avisar al equipo: los pines `sha256` de los Constitution Check de los planes vivos quedan obsoletos y `spec_kit_gate` los marcara en rojo hasta re-validarlos.
 6. En cualquier conflicto, aplicar `core/foundation/` como autoridad superior.
+
+Estado por maquina: `python3 tools/operations/feature_context.py status` emite `edaios.sdd.status/v1`; enrutar solo por `nextRecommended` (fases del DAG o `idle`) y tratar `blockedReasons` como bloqueo de la fase actual.

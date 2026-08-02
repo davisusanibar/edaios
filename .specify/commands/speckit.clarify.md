@@ -22,3 +22,5 @@ $ARGUMENTS
 5. Registrar las respuestas confirmadas en `## Clarifications` dentro de `spec.md` y actualizar requisitos afectados.
 6. No convertir decisiones tecnicas en requisitos de negocio ni completar verdad de dominio sin su owner.
 7. Cambiar `fase` a `clarified` solo cuando no queden ambiguedades bloqueantes y volver a ejecutar el gate Spec Kit.
+
+Estado por maquina: `python3 tools/operations/feature_context.py status` emite `edaios.sdd.status/v1`; enrutar solo por `nextRecommended` (fases del DAG o `idle`) y tratar `blockedReasons` como bloqueo de la fase actual.

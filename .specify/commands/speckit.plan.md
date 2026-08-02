@@ -23,3 +23,5 @@ $ARGUMENTS
 6. Declarar impacto de arquitectura, ontologia, datos, IA, privacidad, costo y blast-radius cuando aplique.
 7. Si el cambio es estructural y no existe ADR habilitante, detenerse y proponer el ADR antes de continuar.
 8. Cambiar `fase` a `planned` y ejecutar el gate Spec Kit.
+
+Estado por maquina: `python3 tools/operations/feature_context.py status` emite `edaios.sdd.status/v1`; enrutar solo por `nextRecommended` (fases del DAG o `idle`) y tratar `blockedReasons` como bloqueo de la fase actual.

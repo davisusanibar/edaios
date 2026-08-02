@@ -1,6 +1,6 @@
 # CURRENT_STATE — Core 3.1.0 baseline day-zero
 
-**Estado:** baseline portable instalado; feature 012 cerrada; feature 010 propuesta en cola
+**Estado:** baseline portable instalado; feature 013 cerrada; feature 010 propuesta en cola
 **Versión:** 3.1.0
 **Fecha:** 2026-08-01
 
@@ -19,17 +19,18 @@
   enmienda la cláusula de hogar de ADR-0013 y autoriza la superficie de CI
   remota en `.github/workflows/`). La superficie Bitbucket se conserva como
   secundaria mientras el espejo exista.
-- La última feature cerrada es `specs/012-cierre-de-contratos-resolubles`
-  (ontología como contrato ejecutable: dominio de entidades desde la gramática,
-  punteros de controles y linaje resolubles, ADR-0018). Cierres previos:
+- La última feature cerrada es `specs/013-sdd-status-maquina` (estado SDD
+  legible por máquina: `edaios.sdd.status/v1` con token de ruteo acotado al
+  phase-dag y bloqueos derivados del gate). Cierres previos:
+  `specs/012-cierre-de-contratos-resolubles`,
   `specs/011-ci-remota-y-estado-vigente` y
   `specs/009-core-trust-boundary-hardening`. La feature
   `specs/010-historical-archive-reorganization` está propuesta en cola. El
   handoff conserva baseline 004 y foco activo nulo hasta que el owner
   seleccione el siguiente foco canónico.
 - La dirección de programa vigente es RFC-0003: adopciones de gentle-ai y
-  práctica multi-agente (en cola: 013 sdd-status máquina, 014 revisión
-  adversarial preparada, 015 primer consumer real).
+  práctica multi-agente (en cola: 014 revisión adversarial preparada, 015
+  primer consumer real).
 - La feature 006 y sus artefactos de release ligados a la genealogía retirada
   dejaron de ser estado operativo; ADR-0012 reemplaza ese cutover concreto.
 - `.specify/release.json` v2 declara `status: baseline`, sin candidato activo y

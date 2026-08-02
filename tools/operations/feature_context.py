@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
 import sys
 import tempfile
 
@@ -17,6 +18,19 @@ LOCAL = Path(".specify/feature.local.json")
 HANDOFF_SCHEMAS = {"edaios.feature-handoff/v2", "edaios.feature-handoff/v3"}
 HANDOFF_SCHEMA = "edaios.feature-handoff/v2"
 HANDOFF_ROLES = ("baseline_feature", "last_closed_feature", "active_feature")
+STATUS_SCHEMA = "edaios.sdd.status/v1"
+PHASE_DAG = Path(
+    "core/framework/modules/harness-core/src/edaios_core_harness/resources/phase-dag.json"
+)
+# Dominio de fases persistidas observado en el corpus (specs/013 SRC-004);
+# la fase checklist no deja marcador y se infiere del artefacto.
+FASE_COMPLETADA = {
+    "specified": "specify",
+    "clarified": "clarify",
+    "planned": "plan",
+    "tasked": "tasks",
+    "implemented": "implement",
+}
 
 
 class FeatureContextError(ValueError):
@@ -136,7 +150,11 @@ def _load_handoff(root: Path) -> dict[str, dict[str, str]]:
             pointers["active_feature"] = None
         if set(pointers) != set(HANDOFF_ROLES):
             raise FeatureContextError(f"{path}: faltan referencias obligatorias del handoff")
-        directories = [pointer["feature_directory"] for pointer in pointers.values()]
+        directories = [
+            pointer["feature_directory"]
+            for pointer in pointers.values()
+            if pointer is not None
+        ]
         if len(directories) != len(set(directories)):
             raise FeatureContextError(f"{path}: las tres referencias deben ser distintas")
         return pointers
@@ -155,6 +173,106 @@ def resolve(root: Path, explicit: str | None = None) -> tuple[dict[str, str], st
     if (root / CANONICAL).exists():
         return _load_handoff(root)["active_feature"], "canonical"
     raise FeatureContextError("no existe selector local ni pointer canonico")
+
+
+def _phase_chain(root: Path) -> list[str]:
+    """Lineariza el phase-dag canónico; una cadena no lineal falla cerrado."""
+    data = json.loads((root / PHASE_DAG).read_text(encoding="utf-8"))
+    if data.get("schema") != "edaios.phase-dag/v1":
+        raise FeatureContextError("phase-dag: schema no soportado")
+    phases = {
+        str(item["id"]): [str(dep) for dep in item.get("dependencies", [])]
+        for item in data.get("phases", [])
+    }
+    chain: list[str] = []
+    current = next((pid for pid, deps in phases.items() if not deps), None)
+    while current is not None:
+        chain.append(current)
+        current = next(
+            (pid for pid, deps in phases.items() if deps == [chain[-1]]), None
+        )
+    if not chain or set(chain) != set(phases):
+        raise FeatureContextError("phase-dag: cadena no lineal o incompleta")
+    return chain
+
+
+def _spec_meta(root: Path, pointer: dict[str, str]) -> tuple[str, str]:
+    spec = root / pointer["feature_directory"] / "spec.md"
+    frontmatter = spec.read_text(encoding="utf-8")[4:].split("\n---\n", 1)[0]
+    estado = re.search(r"^estado:\s*(.+?)\s*$", frontmatter, re.MULTILINE)
+    fase = re.search(r"^fase:\s*(.+?)\s*$", frontmatter, re.MULTILINE)
+    if not estado or not fase:
+        raise FeatureContextError(f"{spec}: estado o fase ausentes")
+    return (
+        estado.group(1).strip().strip("\"'"),
+        fase.group(1).strip().strip("\"'"),
+    )
+
+
+def _gate_failures(root: Path, feature_dir: str, profile: str) -> list[str]:
+    """Transporta las filas [FAIL] del gate Spec Kit; el gate sigue siendo el juez."""
+    gate = root / "tools/validation/spec_kit_gate.py"
+    result = subprocess.run(
+        [sys.executable, str(gate), str(root), "--feature", feature_dir,
+         "--profile", profile],
+        capture_output=True, text=True, check=False,
+    )
+    failures = [
+        line.strip()[len("[FAIL]"):].strip()
+        for line in (result.stdout + result.stderr).splitlines()
+        if line.strip().startswith("[FAIL]")
+    ]
+    if result.returncode != 0 and not failures:
+        failures.append(f"gate spec-kit fallo sin filas legibles (exit={result.returncode})")
+    return failures
+
+
+def sdd_status(
+    root: Path,
+    explicit: str | None = None,
+    profile: str = "core-release",
+    with_gate: bool = True,
+) -> dict[str, object]:
+    """Estado SDD estructurado (edaios.sdd.status/v1); idle no es un error."""
+    try:
+        pointer, source = resolve(root, explicit)
+    except FeatureContextError as exc:
+        if "no existe selector" in str(exc):
+            pointer, source = None, "idle"
+        else:
+            raise
+    if pointer is None:
+        return {
+            "schema": STATUS_SCHEMA, "source": "idle", "feature": None,
+            "estado": None, "fase": None,
+            "nextRecommended": "idle", "blockedReasons": [],
+        }
+    estado, fase = _spec_meta(root, pointer)
+    if fase not in FASE_COMPLETADA:
+        raise FeatureContextError(f"fase fuera del dominio observado: {fase!r}")
+    chain = _phase_chain(root)
+    completed = FASE_COMPLETADA[fase]
+    blocked = (
+        _gate_failures(root, pointer["feature_directory"], profile)
+        if with_gate else []
+    )
+    if estado == "Cerrado" and fase == "implemented":
+        token = "idle"
+    elif blocked:
+        # Con gate en rojo se corrige la fase actual antes de avanzar.
+        token = completed
+    else:
+        index = chain.index(completed)
+        token = chain[index + 1] if index + 1 < len(chain) else "idle"
+        if token == "checklist" and (
+            root / pointer["feature_directory"] / "checklists/requirements.md"
+        ).is_file():
+            token = "plan"
+    return {
+        "schema": STATUS_SCHEMA, "source": source, "feature": pointer,
+        "estado": estado, "fase": fase,
+        "nextRecommended": token, "blockedReasons": blocked,
+    }
 
 
 def _atomic_json(path: Path, payload: dict[str, object]) -> None:
@@ -196,10 +314,27 @@ def main(argv: list[str] | None = None) -> int:
     resolve_cmd.add_argument("--path-only", action="store_true")
 
     commands.add_parser("clear", help="elimina solo el selector local del worktree")
+
+    status = commands.add_parser(
+        "status", help="estado SDD estructurado (edaios.sdd.status/v1)"
+    )
+    status.add_argument("--feature", help="selector explicito con maxima precedencia")
+    status.add_argument(
+        "--profile", default="core-release",
+        choices=("core-release", "consumer-release"),
+    )
+    status.add_argument(
+        "--no-gate", action="store_true",
+        help="omite blockedReasons para respuesta inmediata",
+    )
     args = parser.parse_args(argv)
     root = Path(args.repo_root).resolve()
 
     try:
+        if args.command == "status":
+            payload = sdd_status(root, args.feature, args.profile, not args.no_gate)
+            print(json.dumps(payload, ensure_ascii=True, indent=2))
+            return 0
         if args.command == "select":
             pointer = feature_pointer(root, args.feature)
             destination = CANONICAL if args.canonical else LOCAL

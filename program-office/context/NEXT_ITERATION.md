@@ -6,11 +6,11 @@ cerró el hardening fail-closed de autoridad, receipts, perfiles, filesystem y
 gobierno SDD sin alterar la API funcional ni inventar publicación.
 
 La dirección vigente es RFC-0003 (adopciones gentle-ai y práctica
-multi-agente). Las features 011 (CI remota, primer run remoto verde archivado)
-y 012 (contratos resolubles: cierre del fail-open D1, punteros verificables)
-están cerradas. En cola: 013 sdd-status máquina, 014 revisión adversarial
-preparada, 015 onboarding de consumer real. La feature 010 (reorganización de
-archivo histórico) permanece propuesta en cola y ortogonal.
+multi-agente). Las features 011 (CI remota), 012 (contratos resolubles) y 013
+(estado SDD por máquina: `edaios.sdd.status/v1`) están cerradas. En cola: 014
+revisión adversarial preparada, 015 onboarding de consumer real. La feature
+010 (reorganización de archivo histórico) permanece propuesta en cola y
+ortogonal.
 
 El piloto real gobernado sigue siendo la prioridad estratégica y se materializa
 como la feature 015 (ADR-0020 resolvió RFC-0002):

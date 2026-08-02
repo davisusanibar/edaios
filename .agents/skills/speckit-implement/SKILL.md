@@ -21,3 +21,5 @@ $ARGUMENTS
 6. Ejecutar los gates aplicables declarados en `.specify/gates.json` y registrar resultados en el cierre de la feature.
 7. Ingerir artefactos Spec Kit como borradores trazables; su promocion a KO requiere humano y ADR.
 8. Cambiar `fase` a `implemented` solo con todas las tareas completas y gates verdes. No hacer commit ni push sin autorizacion explicita.
+
+Estado por maquina: `python3 tools/operations/feature_context.py status` emite `edaios.sdd.status/v1`; enrutar solo por `nextRecommended` (fases del DAG o `idle`) y tratar `blockedReasons` como bloqueo de la fase actual.
