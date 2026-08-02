@@ -67,9 +67,9 @@
         "meaning": "Hace portable el baseline completo: el gate deriva una única raíz desde el grafo Git, publica sus hashes solo como evidencia posterior y conserva la política de release para candidatos futuros."
       },
       "feature": {
-        "id": "EDAIOS-CORE-TRUST-BOUNDARY-HARDENING",
-        "path": "specs/009-core-trust-boundary-hardening/",
-        "meaning": "La feature 009 endurece autoridad, evidencia, gates, memoria local y trazabilidad; su progreso se deriva de Spec Kit y no afirma adopción, release ni producción."
+        "id": "EDAIOS-CIERRE-DE-CONTRATOS-RESOLUBLES",
+        "path": "specs/012-cierre-de-contratos-resolubles/",
+        "meaning": "La feature 012 convierte la ontología en contrato ejecutable verificado (ADR-0018): dominio de entidades desde la gramática, punteros de controles y linaje resolubles; no añade entidades ni afirma release o producción."
       },
       "lineage": {
         "baseline_feature": {
@@ -77,12 +77,12 @@
           "path": "specs/archive/004-core-multi-initiative-scale/"
         },
         "last_closed_feature": {
-          "id": "EDAIOS-CORE-TRUST-BOUNDARY-HARDENING",
-          "path": "specs/009-core-trust-boundary-hardening/"
+          "id": "EDAIOS-CIERRE-DE-CONTRATOS-RESOLUBLES",
+          "path": "specs/012-cierre-de-contratos-resolubles/"
         },
         "active_feature": {
-          "id": "EDAIOS-CORE-TRUST-BOUNDARY-HARDENING",
-          "path": "specs/009-core-trust-boundary-hardening/"
+          "id": "EDAIOS-CIERRE-DE-CONTRATOS-RESOLUBLES",
+          "path": "specs/012-cierre-de-contratos-resolubles/"
         }
       },
       "evidence": {

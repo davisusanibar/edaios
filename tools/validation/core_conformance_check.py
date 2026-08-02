@@ -49,6 +49,38 @@ PUBLIC_POLICIES = {
 }
 
 
+def validate_control_pointers(root, controls) -> None:
+    """Un control declarado resuelve a implementacion y prueba existentes.
+
+    Fail-closed (FR-003, specs/012; linaje feature 009 FR-004). Formas
+    admitidas: ruta de archivo o directorio del repo, o referencia de modulo
+    `pkg.mod:attr` resoluble bajo los source roots empaquetados.
+    """
+    module_roots = sorted((root / "core/framework/modules").glob("*/src")) + sorted(
+        (root / "core/framework/extensions").glob("*/src")
+    )
+
+    def _pointer_resolves(target: str) -> bool:
+        if ":" in target and "/" not in target:
+            module = target.split(":", 1)[0].replace(".", "/")
+            return any(
+                (base / f"{module}.py").is_file() or (base / module / "__init__.py").is_file()
+                for base in module_roots
+            )
+        candidate = root / target
+        return candidate.is_file() or candidate.is_dir()
+
+    for row in controls:
+        if not isinstance(row, dict):
+            raise ConformanceCheckError("control-registry: fila invalida")
+        for pointer in ("implementation", "tests"):
+            target = str(row.get(pointer, ""))
+            if not target or not _pointer_resolves(target):
+                raise ConformanceCheckError(
+                    f"control {row.get('id')}: {pointer} no resoluble: {target!r}"
+                )
+
+
 class ConformanceCheckError(RuntimeError):
     pass
 
@@ -139,6 +171,7 @@ def check(root: Path, profile: str) -> dict[str, Any]:
         raise ConformanceCheckError("control-registry publico/empaquetado deriva")
     if {row.get("id") for row in public_controls.get("controls", [])} != set(profile_report["controls"]):
         raise ConformanceCheckError("control-registry no cubre exactamente los perfiles")
+    validate_control_pointers(root, public_controls.get("controls", []))
 
     template_root = root / "core/framework/core/templates/initiative"
     for filename, schema_name in TEMPLATE_SCHEMAS.items():

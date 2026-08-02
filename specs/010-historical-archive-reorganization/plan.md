@@ -2,7 +2,7 @@
 
 ## Constitution Check
 
-Constitucion verificada: sha256:d57078593e5a78bb302e45cea9f5cc5d581be0c6ab8cbb8c751435febd5fb327
+Constitucion verificada: sha256:45af1fa889fb66e86198a80205cbc3f5da35d8e97f286bec4039386c2fbbdc86
 
 | Principio | Veredicto | Evidencia |
 |---|---|---|

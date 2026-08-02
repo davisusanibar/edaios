@@ -3,7 +3,7 @@
   "version": "3.2.0",
   "controls": [
     {"id":"foundation-projection","implementation":"tools/publishing/compile_constitution.py","tests":"core/framework/tests/test_versioned_surface.py","gates":["FND-PROJECTION"],"claim":"local-foundation-projection"},
-    {"id":"kom","implementation":"tools/validation/kom_gate.py","tests":"core/framework/tests/test_kom_gate.py","gates":["KOM"],"claim":"local-knowledge-integrity"},
+    {"id":"kom","implementation":"tools/validation/kom_gate.py","tests":"core/framework/tests/test_governance_conformance.py","gates":["KOM"],"claim":"local-knowledge-integrity"},
     {"id":"sdd-contract","implementation":"tools/validation/spec_kit_gate.py","tests":"core/framework/tests/test_feature_handoff.py","gates":["SDD-CONTRACT"],"claim":"local-sdd-coherence"},
     {"id":"harness-enforcement","implementation":"edaios_core_harness.core:CoreHarness","tests":"core/framework/tests/test_conformance_harness.py","gates":["CORE-CONFORMANCE"],"claim":"local-harness-contract"},
     {"id":"contract-tests","implementation":"scripts/test.sh","tests":"core/framework/tests","gates":["TEST"],"claim":"local-test-execution"},

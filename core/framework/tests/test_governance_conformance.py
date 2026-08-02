@@ -178,7 +178,10 @@ class KomGateTests(unittest.TestCase):
             ROOT, self.kom.CORE_NAMESPACE, core_scope=True
         )
         rules = self.kom.evaluate(ROOT, objects, self.grammar, self.entities)
-        self.assertEqual([rule.id for rule in rules], [f"KOM-VR-{n:02d}" for n in range(1, 12)])
+        self.assertEqual(
+            [rule.id for rule in rules],
+            [f"KOM-VR-{n:02d}" for n in range(1, 12)] + ["DERIVA-PROSA"],
+        )
         self.assertTrue(all(rule.checked > 0 for rule in rules))
         self.assertEqual([], [error for rule in rules for error in rule.errors])
 
@@ -402,3 +405,128 @@ class ProfileAwareGateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ResolvableContractsTests(unittest.TestCase):
+    """Regresiones de specs/012: contratos resolubles (ADR-0018, RFC-0003 D1)."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.kom = load_module("test_kom_gate_012", "tools/validation/kom_gate.py")
+        cls.conformance = load_module(
+            "test_core_conformance_012", "tools/validation/core_conformance_check.py"
+        )
+        cls.grammar, cls.entities = cls.kom.load_contracts(ROOT)
+
+    def _fixture_ko(self, path, tipo: str, body: str = "") -> None:
+        path.write_text(
+            "---\n"
+            "id: KO-FIXTURE-DOCE\n"
+            f"tipo: {tipo}\n"
+            "titulo: Fixture specs/012\n"
+            "version: 1.0.0\n"
+            "estado: Borrador\n"
+            "autoridad: Consumer\n"
+            "idioma: es\n"
+            "owner: Fixture\n"
+            "deriva_de: Foundation\n"
+            "---\n\n# Fixture\n" + body,
+            encoding="utf-8",
+        )
+
+    def test_tipo_relacion_falla_cerrado(self) -> None:
+        # D1: el raspado fail-open aceptaba `governs` como tipo de entidad.
+        with tempfile.TemporaryDirectory() as temporary:
+            scope = Path(temporary)
+            (scope / ".git").mkdir()
+            self._fixture_ko(scope / "governs.md", "governs")
+            mounted = self.kom.scan_scope(scope, "fixture.scope", core_scope=False)
+            rules = self.kom.evaluate(ROOT, mounted, self.grammar, self.entities)
+            vr02 = next(rule for rule in rules if rule.id == "KOM-VR-02")
+            self.assertTrue(any("governs" in error for error in vr02.errors), vr02.errors)
+
+    def test_mismatch_bidireccional_falla_cerrado(self) -> None:
+        import shutil
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            profiles = root / "core/framework/core/profiles"
+            ontology = root / "core/foundation/ontology"
+            profiles.mkdir(parents=True)
+            ontology.mkdir(parents=True)
+            shutil.copy(
+                ROOT / "core/foundation/ontology/EDAIOS_ONTOLOGY.md",
+                ontology / "EDAIOS_ONTOLOGY.md",
+            )
+            source = json.loads(
+                (ROOT / "core/framework/core/profiles/governance-grammar.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            solo_grammar = dict(source)
+            solo_grammar["entities"] = list(source["entities"]) + ["Fantasma"]
+            (profiles / "governance-grammar.json").write_text(
+                json.dumps(solo_grammar), encoding="utf-8"
+            )
+            with self.assertRaisesRegex(ValueError, "divergen"):
+                self.kom.load_contracts(root)
+            solo_ontologia = dict(source)
+            solo_ontologia["entities"] = [
+                item for item in source["entities"] if item != "Playbook"
+            ]
+            (profiles / "governance-grammar.json").write_text(
+                json.dumps(solo_ontologia), encoding="utf-8"
+            )
+            with self.assertRaisesRegex(ValueError, "divergen"):
+                self.kom.load_contracts(root)
+
+    def test_prosa_fantasma_e_historico_vivo_fallan(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            foundation = root / "core/foundation"
+            foundation.mkdir(parents=True)
+            (foundation / "vivo.md").write_text("contenido\n", encoding="utf-8")
+            self._fixture_ko(
+                foundation / "fixture.md",
+                "Standard",
+                "\n**Deriva de:** `NO-EXISTE.md`\n"
+                "\n**Deriva de:** `vivo.md` (histórico, genealogía anterior)\n",
+            )
+            objects = self.kom.scan_scope(foundation, "fixture.scope", core_scope=False)
+            rules = self.kom.evaluate(root, objects, self.grammar, self.entities)
+            prosa = next(rule for rule in rules if rule.id == "DERIVA-PROSA")
+            self.assertTrue(
+                any("NO-EXISTE.md" in error for error in prosa.errors), prosa.errors
+            )
+            self.assertTrue(
+                any("archivo vivo" in error for error in prosa.errors), prosa.errors
+            )
+
+    def test_control_pointer_no_resoluble_falla(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "tools").mkdir()
+            (root / "tools/x.py").write_text("", encoding="utf-8")
+            (root / "tests").mkdir()
+            (root / "tests/y.py").write_text("", encoding="utf-8")
+            source = root / "core/framework/modules/m1/src"
+            source.mkdir(parents=True)
+            (source / "mod.py").write_text("", encoding="utf-8")
+            ok_rows = [
+                {"id": "x", "implementation": "tools/x.py", "tests": "tests/y.py"},
+                {"id": "m", "implementation": "mod:Thing", "tests": "tests"},
+            ]
+            self.conformance.validate_control_pointers(root, ok_rows)
+            with self.assertRaisesRegex(
+                self.conformance.ConformanceCheckError, "no resoluble"
+            ):
+                self.conformance.validate_control_pointers(
+                    root,
+                    [{"id": "kom", "implementation": "tools/x.py", "tests": "tests/nada.py"}],
+                )
+            with self.assertRaisesRegex(
+                self.conformance.ConformanceCheckError, "no resoluble"
+            ):
+                self.conformance.validate_control_pointers(
+                    root,
+                    [{"id": "m2", "implementation": "modx:Thing", "tests": "tests/y.py"}],
+                )

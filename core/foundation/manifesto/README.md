@@ -15,7 +15,7 @@ deriva_de: Foundation
 **Capa:** Foundation v1.0
 **Estado:** Aprobado (línea base normativa inicial)
 **Actualizado:** 2026-06-26
-**Deriva de:** `FOUNDATION_STRATEGY.md`, `ART-000`, `ART-001`, `PREAMBULO.md`
+**Deriva de:** `strategy/README.md`, `ART-000`, `ART-001`, `PREAMBULO.md`
 
 ## Manifiesto EDAIOS
 

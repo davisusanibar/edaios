@@ -51,7 +51,7 @@ No existe ninguna raíz fuera de esta topología.
 | VI. Firma | PASS | La instrucción del Principal Architect acepta el freeze Foundation → Core. |
 | VII. Privacidad | N/A | Sensibilidad T0, sin datos, PII ni consumer instalado. |
 
-Constitucion verificada: sha256:d57078593e5a78bb302e45cea9f5cc5d581be0c6ab8cbb8c751435febd5fb327
+Constitucion verificada: sha256:45af1fa889fb66e86198a80205cbc3f5da35d8e97f286bec4039386c2fbbdc86
 
 ## Gate Impact
 

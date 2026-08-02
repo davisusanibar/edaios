@@ -5,8 +5,8 @@
     "feature_directory": "specs/archive/004-core-multi-initiative-scale"
   },
   "last_closed_feature": {
-    "id": "EDAIOS-CORE-TRUST-BOUNDARY-HARDENING",
-    "feature_directory": "specs/009-core-trust-boundary-hardening"
+    "id": "EDAIOS-CIERRE-DE-CONTRATOS-RESOLUBLES",
+    "feature_directory": "specs/012-cierre-de-contratos-resolubles"
   },
   "active_feature": null
 }

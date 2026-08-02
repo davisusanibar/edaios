@@ -46,7 +46,14 @@ CORE_NAMESPACE = "edaios.core"
 GOVERNANCE_FILE = re.compile(r"(ADR|RFC)-([0-9]{4})-[a-z0-9-]+\.md")
 HEADING = re.compile(r"^#\s+((?:ADR|RFC)-[0-9]{4})\s+[—-]\s+(.+)$", re.MULTILINE)
 META_LINE = re.compile(r"^\*\*([^*]+):\*\*\s*(.+)$", re.MULTILINE)
-ONTOLOGY_ENTITY = re.compile(r"^\|\s*`([A-Za-z][A-Za-z0-9]*)`\s*\|", re.MULTILINE)
+# Filas backticked de primera columna, con guion bajo permitido (las relaciones
+# como derives_from lo usan); el parseo se acota por sección (ADR-0018).
+ONTOLOGY_ROW = re.compile(r"^\|\s*`([A-Za-z_][A-Za-z0-9_]*)`\s*\|", re.MULTILINE)
+ONTOLOGY_SECTION = re.compile(
+    r"^## (Entidades|Relaciones)\n(.*?)(?=^## |\Z)", re.MULTILINE | re.DOTALL
+)
+DERIVA_PROSA = re.compile(r"^\*\*Deriva de:\*\*\s*(.+)$", re.MULTILINE)
+PROSA_TOKEN = re.compile(r"`([^`]+\.md)`(\s*\(histórico[^)]*\))?")
 
 
 @dataclass
@@ -283,9 +290,34 @@ def load_contracts(root: Path) -> tuple[dict[str, object], set[str]]:
     if patterns.get("RFC") != "^RFC-[0-9]{4}$":
         raise ValueError("RFC debe usar exactamente cuatro dígitos")
     ontology = (root / "core/foundation/ontology/EDAIOS_ONTOLOGY.md").read_text(encoding="utf-8")
-    entities = set(ONTOLOGY_ENTITY.findall(ontology))
-    if not entities:
-        raise ValueError("entidades de Ontología no resolubles")
+    sections = {name: body for name, body in ONTOLOGY_SECTION.findall(ontology)}
+    md_entities = set(ONTOLOGY_ROW.findall(sections.get("Entidades", "")))
+    md_relations = set(ONTOLOGY_ROW.findall(sections.get("Relaciones", "")))
+    if not md_entities or not md_relations:
+        raise ValueError("tablas de Ontología (Entidades/Relaciones) no resolubles")
+    declared = grammar.get("entities")
+    if (
+        not isinstance(declared, list)
+        or not declared
+        or len(declared) != len({str(item) for item in declared})
+    ):
+        raise ValueError("grammar incompleta: entities ausente o con duplicados (ADR-0018)")
+    entities = {str(item) for item in declared}
+    relations = grammar.get("relations")
+    relation_keys = {str(key) for key in relations} if isinstance(relations, dict) else set()
+    # Correspondencia bidireccional y por sección: el MD conserva la autoridad,
+    # el JSON es el contrato ejecutable; cualquier deriva falla cerrado.
+    for label, in_grammar, in_markdown in (
+        ("entities", entities, md_entities),
+        ("relations", relation_keys, md_relations),
+    ):
+        extra = sorted(in_grammar - in_markdown)
+        missing = sorted(in_markdown - in_grammar)
+        if extra or missing:
+            raise ValueError(
+                f"grammar.{label} y Ontología divergen: "
+                f"solo-grammar={extra} solo-ontología={missing}"
+            )
     return grammar, entities
 
 
@@ -355,6 +387,8 @@ def matches_domain(token: str, ko: KnowledgeObject) -> bool:
 
 def evaluate(root: Path, objects: list[KnowledgeObject], grammar: dict[str, object], entities: set[str], base: str = "HEAD") -> list[Rule]:
     rules = {f"KOM-VR-{number:02d}": Rule(f"KOM-VR-{number:02d}") for number in range(1, 12)}
+    rules["DERIVA-PROSA"] = Rule("DERIVA-PROSA")
+    foundation = (root / "core/foundation").resolve()
     patterns = {
         key: re.compile(str(value))
         for key, value in dict(grammar["id_patterns"]).items()
@@ -386,6 +420,27 @@ def evaluate(root: Path, objects: list[KnowledgeObject], grammar: dict[str, obje
         rules["KOM-VR-02"].checked += 1
         if ko.tipo not in entities:
             rules["KOM-VR-02"].fail(f"{ko.global_id}: tipo {ko.tipo!r} fuera de Ontología")
+
+        # Las referencias `*.md` de las líneas de prosa **Deriva de:** en
+        # Foundation deben resolver (ruta relativa o nombre único) o estar
+        # anotadas como históricas — y entonces no deben resolver (ADR-0018).
+        if ko.path.resolve().is_relative_to(foundation):
+            for prosa in DERIVA_PROSA.finditer(ko.body):
+                rules["DERIVA-PROSA"].checked += 1
+                for token, historic in PROSA_TOKEN.findall(prosa.group(1)):
+                    if "/" in token:
+                        # Ruta relativa a Foundation o al repositorio.
+                        resolved = (foundation / token).is_file() or (root / token).is_file()
+                    else:
+                        resolved = len(list(foundation.rglob(token))) == 1
+                    if historic and resolved:
+                        rules["DERIVA-PROSA"].fail(
+                            f"{ko.global_id}: referencia histórica resuelve a archivo vivo {token!r}"
+                        )
+                    elif not historic and not resolved:
+                        rules["DERIVA-PROSA"].fail(
+                            f"{ko.global_id}: referencia de prosa no resoluble {token!r}"
+                        )
 
         rules["KOM-VR-03"].checked += 1
         missing = REQUIRED - set(ko.meta)
@@ -517,7 +572,7 @@ def evaluate(root: Path, objects: list[KnowledgeObject], grammar: dict[str, obje
                 f"{ko.global_id}: representación explícita solo válida para DerivedView"
             )
 
-    return [rules[f"KOM-VR-{number:02d}"] for number in range(1, 12)]
+    return list(rules.values())
 
 
 def argument_parser() -> argparse.ArgumentParser:
@@ -558,7 +613,7 @@ def main() -> int:
         else:
             print(f"[OK ] {rule.id}: {rule.checked} comprobaciones")
     errors = sum(len(rule.errors) for rule in rules)
-    print(f"-- KOM-VR-01..11: {len(objects)} KOs · {errors} errores · 0 avisos --")
+    print(f"-- KOM-VR-01..11 + DERIVA-PROSA: {len(objects)} KOs · {errors} errores · 0 avisos --")
     return 1 if errors else 0
 
 

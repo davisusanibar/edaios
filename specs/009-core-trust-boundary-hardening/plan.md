@@ -122,7 +122,7 @@ decisión explícita, y `active_feature: null` se usa al cerrar 009.
 | VI. La IA consume; el humano firma | PASS | Principal Architect acepta ADR, plan, tareas y cierre; gates solo verifican. |
 | VII. Privacidad por diseño | PASS | T2/T3 fallan antes de persistir y T0 limita la evidencia local. |
 
-Constitucion verificada: 1.0.0 · sha256:d57078593e5a78bb302e45cea9f5cc5d581be0c6ab8cbb8c751435febd5fb327
+Constitucion verificada: 1.0.0 · sha256:45af1fa889fb66e86198a80205cbc3f5da35d8e97f286bec4039386c2fbbdc86
 
 ## Gate Impact
 

@@ -1,0 +1,15 @@
+schema: edaios.sdd.feature/v2
+id: EDAIOS-CIERRE-DE-CONTRATOS-RESOLUBLES
+artifact: specs/012-cierre-de-contratos-resolubles/spec.md
+owner: Principal Architect
+authority: governance/ADR-0018-entidades-como-contrato-ejecutable.md
+purpose: convertir la ontologia en contrato ejecutable verificado y hacer resolubles los punteros de controles y linaje
+requirements:
+  - FR-001
+  - FR-002
+  - FR-003
+  - FR-004
+  - FR-005
+validation:
+  - scripts/test.sh
+  - scripts/validate.sh

@@ -15,7 +15,7 @@ deriva_de: Foundation
 **Capa:** Foundation v1.0
 **Estado:** Aprobado (línea base normativa inicial)
 **Actualizado:** 2026-06-26
-**Deriva de:** `FOUNDATION_STRATEGY.md`
+**Deriva de:** `strategy/README.md`
 
 ## Declaración de visión
 

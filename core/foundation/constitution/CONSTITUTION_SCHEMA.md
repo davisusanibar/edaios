@@ -15,7 +15,7 @@ deriva_de: Foundation
 **Capa:** Foundation v1.0
 **Estado:** Ratificado (contrato normativo de artículos)
 **Actualizado:** 2026-06-26
-**Deriva de:** `FOUNDATION_DOCUMENT_STANDARD.md`
+**Deriva de:** `FOUNDATION_DOCUMENT_STANDARD.md` (histórico, genealogía anterior)
 
 ## Objetivo
 

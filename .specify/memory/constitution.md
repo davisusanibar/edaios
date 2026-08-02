@@ -51,4 +51,4 @@ Fuente: `core/foundation/constitution/ART-006-PRINCIPIOS.md`.
 - No se eleva un claim por narrativa, demo o configuración.
 - Commit, push, release y publicación requieren autorización explícita.
 
-**Versión:** 1.0.0 · **Estado:** Ratificado · **Autoridad:** Foundation · **Huella:** `sha256:bd5288ca48a976bb9ff1f139d7bf09fcb1f8b490f4c219526f9c3af77da55da9` · derivado, no editar.
+**Versión:** 1.0.0 · **Estado:** Ratificado · **Autoridad:** Foundation · **Huella:** `sha256:dc3f84c1aa7a6167690261fe0bd77dabcf71bbeda26366d114ff25b73831f690` · derivado, no editar.
