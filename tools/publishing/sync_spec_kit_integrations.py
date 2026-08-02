@@ -20,6 +20,7 @@ from pathlib import Path
 
 ROOT = Path(os.environ.get("EDAIOS_REPO_ROOT") or Path(__file__).resolve().parents[2])
 SOURCE_DIR = ROOT / ".specify" / "commands"
+AGENT_SOURCE_DIR = ROOT / ".specify" / "agents"
 LOCK_PATH = ROOT / ".specify" / "integrations.lock.json"
 SPEC_KIT_VERSION = "0.12.11"
 
@@ -41,6 +42,11 @@ def managed_files() -> set[Path]:
     found.update((ROOT / ".claude" / "commands").glob("speckit.*.md"))
     found.update((ROOT / ".github" / "prompts").glob("speckit.*.prompt.md"))
     for skill_dir in (ROOT / ".agents" / "skills").glob("speckit-*"):
+        found.update(p for p in skill_dir.rglob("*") if p.is_file())
+    # Namespace de agentes revisores (ADR-0019): mismo mundo cerrado.
+    found.update((ROOT / ".claude" / "agents").glob("edaios.*.md"))
+    found.update((ROOT / ".github" / "prompts").glob("edaios.*.prompt.md"))
+    for skill_dir in (ROOT / ".agents" / "skills").glob("edaios-*"):
         found.update(p for p in skill_dir.rglob("*") if p.is_file())
     preset_dir = (ROOT / "core" / "framework" / "extensions" / "sdd-adapter"
                   / "spec-kit" / "preset" / "commands")
@@ -129,9 +135,53 @@ def rendered_files(meta: dict[str, str], body: str) -> dict[Path, str]:
     }
 
 
+def rendered_agent_files(meta: dict[str, str], body: str) -> dict[Path, str]:
+    """Agentes revisores (ADR-0019): solo lectura por construccion, sin preset."""
+    agent_id = meta["id"]
+    skill_name = agent_id.replace(".", "-")
+    marker = "<!-- GENERADO desde .specify/agents; no editar a mano. -->\n\n"
+    description = f"{meta['description']} {meta['trigger']}"
+
+    claude_agent = (
+        "---\n"
+        f"name: {skill_name}\n"
+        f"description: {meta['description']}\n"
+        "tools: Read, Grep, Glob\n"
+        "---\n\n"
+        + marker + body
+    )
+    skill = (
+        "---\n"
+        f"name: {skill_name}\n"
+        f"description: {description}\n"
+        "---\n\n"
+        + marker + body
+    )
+    openai = (
+        "interface:\n"
+        f"  display_name: {quoted(meta['display_name'])}\n"
+        f"  short_description: {quoted(meta['short_description'])}\n"
+        f"  default_prompt: {quoted(meta['default_prompt'])}\n"
+    )
+    copilot = (
+        "---\n"
+        "mode: agent\n"
+        f"description: {quoted(meta['description'])}\n"
+        "---\n\n"
+        + marker + body
+    )
+    return {
+        ROOT / ".claude" / "agents" / f"{agent_id}.md": claude_agent,
+        ROOT / ".agents" / "skills" / skill_name / "SKILL.md": skill,
+        ROOT / ".agents" / "skills" / skill_name / "agents" / "openai.yaml": openai,
+        ROOT / ".github" / "prompts" / f"{agent_id}.prompt.md": copilot,
+    }
+
+
 def expected() -> dict[Path, str]:
     outputs: dict[Path, str] = {}
     lock_commands: dict[str, dict[str, object]] = {}
+    lock_agents: dict[str, dict[str, object]] = {}
     sources = sorted(SOURCE_DIR.glob("speckit.*.md"))
     if not sources:
         raise ValueError("no hay comandos canonicos Spec Kit")
@@ -155,12 +205,40 @@ def expected() -> dict[Path, str]:
             "sha256": hashlib.sha256(source_text.encode("utf-8")).hexdigest(),
             "surfaces": sorted(p.relative_to(ROOT).as_posix() for p in generated),
         }
+    agent_sources = sorted(AGENT_SOURCE_DIR.glob("edaios.*.md")) if AGENT_SOURCE_DIR.is_dir() else []
+    if not agent_sources:
+        # ADR-0019 exige agentes revisores: su desaparición silenciosa sería
+        # fail-open (hallazgo RA-001 de specs/015).
+        raise ValueError("no hay fuentes de agentes revisores en .specify/agents/")
+    stray_agents = sorted(
+        p.name for p in AGENT_SOURCE_DIR.glob("*.md") if p not in agent_sources
+    )
+    if stray_agents:
+        raise ValueError(
+            "fuentes no gestionadas en .specify/agents/ (se esperan solo "
+            f"edaios.*.md): {', '.join(stray_agents)}")
+    for source in agent_sources:
+        meta, body = parse_command(source)
+        if meta["id"] in lock_agents or meta["id"] in lock_commands:
+            raise ValueError(f"id duplicado '{meta['id']}' en {source}")
+        generated = rendered_agent_files(meta, body)
+        collisions = sorted(str(p) for p in generated if p in outputs)
+        if collisions:
+            raise ValueError(f"colision de derivados: {', '.join(collisions)}")
+        outputs.update(generated)
+        source_text = source.read_text(encoding="utf-8")
+        lock_agents[meta["id"]] = {
+            "source": source.relative_to(ROOT).as_posix(),
+            "sha256": hashlib.sha256(source_text.encode("utf-8")).hexdigest(),
+            "surfaces": sorted(p.relative_to(ROOT).as_posix() for p in generated),
+        }
     lock = {
         "schema": "edaios.speckit.integrations/v1",
         "spec_kit_version": SPEC_KIT_VERSION,
         "source": f"edaios-core@v{core_version()}+spec-kit@v{SPEC_KIT_VERSION}",
         "generated_by": "tools/publishing/sync_spec_kit_integrations.py",
         "commands": lock_commands,
+        "agents": lock_agents,
     }
     outputs[LOCK_PATH] = json.dumps(lock, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     return outputs

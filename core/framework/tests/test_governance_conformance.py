@@ -629,3 +629,121 @@ class OntologyConstraintsTests(unittest.TestCase):
         for row in constraints.values():
             self.assertTrue(set(row["aplica_a"]) <= self.entities, row)
             self.assertTrue(row["verificado_por"], row)
+
+
+class AdversarialReviewTests(unittest.TestCase):
+    """Regresiones de specs/015: contrato de findings, v3 y calidad de tests."""
+
+    GATE = "tools/validation/spec_kit_gate.py"
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.quality = load_module(
+            "test_quality_check_015", "tools/validation/test_quality_check.py"
+        )
+
+    def _feature_root(self, findings: str | None, schema: str = "edaios.sdd.feature/v3") -> Path:
+        import shutil
+        tmp = Path(tempfile.mkdtemp(prefix="edaios-adversarial-"))
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        (tmp / ".specify/memory").mkdir(parents=True)
+        shutil.copy(ROOT / ".specify/memory/constitution.md", tmp / ".specify/memory/constitution.md")
+        feature = tmp / "specs/900-fixture"
+        feature.mkdir(parents=True)
+        (feature / "spec.md").write_text(
+            "---\nid: EDAIOS-FIXTURE-ADVERSARIAL\nestado: Cerrado\nfase: implemented\n"
+            "dominio: core\ntramo_sensibilidad: T0\nowner: Fixture\n"
+            "tipo_cambio: governance\ntrazas:\n  - ADR-0001\n"
+            "spec_tipada: specs/900-fixture/feature.spec.yaml\nfuentes:\n  - spec.md\n"
+            "value_ledger: \"N/A: fixture de regresion\"\n"
+            "hipotesis_valor: fixture de regresion adversarial\n---\n\n# Fixture\n\n"
+            "- **FR-001:** fixture.\n\n- **SC-001:** fixture.\n",
+            encoding="utf-8",
+        )
+        (feature / "feature.spec.yaml").write_text(
+            f"schema: {schema}\nid: EDAIOS-FIXTURE-ADVERSARIAL\n"
+            "artifact: specs/900-fixture/spec.md\n",
+            encoding="utf-8",
+        )
+        if findings is not None:
+            (feature / "review").mkdir()
+            (feature / "review/findings.md").write_text(findings, encoding="utf-8")
+        return tmp
+
+    def _gate_output(self, root: Path) -> str:
+        import subprocess
+        import sys
+        result = subprocess.run(
+            [sys.executable, str(ROOT / self.GATE), str(root),
+             "--feature", "specs/900-fixture", "--profile", "consumer-release"],
+            capture_output=True, text=True, check=False,
+        )
+        return result.stdout + result.stderr
+
+    def test_v3_estructural_sin_findings_falla(self) -> None:
+        output = self._gate_output(self._feature_root(findings=None))
+        self.assertIn("revision adversarial materializada", output)
+        self.assertRegex(output, r"\[FAIL\].*revision adversarial materializada")
+
+    def test_v2_sin_findings_no_exige_revision(self) -> None:
+        output = self._gate_output(
+            self._feature_root(findings=None, schema="edaios.sdd.feature/v2")
+        )
+        self.assertNotIn("revision adversarial materializada", output)
+
+    def test_fila_no_conforme_y_critical_abierto_fallan(self) -> None:
+        malformed = (
+            "# Revision\n\n"
+            "| Id | Lente | Severidad | Estado | Hallazgo | Refs |\n"
+            "|---|---|---|---|---|---|\n"
+            "| RA-001 | refutador | GRAVISIMA | abierto | x | spec.md |\n"
+        )
+        output = self._gate_output(self._feature_root(findings=malformed))
+        self.assertRegex(output, r"\[FAIL\].*filas de hallazgo conformes.*RA-001")
+        blocking = (
+            "# Revision\n\n"
+            "| Id | Lente | Severidad | Estado | Hallazgo | Refs |\n"
+            "|---|---|---|---|---|---|\n"
+            "| RA-001 | lente-riesgo | CRITICAL | abierto | x | spec.md |\n"
+        )
+        output = self._gate_output(self._feature_root(findings=blocking))
+        self.assertRegex(output, r"\[FAIL\].*sin CRITICAL/HIGH abiertos.*RA-001")
+
+    def test_sin_hallazgos_justificado_pasa_el_contrato(self) -> None:
+        clean = "# Revision\n\nSin hallazgos: se reviso spec, plan y diff sin defectos defendibles.\n"
+        output = self._gate_output(self._feature_root(findings=clean))
+        self.assertNotRegex(output, r"\[FAIL\].*findings")
+        self.assertNotRegex(output, r"\[FAIL\].*hallazgo")
+
+    def test_checker_de_calidad_falla_cerrado(self) -> None:
+        tmp = Path(tempfile.mkdtemp(prefix="edaios-quality-"))
+        self.addCleanup(__import__("shutil").rmtree, tmp, ignore_errors=True)
+        bad = tmp / "test_malos.py"
+        bad.write_text(
+            "import unittest\n\n\nclass Malos(unittest.TestCase):\n"
+            "    def test_sin_asserts(self):\n        valor = 1 + 1\n\n"
+            "    def test_tautologico(self):\n        valor = 3\n        self.assertEqual(valor, valor)\n\n"
+            "    def test_constante(self):\n        self.assertTrue(True)\n",
+            encoding="utf-8",
+        )
+        errors: list[str] = []
+        checked = self.quality.check_file(bad, errors)
+        self.assertEqual(checked, 3)
+        self.assertEqual(len(errors), 3, errors)
+
+    def test_namespace_de_agentes_sin_fuentes_falla_cerrado(self) -> None:
+        import os as _os
+        import shutil
+        import subprocess
+        import sys
+        tmp = Path(tempfile.mkdtemp(prefix="edaios-sync-"))
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        shutil.copytree(ROOT / ".specify/commands", tmp / ".specify/commands")
+        (tmp / "VERSION").write_text("9.9.9\n", encoding="utf-8")
+        env = dict(_os.environ, EDAIOS_REPO_ROOT=str(tmp))
+        result = subprocess.run(
+            [sys.executable, str(ROOT / "tools/publishing/sync_spec_kit_integrations.py"), "--check"],
+            capture_output=True, text=True, check=False, env=env,
+        )
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn("no hay fuentes de agentes revisores", result.stdout + result.stderr)

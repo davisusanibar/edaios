@@ -67,9 +67,9 @@
         "meaning": "Hace portable el baseline completo: el gate deriva una única raíz desde el grafo Git, publica sus hashes solo como evidencia posterior y conserva la política de release para candidatos futuros."
       },
       "feature": {
-        "id": "EDAIOS-RESTRICCIONES-ONTOLOGICAS-EJECUTABLES",
-        "path": "specs/014-restricciones-ontologicas-ejecutables/",
-        "meaning": "La feature 014 tipifica los invariantes de la ontología como restricciones con enforcement resoluble (ADR-0021): sin verificador, la restricción no existe; nada aspiracional."
+        "id": "EDAIOS-REVISION-ADVERSARIAL-PREPARADA",
+        "path": "specs/015-revision-adversarial-preparada/",
+        "meaning": "La feature 015 prepara la refutación adversarial antes de la firma humana: dos agentes de solo lectura proyectados bajo el mundo cerrado, findings verificables que bloquean CRITICAL/HIGH abiertos, y calidad de tests en la suite; los agentes preparan, el humano firma."
       },
       "lineage": {
         "baseline_feature": {
@@ -77,12 +77,12 @@
           "path": "specs/archive/004-core-multi-initiative-scale/"
         },
         "last_closed_feature": {
-          "id": "EDAIOS-RESTRICCIONES-ONTOLOGICAS-EJECUTABLES",
-          "path": "specs/014-restricciones-ontologicas-ejecutables/"
+          "id": "EDAIOS-REVISION-ADVERSARIAL-PREPARADA",
+          "path": "specs/015-revision-adversarial-preparada/"
         },
         "active_feature": {
-          "id": "EDAIOS-RESTRICCIONES-ONTOLOGICAS-EJECUTABLES",
-          "path": "specs/014-restricciones-ontologicas-ejecutables/"
+          "id": "EDAIOS-REVISION-ADVERSARIAL-PREPARADA",
+          "path": "specs/015-revision-adversarial-preparada/"
         }
       },
       "evidence": {

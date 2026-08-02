@@ -7,9 +7,9 @@ gobierno SDD sin alterar la API funcional ni inventar publicación.
 
 La dirección vigente es RFC-0003 (adopciones gentle-ai y práctica
 multi-agente). Las features 011 (CI remota), 012 (contratos resolubles), 013
-(estado SDD por máquina) y 014 (restricciones ontológicas ejecutables,
-ontología v1.1.0) están cerradas. En cola: 015
-revisión adversarial preparada, 016 onboarding de consumer real. La feature
+(estado SDD por máquina), 014 (restricciones ontológicas ejecutables) y 015
+(revisión adversarial preparada) están cerradas. En cola: 016 onboarding de
+consumer real. La feature
 010 (reorganización de archivo histórico) permanece propuesta en cola y
 ortogonal.
 

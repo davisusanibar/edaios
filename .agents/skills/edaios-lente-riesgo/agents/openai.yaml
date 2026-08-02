@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lente de Riesgo EDAIOS"
+  short_description: "Detecta fail-open e inversiones de autoridad"
+  default_prompt: "Busca fail-open e inversiones de autoridad en el cambio de la feature activa."

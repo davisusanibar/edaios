@@ -20,3 +20,5 @@ $ARGUMENTS
 6. Bloquear implementacion con cualquier `CRITICAL`, `HIGH` o gate rojo; proponer correcciones sin aplicarlas automaticamente.
 
 Estado por maquina: `python3 tools/operations/feature_context.py status` emite `edaios.sdd.status/v1`; enrutar solo por `nextRecommended` (fases del DAG o `idle`) y tratar `blockedReasons` como bloqueo de la fase actual.
+
+Revision adversarial (ADR-0019): delega en los agentes `edaios.refutador` y `edaios.lente-riesgo` (superficies proyectadas, jamas a mano) y materializa sus tablas en `review/findings.md` de la feature. Un CRITICAL o HIGH `abierto` bloquea la implementacion; el contrato `edaios.sdd.feature/v3` exige el archivo al cierre de todo cambio estructural. Los agentes preparan; el humano firma.

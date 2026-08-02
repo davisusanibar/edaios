@@ -5,8 +5,8 @@
     "feature_directory": "specs/archive/004-core-multi-initiative-scale"
   },
   "last_closed_feature": {
-    "id": "EDAIOS-RESTRICCIONES-ONTOLOGICAS-EJECUTABLES",
-    "feature_directory": "specs/014-restricciones-ontologicas-ejecutables"
+    "id": "EDAIOS-REVISION-ADVERSARIAL-PREPARADA",
+    "feature_directory": "specs/015-revision-adversarial-preparada"
   },
   "active_feature": null
 }

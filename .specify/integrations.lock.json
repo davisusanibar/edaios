@@ -1,7 +1,29 @@
 {
+  "agents": {
+    "edaios.lente-riesgo": {
+      "sha256": "712d4c1c8f0c3245384a2a41ca4a5855d13451a8874a8c77f0af27ee93ccfa27",
+      "source": ".specify/agents/edaios.lente-riesgo.md",
+      "surfaces": [
+        ".agents/skills/edaios-lente-riesgo/SKILL.md",
+        ".agents/skills/edaios-lente-riesgo/agents/openai.yaml",
+        ".claude/agents/edaios.lente-riesgo.md",
+        ".github/prompts/edaios.lente-riesgo.prompt.md"
+      ]
+    },
+    "edaios.refutador": {
+      "sha256": "98b0aac7a9a87ca7219cfafadd2eacd453e9af9497a63665017ae52a5c62bfc0",
+      "source": ".specify/agents/edaios.refutador.md",
+      "surfaces": [
+        ".agents/skills/edaios-refutador/SKILL.md",
+        ".agents/skills/edaios-refutador/agents/openai.yaml",
+        ".claude/agents/edaios.refutador.md",
+        ".github/prompts/edaios.refutador.prompt.md"
+      ]
+    }
+  },
   "commands": {
     "speckit.analyze": {
-      "sha256": "913adba198a6f87d9070f13e14101f6ecb1a2ad718d1d251aeff9f8355c5ee7d",
+      "sha256": "f18a927fc57438c7741dc18243f49ec6bc7dbd0d908e2014bd8c1682befee24c",
       "source": ".specify/commands/speckit.analyze.md",
       "surfaces": [
         ".agents/skills/speckit-analyze/SKILL.md",

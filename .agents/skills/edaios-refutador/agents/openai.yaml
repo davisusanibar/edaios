@@ -1,0 +1,4 @@
+interface:
+  display_name: "Refutador EDAIOS"
+  short_description: "Refuta claims de la feature con evidencia"
+  default_prompt: "Refuta los PASS del Constitution Check y los claims FR/SC de la feature activa."

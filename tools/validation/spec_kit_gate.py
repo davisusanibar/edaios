@@ -591,7 +591,9 @@ def validate_feature(root: Path, feature: Path, results: Results, structural: bo
             unchecked = re.findall(r"^- \[ \]", tasks_text, re.MULTILINE)
             results.check(not unchecked, f"{tag}: implementacion sin tareas pendientes", f"{len(unchecked)} pendientes")
     verification = feature / "verification.md"
-    if level >= PHASES["tasked"] and typed_schema == "edaios.sdd.feature/v2":
+    if level >= PHASES["tasked"] and typed_schema in {
+        "edaios.sdd.feature/v2", "edaios.sdd.feature/v3"
+    }:
         results.check(verification.exists(), f"{tag}: matriz SC -> verificacion existe")
     if verification.exists():
         verification_text = verification.read_text(encoding="utf-8")
@@ -601,6 +603,45 @@ def validate_feature(root: Path, feature: Path, results: Results, structural: bo
         evidence_refs = re.findall(r"`(evidence/[^`]+)`", verification_text)
         missing_evidence = sorted(ref for ref in evidence_refs if not (feature / ref).is_file())
         results.check(not missing_evidence, f"{tag}: paths de evidencia resolubles", ", ".join(missing_evidence))
+
+    # Revision adversarial preparada (ADR-0019, specs/015): el contrato v3
+    # exige findings para cambio estructural al cierre; v2 conserva su contrato.
+    findings = feature / "review" / "findings.md"
+    if (
+        typed_schema == "edaios.sdd.feature/v3"
+        and structural
+        and level >= PHASES["implemented"]
+    ):
+        results.check(
+            findings.exists(),
+            f"{tag}: revision adversarial materializada (v3 estructural)",
+        )
+    if findings.exists():
+        findings_text = strip_fences(findings.read_text(encoding="utf-8"))
+        rows = re.findall(
+            r"^\|\s*(RA-\d{3})\s*\|\s*(refutador|lente-riesgo)\s*\|\s*"
+            r"(CRITICAL|HIGH|MEDIUM|LOW)\s*\|\s*"
+            r"(abierto|corregido|refutado|aceptado)\s*\|[^|]*\|\s*([^|]*?)\s*\|\s*$",
+            findings_text,
+            re.MULTILINE,
+        )
+        no_findings = re.search(r"^Sin hallazgos:\s*\S", findings_text, re.MULTILINE)
+        results.check(
+            bool(rows) or bool(no_findings),
+            f"{tag}: findings con filas validas o 'Sin hallazgos:' justificado",
+        )
+        declared_rows = re.findall(r"^\|\s*(RA-\d{3})\s*\|", findings_text, re.MULTILINE)
+        row_ids = [row[0] for row in rows]
+        malformed = sorted(set(declared_rows) - set(row_ids))
+        results.check(not malformed, f"{tag}: filas de hallazgo conformes", ", ".join(malformed))
+        results.check(len(row_ids) == len(set(row_ids)), f"{tag}: ids de hallazgo unicos")
+        empty_refs = [row[0] for row in rows if not row[4].strip()]
+        results.check(not empty_refs, f"{tag}: refs de hallazgo no vacias", ", ".join(empty_refs))
+        blocking = [
+            row[0] for row in rows
+            if row[2] in {"CRITICAL", "HIGH"} and row[3] == "abierto"
+        ]
+        results.check(not blocking, f"{tag}: sin CRITICAL/HIGH abiertos", ", ".join(blocking))
 
 
 def feature_paths(root: Path, explicit: str | None) -> list[Path]:
