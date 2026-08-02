@@ -47,8 +47,11 @@ Con la aceptación de este ADR, RFC-0002 pasa a Ratificado con
 
 El consumer real de la feature de onboarding recibe el gate por vía gobernada y su
 procedencia es verificable. Queda una copia por consumer — trade-off aceptado y
-declarado. El retiro del sidecar manual de `data-kcd2026` ocurre en la feature de onboarding
-al re-sembrar con `seed_gate()`.
+declarado. El retiro del sidecar manual ocurre en la feature de onboarding al re-sembrar
+con `seed_gate()`. Nota de identidad (specs/016, SRC-008): el objeto gobernado
+que RFC-0002 nombró por su proyecto `data-kcd2026` es el módulo
+`data-evolutionary/kcd-001`, único portador de la copia vendorizada; el módulo
+hermano `data-kcd2026` no porta superficie EDAIOS.
 
 ## Evidencia y frontera del claim
 

@@ -17,6 +17,7 @@ artefactos en disco). El invariante de dependencias sigue matizado por ADR-0003/
 from __future__ import annotations
 
 import hashlib
+from datetime import date
 from pathlib import Path
 
 from edaios_sdd_adapter.adapter import (
@@ -79,6 +80,92 @@ def seed_speckit_constitution(
     dest = Path(out_dir) / CONSTITUTION_REL
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(text, encoding="utf-8")
+    return dest
+
+
+GATE_REL = "tools/validation/spec_kit_gate.py"
+GATE_SIDECAR_REL = "tools/validation/spec_kit_gate.SOURCE.md"
+
+
+def _gate_sidecar_text(core_version: str, digest: str) -> str:
+    return (
+        "# Procedencia de spec_kit_gate.py (sembrado)\n\n"
+        "Entrega gobernada por el adapter (ADR-0020, resuelve RFC-0002): la\n"
+        "copia se re-siembra con `seed_gate`; una copia divergente nunca se\n"
+        "sobrescribe sin confirmación explícita.\n\n"
+        "| Campo | Valor |\n"
+        "|---|---|\n"
+        f"| Core | edaios-core v{core_version} |\n"
+        f"| sha256 | `{digest}` |\n"
+        f"| Fecha de siembra | {date.today().isoformat()} |\n"
+        "| Vía | `edaios_sdd_adapter.seed_gate` |\n\n"
+        "Re-sincronizar: volver a ejecutar `seed_gate` desde el Core vigente.\n"
+    )
+
+
+def seed_gate(root: Path, out_dir: Path, *, force: bool = False) -> Path:
+    """Siembra el gate SDD en un consumer con procedencia verificable (ADR-0020).
+
+    `root` es el repo EDAIOS autoritativo; `out_dir` es el repo o módulo del
+    consumer. Contención física: destino y sidecar deben vivir bajo `out_dir`
+    tras resolver symlinks (RA-003, specs/016). Idempotente y convergente: con
+    gate byte-idéntico el sidecar se auto-repara si falta o no declara la
+    procedencia vigente (RA-001) — reintentar tras una escritura parcial
+    converge al estado correcto. Un gate divergente NO se sobrescribe sin
+    `force=True` (la deriva se reporta con ambos digests, RFC-0002); un sidecar
+    previo sin gate acompañante tampoco se pisa sin `force` (RA-004). `force`
+    materializa la confirmación explícita del owner del consumer.
+    """
+    source = Path(root) / GATE_REL
+    if not source.exists():
+        raise FileNotFoundError(f"gate fuente ausente: {source}")
+    payload = source.read_bytes()
+    digest = hashlib.sha256(payload).hexdigest()
+    core_version = (Path(root) / "VERSION").read_text(encoding="utf-8").strip()
+    out = Path(out_dir).resolve()
+    dest = Path(out_dir) / GATE_REL
+    sidecar = Path(out_dir) / GATE_SIDECAR_REL
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    if not dest.parent.resolve().is_relative_to(out):
+        raise ValueError(
+            "contención física violada: tools/validation del consumer escapa "
+            "de su raíz (symlink) — la siembra se detiene"
+        )
+    for target in (dest, sidecar):
+        if target.is_symlink() or (
+            target.exists() and not target.resolve().is_relative_to(out)
+        ):
+            raise ValueError(
+                f"contención física violada: {target.name} es o atraviesa un "
+                "symlink — la siembra se detiene"
+            )
+    expected_sidecar = _gate_sidecar_text(core_version, digest)
+    if dest.exists():
+        current = hashlib.sha256(dest.read_bytes()).hexdigest()
+        if current == digest:
+            # RA-001: la procedencia es proyección del estado real; si falta o
+            # no declara el digest vigente vía seed_gate, se repara.
+            healthy = (
+                sidecar.exists()
+                and digest in sidecar.read_text(encoding="utf-8")
+                and "seed_gate" in sidecar.read_text(encoding="utf-8")
+            )
+            if not healthy:
+                sidecar.write_text(expected_sidecar, encoding="utf-8")
+            return dest
+        if not force:
+            raise ValueError(
+                "gate del consumer divergente de la fuente "
+                f"(consumer=sha256:{current[:12]} fuente=sha256:{digest[:12]}); "
+                "la deriva se reporta, no se pisa — re-siembra con force=True"
+            )
+    elif sidecar.exists() and not force:
+        raise ValueError(
+            "sidecar de procedencia previo sin gate acompañante: su registro "
+            "no se pisa — archívalo y re-siembra con force=True"
+        )
+    dest.write_bytes(payload)
+    sidecar.write_text(expected_sidecar, encoding="utf-8")
     return dest
 
 

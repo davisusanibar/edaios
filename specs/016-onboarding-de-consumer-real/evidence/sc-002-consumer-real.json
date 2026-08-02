@@ -1,0 +1,28 @@
+{
+ "schema": "edaios.feature-evidence/v1",
+ "criterion": "SC-002",
+ "status": "verified",
+ "date": "2026-08-02",
+ "consumer": "~/Documents/ddsa/wks/kcd/live/data-evolutionary/kcd-001",
+ "refusal": "gate del consumer divergente de la fuente (consumer=sha256:8ef5f5ec52db fuente=sha256:60365b02336b); la deriva se reporta, no se pisa — re-siembra con force=True",
+ "reseed": {
+  "core": "edaios-core v3.1.0",
+  "sha256": "60365b02336b18497072eda0443929c9d9c3967bfe57764cf3fd0cedf665e2c7",
+  "fecha": "2026-08-02",
+  "via": "edaios_sdd_adapter.seed_gate",
+  "confirmacion": "orden expresa del owner del consumer: Principal Architect es owner de ambos repos (Core y data-evolutionary — mismo usuario git davisusanibar, SRC-007); si los owners difirieran, force pertenece exclusivamente al owner del consumer (PLB-005 paso 3)"
+ },
+ "gate_runs": [
+  {
+   "feature": "specs/001-revenue-ventana-cliente",
+   "profile": "consumer-release",
+   "result": "43/43 checks OK"
+  },
+  {
+   "feature": "specs/002-persistencia-iceberg",
+   "profile": "consumer-release",
+   "result": "18/18 checks OK"
+  }
+ ],
+ "limits": "El commit del arbol sembrado pertenece al owner del consumer; sin commit en data-evolutionary."
+}

@@ -1,0 +1,14 @@
+schema: edaios.sdd.feature/v3
+id: EDAIOS-ONBOARDING-DE-CONSUMER-REAL
+artifact: specs/016-onboarding-de-consumer-real/spec.md
+owner: Principal Architect
+authority: governance/ADR-0020-entrega-gobernada-del-gate-al-consumer.md
+purpose: entregar el gate SDD al primer consumer real por via gobernada y registrar el primer outcome del Value Ledger
+requirements:
+  - FR-001
+  - FR-002
+  - FR-003
+  - FR-004
+validation:
+  - scripts/test.sh
+  - scripts/validate.sh

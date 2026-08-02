@@ -108,24 +108,18 @@ fi
   specify bundle    install "$SK/bundle" --offline >/dev/null )
 echo "[C] bundle Spec Kit gobernado instalado"
 
-# [manual, RFC-0002] vendorizar el gate + registrar su procedencia
-mkdir -p "$WS/tools/validation"
-cp "$CORE/tools/validation/spec_kit_gate.py" "$WS/tools/validation/spec_kit_gate.py"
-GATE_SHA="$(cd "$CORE" && git rev-parse HEAD 2>/dev/null || echo desconocido)"
-cat > "$WS/tools/validation/spec_kit_gate.SOURCE.md" <<SRC
-# Procedencia de spec_kit_gate.py (vendorizado)
-
-El gate no se empaqueta (wheel ni bundle): se copia. Pin trazable (RFC-0002).
-
-| Campo | Valor |
-|---|---|
-| Repo fuente | $CORE |
-| Commit | $GATE_SHA |
-| Inyectado por | inject-consumer.sh |
-
-Re-sincronizar: re-copiar desde Core y actualizar el Commit de esta tabla.
-SRC
-echo "[C] gate vendorizado (pin $GATE_SHA) + SOURCE.md"
+# [gobernado, ADR-0020] sembrar el gate con procedencia via seed_gate. Sin
+# force: una copia divergente DETIENE la inyeccion (la deriva se reporta, no se
+# pisa); resolverla exige confirmacion explicita del owner del consumer
+# (seed_gate force=True), nunca este script.
+PYTHONPATH="$CORE/core/framework/extensions/sdd-adapter/src${PYTHONPATH:+:$PYTHONPATH}" \
+python3 - "$CORE" "$WS" <<'PY' || fail "seed_gate detuvo la inyeccion (deriva o contencion reportada arriba)"
+import sys
+from pathlib import Path
+from edaios_sdd_adapter.spec_kit import seed_gate
+seed_gate(Path(sys.argv[1]), Path(sys.argv[2]))
+PY
+echo "[C] gate sembrado con procedencia gobernada (seed_gate, ADR-0020)"
 
 # --- Capa D: memoria de agente ---
 cp "$CORE/.specify/integrations.lock.json" "$WS/.specify/integrations.lock.json"

@@ -67,9 +67,9 @@
         "meaning": "Hace portable el baseline completo: el gate deriva una única raíz desde el grafo Git, publica sus hashes solo como evidencia posterior y conserva la política de release para candidatos futuros."
       },
       "feature": {
-        "id": "EDAIOS-REVISION-ADVERSARIAL-PREPARADA",
-        "path": "specs/015-revision-adversarial-preparada/",
-        "meaning": "La feature 015 prepara la refutación adversarial antes de la firma humana: dos agentes de solo lectura proyectados bajo el mundo cerrado, findings verificables que bloquean CRITICAL/HIGH abiertos, y calidad de tests en la suite; los agentes preparan, el humano firma."
+        "id": "EDAIOS-ONBOARDING-DE-CONSUMER-REAL",
+        "path": "specs/016-onboarding-de-consumer-real/",
+        "meaning": "La feature 016 entrega el gate al primer consumer real por vía gobernada (seed_gate, ADR-0020): la deriva se reporta con digests y nunca se pisa sin confirmación; primer outcome VL-001 en observación; cierra el roadmap RFC-0003."
       },
       "lineage": {
         "baseline_feature": {
@@ -77,12 +77,12 @@
           "path": "specs/archive/004-core-multi-initiative-scale/"
         },
         "last_closed_feature": {
-          "id": "EDAIOS-REVISION-ADVERSARIAL-PREPARADA",
-          "path": "specs/015-revision-adversarial-preparada/"
+          "id": "EDAIOS-ONBOARDING-DE-CONSUMER-REAL",
+          "path": "specs/016-onboarding-de-consumer-real/"
         },
         "active_feature": {
-          "id": "EDAIOS-REVISION-ADVERSARIAL-PREPARADA",
-          "path": "specs/015-revision-adversarial-preparada/"
+          "id": "EDAIOS-ONBOARDING-DE-CONSUMER-REAL",
+          "path": "specs/016-onboarding-de-consumer-real/"
         }
       },
       "evidence": {

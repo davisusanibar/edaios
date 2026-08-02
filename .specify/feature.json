@@ -5,8 +5,8 @@
     "feature_directory": "specs/archive/004-core-multi-initiative-scale"
   },
   "last_closed_feature": {
-    "id": "EDAIOS-REVISION-ADVERSARIAL-PREPARADA",
-    "feature_directory": "specs/015-revision-adversarial-preparada"
+    "id": "EDAIOS-ONBOARDING-DE-CONSUMER-REAL",
+    "feature_directory": "specs/016-onboarding-de-consumer-real"
   },
   "active_feature": null
 }

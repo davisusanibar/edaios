@@ -13,8 +13,8 @@ consumer real. La feature
 010 (reorganización de archivo histórico) permanece propuesta en cola y
 ortogonal.
 
-El piloto real gobernado sigue siendo la prioridad estratégica y se materializa
-como la feature 016 (ADR-0020 resolvió RFC-0002):
+El piloto real gobernado se materializó en la feature 016 (ADR-0020 resolvió
+RFC-0002). Para el segundo consumer, la secuencia gobernada es:
 
 1. partir de una necesidad y un owner reales;
 2. abrir una feature Spec Kit con fuentes y límites explícitos;

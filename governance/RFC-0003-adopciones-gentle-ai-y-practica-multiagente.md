@@ -1,8 +1,9 @@
 # RFC-0003 — ¿Qué adopta EDAIOS de gentle-ai y de la práctica multi-agente sin perder su enforcement code-first?
 
-**Estado:** Propuesto
+**Estado:** Ratificado
 **Fecha:** 2026-08-01
 **Owner:** Principal Architect
+**resolved_by:** ADR-0017, ADR-0018, ADR-0019, ADR-0020, ADR-0021
 
 ## Problema
 
@@ -93,8 +94,10 @@ Vehículos que resuelven este RFC por partes, cada uno con su criterio de acepta
    cerrado AGENT-PARITY; `review/findings.md` obligatorio para cambio estructural
    desde la fase analyze; checker de calidad de tests bajo el gate TEST.
 5. **ADR-0020 + specs/016-onboarding-de-consumer-real** — resuelve RFC-0002
-   (opción A, `seed_gate()`); ciclo SDD real en el consumer `data-kcd2026`; primera
-   entrada VL-001 del Value Ledger con evidencia.
+   (opción A, `seed_gate()`); ciclo SDD real en el consumer (módulo gobernado
+   `data-evolutionary/kcd-001`, nombrado por su proyecto `data-kcd2026` en
+   RFC-0002 — reconciliación en specs/016 SRC-008); primera entrada VL-001 del
+   Value Ledger con evidencia.
 
 ## Validación de reutilización (auditoría de aceleradores, 2026-08-01)
 
@@ -153,5 +156,9 @@ Statement + SBOM con syft, manteniendo checksums stdlib como fallback.
 
 ## Resolución
 
-Pendiente. Se ratificará cuando ADR-0017, ADR-0018, ADR-0019 y ADR-0020 estén
-Aceptados y las features del roadmap cierren con gates en verde.
+Ratificado el 2026-08-02: ADR-0017..0021 Aceptados y las seis features del
+roadmap (011 CI remota, 012 contratos resolubles, 013 sdd-status, 014
+restricciones ontológicas, 015 revisión adversarial, 016 onboarding de
+consumer real) cerradas con gates en verde y evidencia remota archivada. Los
+dos vehículos candidatos de la auditoría de reutilización (vendor update de
+Spec Kit y receipts in-toto) permanecen pendientes de decisión del Owner.

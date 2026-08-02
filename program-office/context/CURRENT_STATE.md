@@ -1,6 +1,6 @@
 # CURRENT_STATE — Core 3.1.0 baseline day-zero
 
-**Estado:** baseline portable instalado; feature 015 cerrada; feature 010 propuesta en cola
+**Estado:** baseline portable instalado; feature 016 cerrada; feature 010 propuesta en cola
 **Versión:** 3.1.0
 **Fecha:** 2026-08-01
 
@@ -19,10 +19,10 @@
   enmienda la cláusula de hogar de ADR-0013 y autoriza la superficie de CI
   remota en `.github/workflows/`). La superficie Bitbucket se conserva como
   secundaria mientras el espejo exista.
-- La última feature cerrada es
-  `specs/015-revision-adversarial-preparada` (revisión adversarial preparada:
-  agentes refutador y lente-riesgo proyectados, contrato de findings v3 y
-  calidad de tests en la suite, ADR-0019). Cierres previos:
+- La última feature cerrada es `specs/016-onboarding-de-consumer-real`
+  (entrega gobernada del gate al consumer real `data-evolutionary/kcd-001`
+  con seed_gate, primer outcome VL-001 en observación, ADR-0020). Cierres
+  previos: `specs/015-revision-adversarial-preparada`,
   `specs/014-restricciones-ontologicas-ejecutables`,
   `specs/013-sdd-status-maquina`, `specs/012-cierre-de-contratos-resolubles`,
   `specs/011-ci-remota-y-estado-vigente` y
@@ -30,8 +30,11 @@
   `specs/010-historical-archive-reorganization` está propuesta en cola. El
   handoff conserva baseline 004 y foco activo nulo hasta que el owner
   seleccione el siguiente foco canónico.
-- La dirección de programa vigente es RFC-0003: adopciones de gentle-ai y
-  práctica multi-agente (en cola: 016 primer consumer real).
+- La dirección RFC-0003 (adopciones gentle-ai y práctica multi-agente) está
+  RATIFICADA y ejecutada: sus seis features cerraron con evidencia remota. El
+  Value Ledger tiene su primera entrada (VL-001, en observación). Pendientes
+  de decisión del owner: vendor update de Spec Kit 0.12.11→0.15.x y receipts
+  in-toto (RFC-0003, Recomendación).
 - La feature 006 y sus artefactos de release ligados a la genealogía retirada
   dejaron de ser estado operativo; ADR-0012 reemplaza ese cutover concreto.
 - `.specify/release.json` v2 declara `status: baseline`, sin candidato activo y
