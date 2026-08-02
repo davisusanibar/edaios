@@ -1,6 +1,6 @@
 # EDAIOS Core Governed Delivery Bundle
 
-Bundle Spec Kit 0.12.11 que registra como una unidad el preset de Foundation,
+Bundle Spec Kit 0.15.1 que registra como una unidad el preset de Foundation,
 la extensión de gobierno y el workflow de delivery agnóstico de EDAIOS Core.
 Requiere un workspace preparado por una iniciativa; no lo adopta, no aporta su
 autoridad y no reemplaza sus ledgers.

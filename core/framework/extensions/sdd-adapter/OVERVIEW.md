@@ -1,6 +1,6 @@
 # Adapter SDD (`sdd-adapter`)
 
-Borde de interoperabilidad entre EDAIOS (control plane) y las herramientas de delivery SDD externas (ADR-0003, contrato de ADR-0003). Sin dependencias externas (stdlib): la herramienta externa se invoca al borde, pineada; este código es nuestro. El núcleo de conocimiento sigue autocontenido (invariante matizado por ADR-0003/PAT-003).
+Borde de interoperabilidad entre EDAIOS (control plane) y las herramientas de delivery SDD externas (ADR-0022, contrato de ADR-0022). Sin dependencias externas (stdlib): la herramienta externa se invoca al borde, pineada; este código es nuestro. El núcleo de conocimiento sigue autocontenido (invariante matizado por ADR-0022/PAT-003).
 
 - **Aguas arriba:** `export_context_bundle` / `seed_speckit_constitution` — proyecta
   la Constitución compilada y agrega el contexto gobernado del dominio sin requerir
@@ -9,7 +9,7 @@ Borde de interoperabilidad entre EDAIOS (control plane) y las herramientas de de
   **borradores** en `.edaios/drafts/` con herramienta, versión, ruta y SHA-256;
   promoción humana + ADR.
 
-Spec Kit 0.12.11 es el perfil operativo aceptado por ADR-0003; ADR-0003 conserva
+Spec Kit 0.15.1 es el perfil operativo aceptado por ADR-0022; ADR-0022 conserva
 el piloto histórico 0.11.0. El paquete `spec-kit/` contiene preset, extensión,
 workflow y bundle locales. Las primitivas se instalan por sus mecanismos
 nativos; el bundle fija sus versiones y las registra como una unidad. Los gates

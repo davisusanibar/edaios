@@ -9,7 +9,7 @@ extension:
   category: "process"
   effect: "read-only"
 requires:
-  speckit_version: ">=0.12.11"
+  speckit_version: ">=0.15.1"
 provides:
   commands:
     - name: "speckit.edaios-governance.gate"

@@ -2,7 +2,7 @@
 
 > **Proyección generada; no editar.** Fuente: `governance/ADR-NNNN-*.md`. Regenerar con `python3 tools/publishing/compile_catalogs.py --write`.
 
-**Total:** 21 · **Aceptados:** 21 · **Propuestos:** 0 · **Derogados:** 0
+**Total:** 22 · **Aceptados:** 22 · **Propuestos:** 0 · **Derogados:** 0
 
 | ID | Título | Estado | Owner | Fecha | Path |
 |---|---|---|---|---|---|
@@ -27,3 +27,4 @@
 | ADR-0019 | Agentes revisores de solo lectura: preparación sin autoridad | Aceptado | Principal Architect | 2026-08-01 | `governance/ADR-0019-agentes-revisores-preparacion-sin-autoridad.md` |
 | ADR-0020 | Entrega gobernada del gate SDD al consumer | Aceptado | Principal Architect | 2026-08-01 | `governance/ADR-0020-entrega-gobernada-del-gate-al-consumer.md` |
 | ADR-0021 | Restricciones ontológicas como contrato ejecutable | Aceptado | Principal Architect | 2026-08-02 | `governance/ADR-0021-restricciones-ontologicas-ejecutables.md` |
+| ADR-0022 | Actualización del perfil operativo Spec Kit a 0.15.1 | Aceptado | Principal Architect | 2026-08-02 | `governance/ADR-0022-actualizacion-vendor-spec-kit.md` |

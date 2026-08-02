@@ -6,7 +6,7 @@ workflow:
   author: "EDAIOS"
   description: "Ciclo SDD con aclaracion, analisis, gates EDAIOS y checkpoints humanos"
 requires:
-  speckit_version: ">=0.12.11"
+  speckit_version: ">=0.15.1"
   integrations:
     any: ["claude", "codex", "copilot"]
 inputs:

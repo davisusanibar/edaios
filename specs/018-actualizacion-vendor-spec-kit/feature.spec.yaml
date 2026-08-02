@@ -1,0 +1,14 @@
+schema: edaios.sdd.feature/v3
+id: EDAIOS-ACTUALIZACION-VENDOR-SPEC-KIT
+artifact: specs/018-actualizacion-vendor-spec-kit/spec.md
+owner: Principal Architect
+authority: governance/ADR-0022-actualizacion-vendor-spec-kit.md
+purpose: actualizar el perfil operativo del vendor Spec Kit a 0.15.1 con evidencia de sandbox y sin superficies nuevas sin gobierno
+requirements:
+  - FR-001
+  - FR-002
+  - FR-003
+  - FR-004
+validation:
+  - scripts/test.sh
+  - scripts/validate.sh

@@ -40,6 +40,7 @@ es una lista congelada (specs/010, FR-001/FR-003).
 | 014-restricciones-ontologicas-ejecutables | ADR-0021 | `specs/014-restricciones-ontologicas-ejecutables` | `specs/archive/014-restricciones-ontologicas-ejecutables` |
 | 015-revision-adversarial-preparada | ADR-0019 | `specs/015-revision-adversarial-preparada` | `specs/archive/015-revision-adversarial-preparada` |
 | 016-onboarding-de-consumer-real | ADR-0020 | `specs/016-onboarding-de-consumer-real` | `specs/archive/016-onboarding-de-consumer-real` |
+| 017-endurecimientos-de-revision | ADR-0019 | `specs/017-endurecimientos-de-revision` | `specs/archive/017-endurecimientos-de-revision` |
 
 ## Regla de mantenimiento
 

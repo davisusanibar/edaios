@@ -8,7 +8,7 @@ bundle:
   author: "EDAIOS"
   license: "MIT"
 requires:
-  speckit_version: ">=0.12.11"
+  speckit_version: ">=0.15.1"
 provides:
   presets:
     - id: "edaios-governed-delivery"

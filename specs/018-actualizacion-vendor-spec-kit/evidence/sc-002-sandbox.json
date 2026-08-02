@@ -1,0 +1,15 @@
+{
+ "schema": "edaios.feature-evidence/v1",
+ "criterion": "SC-002",
+ "status": "verified",
+ "date": "2026-08-02",
+ "specify_version": "specify 0.15.1 (uvx --from git+github/spec-kit@v0.15.1, commit 489a3d51; shim de PATH aislado, CLI global 0.12.11 intacto)",
+ "hallazgo_empirico": "El flag --events false afirmado por la evaluacion de lectura NO existe en el CLI real (specify init 0.15.1: script, ignore-agent-tools, here, force, preset, integration, integration-options); la inyeccion NO materializa .specify/events.py ni .claude/settings.json — el riesgo MEDIA de la evaluacion no se materializa en esta ruta.",
+ "inyeccion": "4 capas en verde: edaios-core (venv efimero), constitucion proyectada con estampa Spec Kit 0.15.1 + attachment validado initiative-adoption, bundle Spec Kit gobernado (preset/extension/workflow), seed_gate con sidecar, memoria de agente.",
+ "gate_run": {
+  "feature": "specs/001-humo-de-aceptacion",
+  "profile": "consumer-release",
+  "result": "23/23 checks OK"
+ },
+ "limits": "Sandbox efimero en scratchpad; sin commit; el upgrade del CLI global es acto del owner."
+}

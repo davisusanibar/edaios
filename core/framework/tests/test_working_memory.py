@@ -199,7 +199,7 @@ class WorkingMemoryTest(unittest.TestCase):
                 content="No sensitivity must not be inferred.",
                 tipo="Article",
                 source_tool="spec-kit",
-                tool_version="0.12.11",
+                tool_version="0.15.1",
             )
         first = ingest_artifact(
             self.root,
@@ -208,7 +208,7 @@ class WorkingMemoryTest(unittest.TestCase):
             content="Use RocksDB.",
             tipo="Article",
             source_tool="spec-kit",
-            tool_version="0.12.11",
+            tool_version="0.15.1",
             sensitivity="T0",
         )
         duplicate = ingest_artifact(
@@ -218,7 +218,7 @@ class WorkingMemoryTest(unittest.TestCase):
             content="Use RocksDB.",
             tipo="Article",
             source_tool="spec-kit",
-            tool_version="0.12.11",
+            tool_version="0.15.1",
             sensitivity="T0",
         )
         second = ingest_artifact(

@@ -22,7 +22,7 @@ ROOT = Path(os.environ.get("EDAIOS_REPO_ROOT") or Path(__file__).resolve().paren
 SOURCE_DIR = ROOT / ".specify" / "commands"
 AGENT_SOURCE_DIR = ROOT / ".specify" / "agents"
 LOCK_PATH = ROOT / ".specify" / "integrations.lock.json"
-SPEC_KIT_VERSION = "0.12.11"
+SPEC_KIT_VERSION = "0.15.1"
 
 
 def core_version() -> str:

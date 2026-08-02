@@ -59,7 +59,12 @@ echo "$ID" | grep -qE '^[a-z][a-z0-9-]{2,63}$' || fail "id no es kebab-case: $ID
 WS="$(cd "$WS" && pwd)"
 
 # --- Prechecks del entorno ---
-command -v specify >/dev/null || fail "'specify' (Spec Kit) no esta en PATH; instala Spec Kit >=0.12.11"
+command -v specify >/dev/null || fail "'specify' (Spec Kit) no esta en PATH; instala Spec Kit >=0.15.1"
+SPECIFY_MIN="0.15.1"
+SPECIFY_VER="$(specify --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)"
+[ -n "$SPECIFY_VER" ] || fail "no se pudo determinar la version de 'specify'"
+[ "$(printf '%s\n%s\n' "$SPECIFY_MIN" "$SPECIFY_VER" | sort -V | head -1)" = "$SPECIFY_MIN" ] \
+  || fail "specify $SPECIFY_VER < $SPECIFY_MIN: el perfil aceptado (ADR-0022) exige >=$SPECIFY_MIN"
 [ -f "$CORE/.specify/memory/constitution.md" ] || fail "constitucion compilada ausente en Core; corre: (cd $CORE && python3 tools/publishing/compile_constitution.py)"
 [ -f "$CORE/.specify/integrations.lock.json" ] || fail "integrations.lock.json ausente en Core; corre: (cd $CORE && python3 tools/publishing/sync_spec_kit_integrations.py)"
 [ -f "$CORE/tools/validation/spec_kit_gate.py" ] || fail "gate ausente en Core: $CORE/tools/validation/spec_kit_gate.py"

@@ -253,7 +253,7 @@ class AgentSetupTest(unittest.TestCase):
             json.dumps(
                 {
                     "schema": "edaios.speckit.integrations/v1",
-                    "source": "edaios-core@v3.1.0+spec-kit@v0.12.11",
+                    "source": "edaios-core@v3.1.0+spec-kit@v0.15.1",
                     "commands": {},
                 }
             ) + "\n",

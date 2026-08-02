@@ -1,6 +1,6 @@
 schema: edaios.sdd.feature/v3
 id: EDAIOS-ENDURECIMIENTOS-DE-REVISION
-artifact: specs/017-endurecimientos-de-revision/spec.md
+artifact: specs/archive/017-endurecimientos-de-revision/spec.md
 owner: Principal Architect
 authority: governance/ADR-0019-agentes-revisores-preparacion-sin-autoridad.md
 purpose: convertir en codigo los dos endurecimientos anotados por la revision adversarial antes de que envejezcan como prosa

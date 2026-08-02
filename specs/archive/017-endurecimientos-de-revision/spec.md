@@ -10,7 +10,7 @@ trazas:
   - ADR-0019
   - ADR-0002
   - RFC-0003
-spec_tipada: specs/017-endurecimientos-de-revision/feature.spec.yaml
+spec_tipada: specs/archive/017-endurecimientos-de-revision/feature.spec.yaml
 fuentes:
   - specs/archive/010-historical-archive-reorganization/review/findings.md
   - tools/validation/spec_kit_gate.py

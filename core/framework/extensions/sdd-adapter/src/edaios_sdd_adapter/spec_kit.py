@@ -26,7 +26,7 @@ from edaios_sdd_adapter.adapter import (
 )
 
 SOURCE_TOOL = "github-spec-kit"
-SPECKIT_VERSION_PINNED = "0.12.11"
+SPECKIT_VERSION_PINNED = "0.15.1"
 
 # Mapeo DECLARADO artefacto-externo → (archivo, kind, tipo de KO borrador).
 # Los borradores viven en zona excluida; el tipo definitivo se fija en la

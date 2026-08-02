@@ -1,0 +1,9 @@
+# Tareas · Feature 018
+
+- [x] [T001] [FR-001] [SC-001] [INGEST] Registrar la orden del owner (SRC-001) con ADR-0022 Aceptado; CLI local y uv verificados (SRC-004).
+- [x] [T002] [FR-001] [SC-001] Actualizar constantes de pin, regenerar lock y fixtures de test. Evidencia: constantes + lock spec-kit@v0.15.1 + 4 fixtures de test en 0.15.1.
+- [x] [T003] [FR-001] [FR-002] [SC-001] Pisos `>=0.15.1` en los 4 manifiestos; precheck y `--events false` en inject-consumer.sh; docs con claim de versión + demo regenerada. Evidencia: pisos >=0.15.1 en 4 manifiestos; precheck actualizado; --events false retirado tras refutación empírica del sandbox; docs y demo regeneradas.
+- [x] [T004] [FR-003] [SC-002] Sandbox de aceptación: shim uvx@v0.15.1, inyección completa, verificación de ausencia de events, feature mínima + gate consumer-release en verde; evidencia archivada. Evidencia: sc-002-sandbox.json — specify 0.15.1 aislado (uvx, CLI global intacto), inyección 4 capas verde, HALLAZGO: el flag de events no existe y la superficie no se materializa, gate sembrado 23/23 consumer-release.
+- [x] [T005] [FR-001] [SC-001] [GATES] [LEDGER] Grep de claims vigentes de 0.12.11 en cero; suites y 14 gates en verde; `value_ledger` N/A confirmado. Evidencia: grep de claims vigentes de 0.12.11 en cero (solo historia); 196 tests + 14 gates verdes.
+- [x] [T006] [FR-004] [SC-003] Revisión adversarial (v3) con ambos subagentes; findings materializado; bloqueantes corregidos. Evidencia: 6 hallazgos únicos consolidados de ambos lentes (2 HIGH: precheck fail-open — corregido con piso real demostrado contra el CLI 0.12.11 del owner — y SC-002 con letra refutada), todos corregidos.
+- [x] [T007] [FR-004] [SC-003] [SEAL] Cierre con aceptación del owner; deuda de re-proyección de kcd-001 declarada; commit y push por la superficie CI. Evidencia: cierre con aceptación del owner; deuda de re-proyección de kcd-001 declarada en ADR-0022; push por la superficie CI.

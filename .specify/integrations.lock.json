@@ -113,6 +113,6 @@
   },
   "generated_by": "tools/publishing/sync_spec_kit_integrations.py",
   "schema": "edaios.speckit.integrations/v1",
-  "source": "edaios-core@v3.1.0+spec-kit@v0.12.11",
-  "spec_kit_version": "0.12.11"
+  "source": "edaios-core@v3.1.0+spec-kit@v0.15.1",
+  "spec_kit_version": "0.15.1"
 }

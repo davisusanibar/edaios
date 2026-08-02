@@ -67,9 +67,9 @@
         "meaning": "Hace portable el baseline completo: el gate deriva una única raíz desde el grafo Git, publica sus hashes solo como evidencia posterior y conserva la política de release para candidatos futuros."
       },
       "feature": {
-        "id": "EDAIOS-ENDURECIMIENTOS-DE-REVISION",
-        "path": "specs/017-endurecimientos-de-revision/",
-        "meaning": "La feature 017 convierte en código los endurecimientos anotados por la revisión adversarial: contrato de pin también en specs y superficie diaria doble con normalización — cada escape encontrado muere como clase, no como instancia."
+        "id": "EDAIOS-ACTUALIZACION-VENDOR-SPEC-KIT",
+        "path": "specs/018-actualizacion-vendor-spec-kit/",
+        "meaning": "La feature 018 actualiza el perfil operativo Spec Kit a 0.15.1 (ADR-0022) con sandbox de aceptación empírico: el flag de events anunciado no existía, el piso de versión ahora es real y fail-closed, y el CLI global del owner queda intacto."
       },
       "lineage": {
         "baseline_feature": {
@@ -77,8 +77,8 @@
           "path": "specs/archive/004-core-multi-initiative-scale/"
         },
         "last_closed_feature": {
-          "id": "EDAIOS-ENDURECIMIENTOS-DE-REVISION",
-          "path": "specs/017-endurecimientos-de-revision/"
+          "id": "EDAIOS-ACTUALIZACION-VENDOR-SPEC-KIT",
+          "path": "specs/018-actualizacion-vendor-spec-kit/"
         },
         "active_feature": null
       },
@@ -1031,7 +1031,7 @@
   },
   "spec_kit": {
     "title": "Spec Kit: ocho fases, un contrato",
-    "profile": "0.12.11",
+    "profile": "0.15.1",
     "phase_rule": "Spec Kit orquesta; la Constitución y los gates EDAIOS deciden.",
     "phases": [
       {
