@@ -1,0 +1,14 @@
+schema: edaios.sdd.feature/v2
+id: EDAIOS-RESTRICCIONES-ONTOLOGICAS-EJECUTABLES
+artifact: specs/014-restricciones-ontologicas-ejecutables/spec.md
+owner: Principal Architect
+authority: governance/ADR-0021-restricciones-ontologicas-ejecutables.md
+purpose: convertir los invariantes de la ontologia en restricciones tipificadas con enforcement resoluble
+requirements:
+  - FR-001
+  - FR-002
+  - FR-003
+  - FR-004
+validation:
+  - scripts/test.sh
+  - scripts/validate.sh

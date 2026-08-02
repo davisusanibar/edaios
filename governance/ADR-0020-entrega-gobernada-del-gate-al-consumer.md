@@ -11,7 +11,7 @@ RFC-0002 dejó dos preguntas abiertas tras ADR-0016: cómo se entrega
 procedencia, verificado en `data-kcd2026`), y cómo selecciona el gate su modo
 estructural (hoy: allowlist por nombre de perfil). El programa declara como
 siguiente prioridad un piloto real gobernado (`program-office/context/NEXT_ITERATION.md`),
-y RFC-0003 la recoge como feature 015: el primer consumer real con evidencia y la
+y RFC-0003 la recoge como la feature de onboarding: el primer consumer real con evidencia y la
 primera entrada del Value Ledger.
 
 ## Decisión
@@ -45,9 +45,9 @@ Con la aceptación de este ADR, RFC-0002 pasa a Ratificado con
 
 ## Consecuencias
 
-El consumer real de la feature 015 recibe el gate por vía gobernada y su
+El consumer real de la feature de onboarding recibe el gate por vía gobernada y su
 procedencia es verificable. Queda una copia por consumer — trade-off aceptado y
-declarado. El retiro del sidecar manual de `data-kcd2026` ocurre en la feature 015
+declarado. El retiro del sidecar manual de `data-kcd2026` ocurre en la feature de onboarding
 al re-sembrar con `seed_gate()`.
 
 ## Evidencia y frontera del claim

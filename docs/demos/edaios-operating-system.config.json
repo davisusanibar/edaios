@@ -67,9 +67,9 @@
         "meaning": "Hace portable el baseline completo: el gate deriva una única raíz desde el grafo Git, publica sus hashes solo como evidencia posterior y conserva la política de release para candidatos futuros."
       },
       "feature": {
-        "id": "EDAIOS-SDD-STATUS-MAQUINA",
-        "path": "specs/013-sdd-status-maquina/",
-        "meaning": "La feature 013 da a todo agente un estado SDD legible por máquina (edaios.sdd.status/v1) con token de ruteo acotado al phase-dag; informa, no aprueba ni promueve."
+        "id": "EDAIOS-RESTRICCIONES-ONTOLOGICAS-EJECUTABLES",
+        "path": "specs/014-restricciones-ontologicas-ejecutables/",
+        "meaning": "La feature 014 tipifica los invariantes de la ontología como restricciones con enforcement resoluble (ADR-0021): sin verificador, la restricción no existe; nada aspiracional."
       },
       "lineage": {
         "baseline_feature": {
@@ -77,12 +77,12 @@
           "path": "specs/archive/004-core-multi-initiative-scale/"
         },
         "last_closed_feature": {
-          "id": "EDAIOS-SDD-STATUS-MAQUINA",
-          "path": "specs/013-sdd-status-maquina/"
+          "id": "EDAIOS-RESTRICCIONES-ONTOLOGICAS-EJECUTABLES",
+          "path": "specs/014-restricciones-ontologicas-ejecutables/"
         },
         "active_feature": {
-          "id": "EDAIOS-SDD-STATUS-MAQUINA",
-          "path": "specs/013-sdd-status-maquina/"
+          "id": "EDAIOS-RESTRICCIONES-ONTOLOGICAS-EJECUTABLES",
+          "path": "specs/014-restricciones-ontologicas-ejecutables/"
         }
       },
       "evidence": {

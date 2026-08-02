@@ -5,8 +5,8 @@
     "feature_directory": "specs/archive/004-core-multi-initiative-scale"
   },
   "last_closed_feature": {
-    "id": "EDAIOS-SDD-STATUS-MAQUINA",
-    "feature_directory": "specs/013-sdd-status-maquina"
+    "id": "EDAIOS-RESTRICCIONES-ONTOLOGICAS-EJECUTABLES",
+    "feature_directory": "specs/014-restricciones-ontologicas-ejecutables"
   },
   "active_feature": null
 }

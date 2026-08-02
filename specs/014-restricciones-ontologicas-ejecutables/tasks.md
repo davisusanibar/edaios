@@ -1,0 +1,9 @@
+# Tareas · Feature 014
+
+- [x] [T001] [FR-001] [SC-003] [INGEST] Registrar la orden del owner (materializar recomendaciones del video en la ontología, SRC-001) y su ADR habilitante (ADR-0021).
+- [x] [T002] [FR-001] [SC-003] Editar `core/foundation/ontology/EDAIOS_ONTOLOGY.md`: versión 1.1.0, entidad `Constraint`, tabla tipificada de Invariantes INV-001..011 con ámbitos y verificadores en backticks. Evidencia: ontología v1.1.0 con entidad Constraint (29) y tabla INV-001..011 tipificada.
+- [x] [T003] [FR-002] [SC-002] Incorporar `constraints` y la entidad nueva a `governance-grammar.json`. Evidencia: grammar con entities=29 y bloque constraints de 11 filas espejo.
+- [x] [T004] [FR-002] [FR-003] [SC-001] [SC-002] Extender `kom_gate.py`: sección Invariantes en el parseo, verificación bidireccional de ids/ámbitos/verificadores y dominio de enforcement dinámico contra `.specify/gates.json` (ausencia o desconocido = fail-closed). Evidencia: kom_gate parsea Invariantes, verifica ids/ámbitos/enforcers bidireccionalmente y resuelve enforcement contra gates.json (58 KOs · 0 errores).
+- [x] [T005] [FR-004] [SC-001] [SC-002] [SC-003] Regresiones en `test_governance_conformance.py`: enforcer desconocido, ámbito inválido, id solo-MD/solo-grammar, KO `tipo: Constraint` válido, corpus verde. Evidencia: 6 regresiones nuevas OntologyConstraintsTests (6/6 OK).
+- [x] [T006] [FR-004] [SC-004] [GATES] [LEDGER] Suites y 14 gates en verde; renumeración de cola (015 revisión adversarial, 016 consumer real) en RFC-0003 y superficie diaria; confirmar `value_ledger` (N/A justificado). Evidencia: 173 tests OK; 14 gates pre-push OK; cola renumerada (015 adversarial, 016 consumer) en RFC-0003, RFC-0002, ADR-0020 y superficie diaria.
+- [x] [T007] [FR-001] [SC-004] [SEAL] Preparar cierre; commit y push por la superficie CI vigente. Evidencia: push autorizado por el owner (autorización vigente de la sesión); cierre preparado.

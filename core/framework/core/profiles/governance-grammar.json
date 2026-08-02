@@ -29,7 +29,21 @@
     "Standard",
     "Governance",
     "Pattern",
-    "Playbook"
+    "Playbook",
+    "Constraint"
+  ],
+  "constraints": [
+    {"id": "INV-001", "aplica_a": ["Foundation", "Core", "Consumer"], "verificado_por": ["KOM", "BASELINE-SURFACE"]},
+    {"id": "INV-002", "aplica_a": ["DerivedView"], "verificado_por": ["FND-PROJECTION", "CATALOG-PROJECTION", "AGENT-PARITY", "CORE-BASE-DEMO"]},
+    {"id": "INV-003", "aplica_a": ["Evidence", "Gate", "Outcome"], "verificado_por": ["SDD-CONTRACT", "TRACEABILITY"]},
+    {"id": "INV-004", "aplica_a": ["FutureExtension"], "verificado_por": ["CLAIM-SURFACE", "BASELINE-SURFACE"]},
+    {"id": "INV-005", "aplica_a": ["KnowledgeObject"], "verificado_por": ["KOM", "TRACEABILITY"]},
+    {"id": "INV-006", "aplica_a": ["KnowledgeObject"], "verificado_por": ["KOM-VR-01"]},
+    {"id": "INV-007", "aplica_a": ["KnowledgeObject", "Ontology"], "verificado_por": ["KOM-VR-02"]},
+    {"id": "INV-008", "aplica_a": ["KnowledgeObject"], "verificado_por": ["KOM-VR-09", "KOM-VR-10"]},
+    {"id": "INV-009", "aplica_a": ["RFC", "ADR"], "verificado_por": ["TRACEABILITY", "CATALOG-PROJECTION"]},
+    {"id": "INV-010", "aplica_a": ["KnowledgeObject"], "verificado_por": ["DERIVA-PROSA"]},
+    {"id": "INV-011", "aplica_a": ["Feature", "ADR"], "verificado_por": ["SDD-CONTRACT"]}
   ],
   "id_patterns": {
     "ADR": "^ADR-[0-9]{4}$",

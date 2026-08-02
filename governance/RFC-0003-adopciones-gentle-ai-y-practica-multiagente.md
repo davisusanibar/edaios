@@ -88,11 +88,11 @@ Vehículos que resuelven este RFC por partes, cada uno con su criterio de acepta
 3. **specs/013-sdd-status-maquina** — `tools/operations/feature_context.py` emite
    `edaios.sdd.status/v1` con `nextRecommended` acotado al dominio del phase-dag;
    los ocho comandos fuente rutean solo por ese token.
-4. **ADR-0019 + specs/014-revision-adversarial-preparada** — dos agentes fuente
+4. **ADR-0019 + specs/015-revision-adversarial-preparada** — dos agentes fuente
    (`edaios.refutador`, `edaios.lente-riesgo`) bajo un segundo namespace del mundo
    cerrado AGENT-PARITY; `review/findings.md` obligatorio para cambio estructural
    desde la fase analyze; checker de calidad de tests bajo el gate TEST.
-5. **ADR-0020 + specs/015-onboarding-de-consumer-real** — resuelve RFC-0002
+5. **ADR-0020 + specs/016-onboarding-de-consumer-real** — resuelve RFC-0002
    (opción A, `seed_gate()`); ciclo SDD real en el consumer `data-kcd2026`; primera
    entrada VL-001 del Value Ledger con evidencia.
 
@@ -154,4 +154,4 @@ Statement + SBOM con syft, manteniendo checksums stdlib como fallback.
 ## Resolución
 
 Pendiente. Se ratificará cuando ADR-0017, ADR-0018, ADR-0019 y ADR-0020 estén
-Aceptados y las features 011-015 cierren con gates en verde.
+Aceptados y las features del roadmap cierren con gates en verde.

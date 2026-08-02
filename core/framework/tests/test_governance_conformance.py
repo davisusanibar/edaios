@@ -530,3 +530,102 @@ class ResolvableContractsTests(unittest.TestCase):
                     root,
                     [{"id": "m2", "implementation": "modx:Thing", "tests": "tests/y.py"}],
                 )
+
+
+class OntologyConstraintsTests(unittest.TestCase):
+    """Regresiones de specs/014: restricciones ontológicas ejecutables (ADR-0021)."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.kom = load_module("test_kom_gate_014", "tools/validation/kom_gate.py")
+        cls.grammar, cls.entities = cls.kom.load_contracts(ROOT)
+
+    def _root_with_contracts(self) -> Path:
+        import shutil
+        tmp = Path(tempfile.mkdtemp(prefix="edaios-constraints-"))
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        for relative in (
+            "core/foundation/ontology/EDAIOS_ONTOLOGY.md",
+            "core/framework/core/profiles/governance-grammar.json",
+            ".specify/gates.json",
+        ):
+            target = tmp / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(ROOT / relative, target)
+        return tmp
+
+    def _write_grammar(self, root: Path, mutate) -> None:
+        path = root / "core/framework/core/profiles/governance-grammar.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        mutate(data)
+        path.write_text(json.dumps(data), encoding="utf-8")
+
+    def test_enforcer_desconocido_falla_cerrado(self) -> None:
+        root = self._root_with_contracts()
+
+        def mutate(data):
+            data["constraints"][0]["verificado_por"] = ["GATE-FANTASMA"]
+
+        self._write_grammar(root, mutate)
+        with self.assertRaisesRegex(ValueError, "divergen|no resoluble"):
+            self.kom.load_contracts(root)
+
+    def test_ambito_fuera_del_dominio_falla_cerrado(self) -> None:
+        root = self._root_with_contracts()
+
+        def mutate(data):
+            data["constraints"][0]["aplica_a"] = ["EntidadInventada"]
+
+        self._write_grammar(root, mutate)
+        with self.assertRaisesRegex(ValueError, "divergen|fuera del dominio"):
+            self.kom.load_contracts(root)
+
+    def test_id_en_una_sola_fuente_falla_cerrado(self) -> None:
+        root = self._root_with_contracts()
+
+        def drop(data):
+            data["constraints"] = data["constraints"][1:]
+
+        self._write_grammar(root, drop)
+        with self.assertRaisesRegex(ValueError, "constraints y Ontología divergen"):
+            self.kom.load_contracts(root)
+        root2 = self._root_with_contracts()
+
+        def add(data):
+            data["constraints"] = data["constraints"] + [
+                {"id": "INV-099", "aplica_a": ["Core"], "verificado_por": ["KOM"]}
+            ]
+
+        self._write_grammar(root2, add)
+        with self.assertRaisesRegex(ValueError, "constraints y Ontología divergen"):
+            self.kom.load_contracts(root2)
+
+    def test_gates_json_ausente_falla_cerrado(self) -> None:
+        root = self._root_with_contracts()
+        (root / ".specify/gates.json").unlink()
+        with self.assertRaisesRegex(ValueError, "falta .specify/gates.json"):
+            self.kom.load_contracts(root)
+
+    def test_tipo_constraint_es_valido(self) -> None:
+        self.assertIn("Constraint", self.entities)
+        with tempfile.TemporaryDirectory() as temporary:
+            scope = Path(temporary)
+            (scope / ".git").mkdir()
+            (scope / "constraint.md").write_text(
+                "---\nid: KO-FIXTURE-CONSTRAINT\ntipo: Constraint\n"
+                "titulo: Fixture\nversion: 1.0.0\nestado: Borrador\n"
+                "autoridad: Consumer\nidioma: es\nowner: Fixture\n"
+                "deriva_de: Foundation\n---\n\n# Fixture\n",
+                encoding="utf-8",
+            )
+            mounted = self.kom.scan_scope(scope, "fixture.scope", core_scope=False)
+            rules = self.kom.evaluate(ROOT, mounted, self.grammar, self.entities)
+            vr02 = next(rule for rule in rules if rule.id == "KOM-VR-02")
+            self.assertEqual(vr02.errors, [])
+
+    def test_corpus_declara_ambitos_y_enforcement_reales(self) -> None:
+        constraints = {row["id"]: row for row in self.grammar["constraints"]}
+        self.assertGreaterEqual(len(constraints), 11)
+        for row in constraints.values():
+            self.assertTrue(set(row["aplica_a"]) <= self.entities, row)
+            self.assertTrue(row["verificado_por"], row)

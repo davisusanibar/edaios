@@ -50,8 +50,13 @@ META_LINE = re.compile(r"^\*\*([^*]+):\*\*\s*(.+)$", re.MULTILINE)
 # como derives_from lo usan); el parseo se acota por sección (ADR-0018).
 ONTOLOGY_ROW = re.compile(r"^\|\s*`([A-Za-z_][A-Za-z0-9_]*)`\s*\|", re.MULTILINE)
 ONTOLOGY_SECTION = re.compile(
-    r"^## (Entidades|Relaciones)\n(.*?)(?=^## |\Z)", re.MULTILINE | re.DOTALL
+    r"^## (Entidades|Relaciones|Invariantes)\n(.*?)(?=^## |\Z)",
+    re.MULTILINE | re.DOTALL,
 )
+CONSTRAINT_ROW = re.compile(
+    r"^\|\s*`(INV-[0-9]{3})`\s*\|[^|]*\|([^|]*)\|([^|]*)\|", re.MULTILINE
+)
+BACKTICK_TOKEN = re.compile(r"`([^`]+)`")
 DERIVA_PROSA = re.compile(r"^\*\*Deriva de:\*\*\s*(.+)$", re.MULTILINE)
 PROSA_TOKEN = re.compile(r"`([^`]+\.md)`(\s*\(histórico[^)]*\))?")
 
@@ -317,6 +322,61 @@ def load_contracts(root: Path) -> tuple[dict[str, object], set[str]]:
             raise ValueError(
                 f"grammar.{label} y Ontología divergen: "
                 f"solo-grammar={extra} solo-ontología={missing}"
+            )
+
+    # Restricciones (ADR-0021): cada invariante declara ámbito y enforcement;
+    # sin verificador resoluble la restricción no existe — fail-closed.
+    md_constraints: dict[str, tuple[set[str], set[str]]] = {}
+    for row_match in CONSTRAINT_ROW.finditer(sections.get("Invariantes", "")):
+        constraint_id = row_match.group(1)
+        if constraint_id in md_constraints:
+            raise ValueError(f"restricción duplicada en Ontología: {constraint_id}")
+        md_constraints[constraint_id] = (
+            set(BACKTICK_TOKEN.findall(row_match.group(2))),
+            set(BACKTICK_TOKEN.findall(row_match.group(3))),
+        )
+    declared_constraints = grammar.get("constraints")
+    if not isinstance(declared_constraints, list) or not declared_constraints:
+        raise ValueError("grammar incompleta: constraints ausente (ADR-0021)")
+    gates_path = root / ".specify/gates.json"
+    if not gates_path.is_file():
+        raise ValueError("dominio de enforcement no resoluble: falta .specify/gates.json")
+    gate_ids = {
+        str(gate.get("id"))
+        for gate in json.loads(gates_path.read_text(encoding="utf-8")).get("gates", [])
+    }
+    enforcement_domain = gate_ids | {f"KOM-VR-{n:02d}" for n in range(1, 12)} | {"DERIVA-PROSA"}
+    grammar_constraints: dict[str, tuple[set[str], set[str]]] = {}
+    for row in declared_constraints:
+        constraint_id = str(row.get("id", "")) if isinstance(row, dict) else ""
+        if not re.fullmatch(r"INV-[0-9]{3}", constraint_id) or constraint_id in grammar_constraints:
+            raise ValueError(f"constraints: id inválido o duplicado {constraint_id!r}")
+        grammar_constraints[constraint_id] = (
+            {str(item) for item in row.get("aplica_a", [])},
+            {str(item) for item in row.get("verificado_por", [])},
+        )
+    extra = sorted(set(grammar_constraints) - set(md_constraints))
+    missing = sorted(set(md_constraints) - set(grammar_constraints))
+    if extra or missing:
+        raise ValueError(
+            f"grammar.constraints y Ontología divergen: "
+            f"solo-grammar={extra} solo-ontología={missing}"
+        )
+    for constraint_id, (md_scope, md_enforcers) in md_constraints.items():
+        grammar_scope, grammar_enforcers = grammar_constraints[constraint_id]
+        if md_scope != grammar_scope or md_enforcers != grammar_enforcers:
+            raise ValueError(
+                f"{constraint_id}: ámbito o verificación divergen entre Ontología y grammar"
+            )
+        if not grammar_scope or not grammar_scope <= entities:
+            raise ValueError(
+                f"{constraint_id}: ámbito vacío o fuera del dominio de entidades: "
+                f"{sorted(grammar_scope - entities)}"
+            )
+        if not grammar_enforcers or not grammar_enforcers <= enforcement_domain:
+            raise ValueError(
+                f"{constraint_id}: enforcement vacío o no resoluble: "
+                f"{sorted(grammar_enforcers - enforcement_domain)}"
             )
     return grammar, entities
 
