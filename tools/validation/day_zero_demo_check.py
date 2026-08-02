@@ -386,15 +386,24 @@ def main() -> int:
         ):
             if phrase not in html:
                 errors.append(f"estado del baseline ausente del HTML: {phrase}")
-        adr_count = len([adr for adr in adr_ids if adr in {"ADR-0001", "ADR-0003", "ADR-0004", "ADR-0005", "ADR-0006", "ADR-0011", "ADR-0013", "ADR-0014", "ADR-0015"}])
+        visible_ids = {"ADR-0001", "ADR-0003", "ADR-0004", "ADR-0005", "ADR-0006", "ADR-0011", "ADR-0013", "ADR-0014", "ADR-0015"}
+        adr_states = dict(re.findall(r"^\| (ADR-\d{4}) \|[^|]*\| ([^|]+) \|", catalog, re.MULTILINE))
+        rfc_states = dict(re.findall(r"^\| (RFC-\d{4}) \|[^|]*\| ([^|]+) \|", rfc_catalog, re.MULTILINE))
+        # La demo muestra la superficie visible de ADR y el catálogo RFC completo;
+        # los conteos del heading son de aceptados/ratificados reales, no totales.
+        adr_count = len([adr for adr in adr_ids if adr in visible_ids])
+        adr_accepted = len([adr for adr in adr_ids
+                            if adr in visible_ids and adr_states.get(adr, "").strip() == "Aceptado"])
         rfc_count = len(rfc_ids)
-        adr_label = "aceptado" if adr_count == 1 else "aceptados"
-        rfc_label = "ratificado" if rfc_count == 1 else "ratificados"
+        rfc_ratified = len([rfc for rfc in rfc_ids
+                            if rfc_states.get(rfc, "").strip() == "Ratificado"])
+        adr_label = "aceptado" if adr_accepted == 1 else "aceptados"
+        rfc_label = "ratificado" if rfc_ratified == 1 else "ratificados"
         for pattern, label in (
             (rf"<b>{adr_count}</b><span>ADR</span>", f"{adr_count} ADR derivados"),
             (rf"<b>{rfc_count}</b><span>RFC</span>", f"{rfc_count} RFC derivados"),
             (
-                rf"<h2>{adr_count} ADR {adr_label} · {rfc_count} RFC {rfc_label}</h2>",
+                rf"<h2>{adr_accepted} ADR {adr_label} · {rfc_ratified} RFC {rfc_label}</h2>",
                 "catálogo vigente",
             ),
         ):

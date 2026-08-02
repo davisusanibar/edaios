@@ -2,7 +2,7 @@
 
 > **Proyección generada; no editar.** Fuente: `governance/ADR-NNNN-*.md`. Regenerar con `python3 tools/publishing/compile_catalogs.py --write`.
 
-**Total:** 16 · **Aceptados:** 16 · **Propuestos:** 0 · **Derogados:** 0
+**Total:** 20 · **Aceptados:** 20 · **Propuestos:** 0 · **Derogados:** 0
 
 | ID | Título | Estado | Owner | Fecha | Path |
 |---|---|---|---|---|---|
@@ -22,3 +22,7 @@
 | ADR-0014 | Hardening fail-closed de las fronteras de confianza de Core | Aceptado | Principal Architect | 2026-07-16 | `governance/ADR-0014-core-trust-boundary-hardening.md` |
 | ADR-0015 | Proyecciones renderizadas y superficie de publicación | Aceptado | Principal Architect | 2026-07-17 | `governance/ADR-0015-rendered-projections-and-publication-surface.md` |
 | ADR-0016 | Perfil consumer-release y gate SDD parametrizable por profile | Aceptado | Principal Architect | 2026-07-17 | `governance/ADR-0016-consumer-release-profile-and-parametric-sdd-gate.md` |
+| ADR-0017 | Hogar canónico GitHub y superficie de CI remota | Aceptado | Principal Architect | 2026-08-01 | `governance/ADR-0017-hogar-canonico-github-y-ci-remota.md` |
+| ADR-0018 | Dominio de entidades como contrato ejecutable de la gramática de gobierno | Aceptado | Principal Architect | 2026-08-01 | `governance/ADR-0018-entidades-como-contrato-ejecutable.md` |
+| ADR-0019 | Agentes revisores de solo lectura: preparación sin autoridad | Aceptado | Principal Architect | 2026-08-01 | `governance/ADR-0019-agentes-revisores-preparacion-sin-autoridad.md` |
+| ADR-0020 | Entrega gobernada del gate SDD al consumer | Aceptado | Principal Architect | 2026-08-01 | `governance/ADR-0020-entrega-gobernada-del-gate-al-consumer.md` |

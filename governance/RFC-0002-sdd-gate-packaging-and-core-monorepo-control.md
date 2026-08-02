@@ -1,8 +1,9 @@
 # RFC-0002 — ¿Cómo se entrega y selecciona el gate SDD para un consumer sin vendorizar copias ni decidir por nombre de perfil?
 
-**Estado:** Propuesto
+**Estado:** Ratificado
 **Fecha:** 2026-07-17
 **Owner:** Principal Architect
+**resolved_by:** ADR-0020
 
 ## Problema
 
@@ -87,6 +88,9 @@ Incrementar en dos pasos, no en uno.
 
 ## Resolución
 
-Pendiente. Este RFC explora el espacio; su materialización exige uno o más ADR aceptados por
-el owner humano (Artículo VI, ADR-0005). El catálogo RFC se regenera con
-`python3 tools/publishing/compile_catalogs.py --write`, no se edita a mano (ADR-0007).
+Ratificado por ADR-0020 (2026-08-01): entrega por siembra del adapter (opción A,
+`seed_gate()` con procedencia) y allowlist por nombre conservada con gatillo de
+revisión al segundo consumer. La materialización ejecutable corresponde a la
+feature `specs/015-onboarding-de-consumer-real` (RFC-0003). El catálogo RFC se
+regenera con `python3 tools/publishing/compile_catalogs.py --write`, no se edita
+a mano (ADR-0007).
