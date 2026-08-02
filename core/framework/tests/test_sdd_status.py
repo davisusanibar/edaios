@@ -124,7 +124,7 @@ class SddStatusTests(unittest.TestCase):
     def test_corpus_real_en_verde(self) -> None:
         # La feature 013 queda Cerrada en el corpus: su respuesta estable es idle
         # con gate en verde (lista de bloqueos vacía).
-        payload = self.tool.sdd_status(ROOT, "specs/013-sdd-status-maquina")
+        payload = self.tool.sdd_status(ROOT, "specs/archive/013-sdd-status-maquina")
         self.assertEqual(payload["blockedReasons"], [], payload)
         self.assertEqual(payload["nextRecommended"], "idle")
         self.assertEqual(payload["estado"], "Cerrado")

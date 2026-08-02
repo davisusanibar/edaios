@@ -11,7 +11,7 @@ trazas:
   - ADR-0016
   - RFC-0003
   - RFC-0002
-spec_tipada: specs/016-onboarding-de-consumer-real/feature.spec.yaml
+spec_tipada: specs/archive/016-onboarding-de-consumer-real/feature.spec.yaml
 fuentes:
   - governance/ADR-0020-entrega-gobernada-del-gate-al-consumer.md
   - core/framework/extensions/sdd-adapter/src/edaios_sdd_adapter/spec_kit.py

@@ -1,7 +1,7 @@
 ---
 id: EDAIOS-HISTORICAL-ARCHIVE-REORGANIZATION
-estado: Propuesto
-fase: specified
+estado: Cerrado
+fase: implemented
 dominio: core
 tramo_sensibilidad: T0
 owner: Principal Architect
@@ -37,8 +37,18 @@ hipotesis_valor: Una superficie diaria curada reduce carga cognitiva sin elimina
 
 No se borran ADRs, specs, tests, CI, gobierno ni documentación contractual.
 
+## Clarifications
+
+Revisión del 2026-08-02 al retomar la feature (propuesta el 2026-07-16): sin
+ambigüedades bloqueantes del owner. Decisiones técnicas registradas: (a) la
+regla de superficie es sostenible, no una lista congelada — en `specs/` viven
+solo las features abiertas y la última cerrada; todo cierre anterior se
+reubica bajo `specs/archive/` con frontmatter reescrito (patrón SRC-003);
+(b) el contrato tipado se eleva a `edaios.sdd.feature/v3`: esta feature cierra
+con revisión adversarial materializada como las demás de la serie.
+
 ## Constitution Check
 
-Constitucion verificada: `.specify/memory/constitution.md` sha256 `d570785b9f2c2d0b8c8c469a1c5d82b3a188b3a4ec8e9c8c9ab0df4f5fb327`.
+Constitucion verificada: `.specify/memory/constitution.md` sha256 `45af1fa889fb66e86198a80205cbc3f5da35d8e97f286bec4039386c2fbbdc86`.
 
 I PASS · II PASS · III PASS · IV PASS · V PASS · VI PASS · VII PASS.

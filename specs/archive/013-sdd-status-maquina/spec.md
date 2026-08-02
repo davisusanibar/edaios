@@ -10,7 +10,7 @@ trazas:
   - ADR-0002
   - ADR-0016
   - RFC-0003
-spec_tipada: specs/013-sdd-status-maquina/feature.spec.yaml
+spec_tipada: specs/archive/013-sdd-status-maquina/feature.spec.yaml
 fuentes:
   - tools/operations/feature_context.py
   - core/framework/modules/harness-core/src/edaios_core_harness/resources/phase-dag.json

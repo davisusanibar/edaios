@@ -1,4 +1,4 @@
-schema: edaios.sdd.feature/v2
+schema: edaios.sdd.feature/v3
 id: EDAIOS-HISTORICAL-ARCHIVE-REORGANIZATION
 artifact: specs/010-historical-archive-reorganization/spec.md
 owner: Principal Architect

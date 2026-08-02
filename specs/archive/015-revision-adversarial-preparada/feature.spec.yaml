@@ -1,6 +1,6 @@
 schema: edaios.sdd.feature/v3
 id: EDAIOS-REVISION-ADVERSARIAL-PREPARADA
-artifact: specs/015-revision-adversarial-preparada/spec.md
+artifact: specs/archive/015-revision-adversarial-preparada/spec.md
 owner: Principal Architect
 authority: governance/ADR-0019-agentes-revisores-preparacion-sin-autoridad.md
 purpose: preparar refutacion adversarial trazable antes de la firma humana sin ceder autoridad alguna a los agentes

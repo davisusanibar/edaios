@@ -1,6 +1,6 @@
 schema: edaios.sdd.feature/v2
 id: EDAIOS-CORE-TRUST-BOUNDARY-HARDENING
-artifact: specs/009-core-trust-boundary-hardening/spec.md
+artifact: specs/archive/009-core-trust-boundary-hardening/spec.md
 owner: Principal Architect
 authority: governance/ADR-0014-core-trust-boundary-hardening.md
 purpose: cerrar brechas verificadas entre contratos de autoridad, evidencia, gates, SDD y memoria local sin ampliar Core a producto o runtime

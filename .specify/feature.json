@@ -5,8 +5,8 @@
     "feature_directory": "specs/archive/004-core-multi-initiative-scale"
   },
   "last_closed_feature": {
-    "id": "EDAIOS-ONBOARDING-DE-CONSUMER-REAL",
-    "feature_directory": "specs/016-onboarding-de-consumer-real"
+    "id": "EDAIOS-HISTORICAL-ARCHIVE-REORGANIZATION",
+    "feature_directory": "specs/010-historical-archive-reorganization"
   },
   "active_feature": null
 }

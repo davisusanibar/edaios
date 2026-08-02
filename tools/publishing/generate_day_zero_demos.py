@@ -155,7 +155,13 @@ def canonical_views(root: Path, data: dict[str, Any]) -> dict[str, Any]:
     lineage: dict[str, dict[str, str]] = {}
     idle = handoff.get("schema") == "edaios.feature-handoff/v3" and handoff.get("active_feature") is None
     for key in ("baseline_feature", "last_closed_feature", "active_feature"):
-        pointer = mapping(handoff.get(key) or handoff.get("last_closed_feature"), f"handoff.{key}")
+        raw = handoff.get(key)
+        if key == "active_feature" and raw is None and idle:
+            # RA-004 (specs/010): una feature cerrada no es foco activo; el
+            # idle del handoff se representa como tal, no con un fallback.
+            lineage[key] = None
+            continue
+        pointer = mapping(raw, f"handoff.{key}")
         lineage[key] = {
             "id": text(pointer.get("id"), f"handoff.{key}.id"),
             "path": text(pointer.get("feature_directory"),
@@ -164,19 +170,23 @@ def canonical_views(root: Path, data: dict[str, Any]) -> dict[str, Any]:
 
     installed = mapping(data.get("baseline", {}).get("installed"), "baseline.installed")
     feature = mapping(installed.get("feature"), "baseline.installed.feature")
-    active = lineage["active_feature"]
-    require(feature.get("id") == active["id"],
-            "baseline.installed.feature.id debe derivar de active_feature")
-    require(str(feature.get("path", "")).rstrip("/") == active["path"],
-            "baseline.installed.feature.path debe derivar de active_feature")
+    panel = lineage["active_feature"] or lineage["last_closed_feature"]
+    require(feature.get("id") == panel["id"],
+            "baseline.installed.feature.id debe derivar del foco (o última cerrada en idle)")
+    require(str(feature.get("path", "")).rstrip("/") == panel["path"],
+            "baseline.installed.feature.path debe derivar del foco (o última cerrada en idle)")
     configured_lineage = mapping(installed.get("lineage"), "baseline.installed.lineage")
     for key, pointer in lineage.items():
+        if pointer is None:
+            require(configured_lineage.get(key) is None,
+                    f"baseline.installed.lineage.{key} debe ser null con handoff idle")
+            continue
         configured = mapping(configured_lineage.get(key), f"baseline.installed.lineage.{key}")
         require(configured.get("id") == pointer["id"] and
                 str(configured.get("path", "")).rstrip("/") == pointer["path"],
                 f"baseline.installed.lineage.{key} no coincide con el handoff")
 
-    feature_root = root / active["path"]
+    feature_root = root / panel["path"]
     evidence_config = mapping(installed.get("evidence"), "baseline.installed.evidence")
     evidence_path = Path(text(evidence_config.get("path"), "baseline.installed.evidence.path"))
     require(not evidence_path.is_absolute() and ".." not in evidence_path.parts,
@@ -242,8 +252,8 @@ def canonical_views(root: Path, data: dict[str, Any]) -> dict[str, Any]:
     marks = re.findall(r"(?m)^- \[([ xX])\] \[(T\d{3})\]", tasks_source)
     require(marks, "feature: tareas ausentes")
     feature_observed = {
-        "id": active["id"],
-        "path": active["path"] + "/",
+        "id": panel["id"],
+        "path": panel["path"] + "/",
         "status": frontmatter(spec_source, "estado"),
         "phase": frontmatter(spec_source, "fase"),
         "tasks_total": len(marks),
@@ -371,7 +381,11 @@ def validate(data: dict[str, Any]) -> None:
         text(feature.get(key), f"baseline.installed.feature.{key}")
     lineage = mapping(installed.get("lineage"), "baseline.installed.lineage")
     for key in ("baseline_feature", "last_closed_feature", "active_feature"):
-        pointer = mapping(lineage.get(key), f"baseline.installed.lineage.{key}")
+        raw_pointer = lineage.get(key)
+        if key == "active_feature" and raw_pointer is None:
+            # Handoff idle: el foco activo nulo es un estado válido (RA-004).
+            continue
+        pointer = mapping(raw_pointer, f"baseline.installed.lineage.{key}")
         text(pointer.get("id"), f"baseline.installed.lineage.{key}.id")
         text(pointer.get("path"), f"baseline.installed.lineage.{key}.path")
     evidence = mapping(installed.get("evidence"), "baseline.installed.evidence")
@@ -596,7 +610,7 @@ def render(data: dict[str, Any], canonical: dict[str, Any]) -> str:
     <p><b>CAMBIO DE NORMALIZACIÓN</b> · <code>{esc(feature['path'])}</code></p>
     <div class="completion work"><strong>{feature['tasks_complete']}/{feature['tasks_total']} tareas completadas</strong><span>{esc(pending_label)}</span><span>fase {esc(feature['phase'])}</span><span>{esc(feature['status'])}</span></div>
     <p><b>{esc(feature['id'])}</b> · {esc(installed['feature']['meaning'])}</p>
-    <div class="completion" aria-label="Genealogía de features"><span>Baseline · {esc(lineage['baseline_feature']['path'])}</span><span>Última cerrada · {esc(lineage['last_closed_feature']['path'])}</span><strong>Foco activo · {esc(lineage['active_feature']['path'])}</strong></div></article>"""
+    <div class="completion" aria-label="Genealogía de features"><span>Baseline · {esc(lineage['baseline_feature']['path'])}</span><span>Última cerrada · {esc(lineage['last_closed_feature']['path'])}</span><strong>Foco activo · {esc(lineage['active_feature']['path']) if lineage['active_feature'] else 'ninguno (handoff idle)'}</strong></div></article>"""
     growth = baseline["growth_rule"]
     growth_card = f"""
     <article class="card status-card"><div class="status-head"><span>{esc(growth['label'])}</span><strong>{esc(growth['status'])}</strong></div>

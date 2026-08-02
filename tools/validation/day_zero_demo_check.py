@@ -170,8 +170,6 @@ def main() -> int:
             for key in ("baseline_feature", "last_closed_feature", "active_feature")
         }
         visible_lineage = installed.get("lineage", {})
-        if idle:
-            expected_lineage["active_feature"] = expected_lineage["last_closed_feature"]
         if visible_lineage != expected_lineage:
             errors.append(
                 "genealogía visible no deriva del handoff: "
@@ -409,6 +407,8 @@ def main() -> int:
         ):
             if not re.search(pattern, html):
                 errors.append(f"conteo canónico ausente del HTML: {label}")
+        if idle and "Foco activo · ninguno" not in html:
+            errors.append("la guía no declara el foco idle del handoff (RA-004, specs/010)")
         stage_tabs = re.findall(
             r'<button[^>]+data-cycle-stage="(\d+)"[^>]+role="tab"'
             r'[^>]+aria-controls="cycle-stage-panel-(\d+)"',

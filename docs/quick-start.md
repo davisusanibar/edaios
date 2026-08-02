@@ -9,6 +9,11 @@ instalado y no existe un candidato de release activo.
 Lee README → AGENTS → CURRENT_STATE → NEXT_ITERATION → ADR Catalog. No recorras
 el árbol al azar ni uses una demo como fuente.
 
+La superficie vigente es corta por diseño: en `specs/` viven solo las features
+abiertas y la última cerrada; todo cierre anterior está en `specs/archive/`,
+indexado con rutas viejo→nuevo en `governance/ARCHIVE_INDEX.md`. Para estado
+por máquina: `python3 tools/operations/feature_context.py status`.
+
 ## 2. Aislamiento
 
 ```bash

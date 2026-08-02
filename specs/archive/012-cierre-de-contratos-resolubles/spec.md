@@ -10,7 +10,7 @@ trazas:
   - ADR-0018
   - ADR-0014
   - RFC-0003
-spec_tipada: specs/012-cierre-de-contratos-resolubles/feature.spec.yaml
+spec_tipada: specs/archive/012-cierre-de-contratos-resolubles/feature.spec.yaml
 fuentes:
   - core/foundation/ontology/EDAIOS_ONTOLOGY.md
   - core/framework/core/profiles/governance-grammar.json

@@ -76,24 +76,24 @@ aprobador sigue siendo humano (`approval_actor_type: "human"` en review-policy).
 
 Vehículos que resuelven este RFC por partes, cada uno con su criterio de aceptación:
 
-1. **ADR-0017 + specs/011-ci-remota-y-estado-vigente** — decide el hogar canónico
+1. **ADR-0017 + specs/archive/011-ci-remota-y-estado-vigente** — decide el hogar canónico
    (cierra D2); primer run verde de GitHub Actions archivado como evidencia; check
    determinista de frescura de `program-office/context/CURRENT_STATE.md` en
    TRACEABILITY.
-2. **ADR-0018 + specs/012-cierre-de-contratos-resolubles** — cierra D1: la gramática
+2. **ADR-0018 + specs/archive/012-cierre-de-contratos-resolubles** — cierra D1: la gramática
    de gobierno gana `entities`, `kom_gate` verifica correspondencia bidireccional
    MD↔JSON por sección y KOM-VR-02 consume la lista del contrato; un KO con
    `tipo: governs` debe fallar. Paths de `control-registry.json` resolubles
    (la fila `kom` cita hoy un test inexistente). Referencias en prosa
    `Deriva de:` resolubles.
-3. **specs/013-sdd-status-maquina** — `tools/operations/feature_context.py` emite
+3. **specs/archive/013-sdd-status-maquina** — `tools/operations/feature_context.py` emite
    `edaios.sdd.status/v1` con `nextRecommended` acotado al dominio del phase-dag;
    los ocho comandos fuente rutean solo por ese token.
-4. **ADR-0019 + specs/015-revision-adversarial-preparada** — dos agentes fuente
+4. **ADR-0019 + specs/archive/015-revision-adversarial-preparada** — dos agentes fuente
    (`edaios.refutador`, `edaios.lente-riesgo`) bajo un segundo namespace del mundo
    cerrado AGENT-PARITY; `review/findings.md` obligatorio para cambio estructural
    desde la fase analyze; checker de calidad de tests bajo el gate TEST.
-5. **ADR-0020 + specs/016-onboarding-de-consumer-real** — resuelve RFC-0002
+5. **ADR-0020 + specs/archive/016-onboarding-de-consumer-real** — resuelve RFC-0002
    (opción A, `seed_gate()`); ciclo SDD real en el consumer (módulo gobernado
    `data-evolutionary/kcd-001`, nombrado por su proyecto `data-kcd2026` en
    RFC-0002 — reconciliación en specs/016 SRC-008); primera entrada VL-001 del

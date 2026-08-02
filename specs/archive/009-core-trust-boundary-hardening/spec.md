@@ -13,10 +13,10 @@ trazas:
   - ADR-0011
   - ADR-0012
   - ADR-0014
-spec_tipada: specs/009-core-trust-boundary-hardening/feature.spec.yaml
+spec_tipada: specs/archive/009-core-trust-boundary-hardening/feature.spec.yaml
 fuentes:
   - governance/ADR-0014-core-trust-boundary-hardening.md
-  - specs/009-core-trust-boundary-hardening/evidence/sources.md
+  - specs/archive/009-core-trust-boundary-hardening/evidence/sources.md
 value_ledger: "N/A: hardening técnico del kernel sin adopción ni outcome de una iniciativa"
 hipotesis_valor: Un Core que verifica sus propias fronteras impide que configuración incompleta o estado local eleven autoridad y claims
 ---

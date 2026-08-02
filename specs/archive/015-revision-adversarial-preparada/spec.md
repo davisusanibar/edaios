@@ -10,7 +10,7 @@ trazas:
   - ADR-0019
   - ADR-0002
   - RFC-0003
-spec_tipada: specs/015-revision-adversarial-preparada/feature.spec.yaml
+spec_tipada: specs/archive/015-revision-adversarial-preparada/feature.spec.yaml
 fuentes:
   - governance/ADR-0019-agentes-revisores-preparacion-sin-autoridad.md
   - tools/publishing/sync_spec_kit_integrations.py

@@ -10,7 +10,7 @@ trazas:
   - ADR-0017
   - ADR-0013
   - RFC-0003
-spec_tipada: specs/011-ci-remota-y-estado-vigente/feature.spec.yaml
+spec_tipada: specs/archive/011-ci-remota-y-estado-vigente/feature.spec.yaml
 fuentes:
   - governance/ADR-0017-hogar-canonico-github-y-ci-remota.md
   - .specify/gates.json

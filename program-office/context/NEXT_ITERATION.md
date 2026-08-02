@@ -5,13 +5,14 @@ canónico GitHub por ADR-0017. La feature `009-core-trust-boundary-hardening`
 cerró el hardening fail-closed de autoridad, receipts, perfiles, filesystem y
 gobierno SDD sin alterar la API funcional ni inventar publicación.
 
-La dirección vigente es RFC-0003 (adopciones gentle-ai y práctica
-multi-agente). Las features 011 (CI remota), 012 (contratos resolubles), 013
-(estado SDD por máquina), 014 (restricciones ontológicas ejecutables) y 015
-(revisión adversarial preparada) están cerradas. En cola: 016 onboarding de
-consumer real. La feature
-010 (reorganización de archivo histórico) permanece propuesta en cola y
-ortogonal.
+RFC-0003 está Ratificado y ejecutado por completo: las features 011 (CI
+remota), 012 (contratos resolubles), 013 (estado SDD por máquina), 014
+(restricciones ontológicas), 015 (revisión adversarial) y 016 (onboarding del
+consumer real kcd-001, VL-001 en observación) están cerradas y archivadas bajo
+`specs/archive/`. La feature 010 (reorganización de archivo histórico) está en
+ejecución como último cierre del programa. Próximas decisiones del owner:
+vendor update Spec Kit, receipts in-toto, y la review de VL-001 (2026-11-02 o
+segundo consumer).
 
 El piloto real gobernado se materializó en la feature 016 (ADR-0020 resolvió
 RFC-0002). Para el segundo consumer, la secuencia gobernada es:

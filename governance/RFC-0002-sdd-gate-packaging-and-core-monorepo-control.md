@@ -91,6 +91,6 @@ Incrementar en dos pasos, no en uno.
 Ratificado por ADR-0020 (2026-08-01): entrega por siembra del adapter (opción A,
 `seed_gate()` con procedencia) y allowlist por nombre conservada con gatillo de
 revisión al segundo consumer. La materialización ejecutable corresponde a la
-feature `specs/016-onboarding-de-consumer-real` (RFC-0003). El catálogo RFC se
+feature `specs/archive/016-onboarding-de-consumer-real` (RFC-0003). El catálogo RFC se
 regenera con `python3 tools/publishing/compile_catalogs.py --write`, no se edita
 a mano (ADR-0007).

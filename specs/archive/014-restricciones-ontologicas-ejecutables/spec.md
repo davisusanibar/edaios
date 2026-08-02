@@ -10,7 +10,7 @@ trazas:
   - ADR-0021
   - ADR-0018
   - RFC-0003
-spec_tipada: specs/014-restricciones-ontologicas-ejecutables/feature.spec.yaml
+spec_tipada: specs/archive/014-restricciones-ontologicas-ejecutables/feature.spec.yaml
 fuentes:
   - core/foundation/ontology/EDAIOS_ONTOLOGY.md
   - core/framework/core/profiles/governance-grammar.json

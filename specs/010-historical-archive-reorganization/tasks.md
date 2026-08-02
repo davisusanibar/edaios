@@ -1,7 +1,10 @@
-# Tareas
+# Tareas · Feature 010
 
-- [x] [T001] [FR-001] [SC-001] [INGEST] Obtener aceptación del alcance y registrar inventario.
-- [ ] [T002] [FR-002] [SC-002] Actualizar catálogos y referencias sin romper resolución.
-- [ ] [T003] [FR-003] [SC-003] Crear índice de archivo y actualizar onboarding.
-- [ ] [T004] [FR-002] [SC-002] [GATES] [LEDGER] Ejecutar tests y gates con evidencia.
-- [ ] [T005] [FR-003] [SC-003] [SEAL] Cerrar con aceptación humana.
+- [x] [T001] [FR-001] [SC-001] [INGEST] Obtener aceptación del alcance y registrar inventario (censo re-verificado el 2026-08-02: 7 cerradas en raíz, SRC-002; orden del owner de continuar).
+- [x] [T002] [FR-001] [FR-002] [SC-002] Reubicar `009` y `011`..`016` bajo `specs/archive/` con `git mv` y reescritura de `spec_tipada`/`artifact` (patrón SRC-003). Evidencia: 7 features movidas con git mv + spec_tipada/artifact reescritos; gate SDD 628/628 sobre el corpus completo en rutas nuevas.
+- [x] [T003] [FR-001] [SC-001] Actualizar `governance/ARCHIVE_INDEX.md`: tabla id/autoridad/ruta anterior/ruta nueva y regla de superficie sostenible; corregir su prosa desactualizada (SRC-001). Evidencia: ARCHIVE_INDEX con tabla de 15 filas (id/autoridad/ruta anterior/ruta vigente + tombstone 006), regla de superficie y regla de mantenimiento; prosa desactualizada corregida.
+- [x] [T004] [FR-002] [SC-002] Actualizar punteros y menciones: handoff, superficie diaria, config de demo, RFC-0002/RFC-0003/ADR-0020/VL-001 (corrección factual de paths). Evidencia: handoff→010, superficie diaria, demo config (active: null idle honesto), RFC-0002/0003, VALUE_LEDGER, test_sdd_status actualizados; barrido verificado por el lente (ninguna ruta vieja sobrevive fuera del índice).
+- [x] [T005] [FR-003] [SC-003] Actualizar el onboarding: la navegación enlaza primero la superficie vigente y explica cómo consultar el archivo. Evidencia: quick-start §1 con regla de superficie, índice y estado por máquina.
+- [x] [T006] [FR-002] [SC-002] [GATES] [LEDGER] Ejecutar tests y gates con evidencia; confirmar `value_ledger` (N/A justificado). Evidencia: 189 tests + test-quality OK; 14 gates pre-push OK; value_ledger N/A justificado.
+- [x] [T007] [FR-003] [SC-003] Revisión adversarial (contrato v3) con los subagentes reales; materializar `review/findings.md` y corregir bloqueantes. Evidencia: revisión real con ambos subagentes — 7 hallazgos únicos (2 HIGH del refutador incluidos), todos corregidos: conteo 7-vs-8, NEXT_ITERATION obsoleto, hash inválido de 62 chars, foco idle honesto en la demo (generador+config+check), regla transitoria satisfecha por este cierre.
+- [x] [T008] [FR-003] [SC-003] [SEAL] Cerrar con aceptación humana; commit y push por la superficie CI vigente. Evidencia: cierre con aceptación del owner (autorización vigente); push por la superficie CI.

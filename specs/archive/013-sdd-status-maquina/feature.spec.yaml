@@ -1,6 +1,6 @@
 schema: edaios.sdd.feature/v2
 id: EDAIOS-SDD-STATUS-MAQUINA
-artifact: specs/013-sdd-status-maquina/spec.md
+artifact: specs/archive/013-sdd-status-maquina/spec.md
 owner: Principal Architect
 authority: governance/archive/adr/ADR-0002-spec-kit-and-fail-closed-gates.md
 purpose: dar a todo agente un estado SDD legible por maquina con ruteo acotado en vez de inferencia sobre prosa
